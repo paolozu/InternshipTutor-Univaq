@@ -90,5 +90,4 @@ public class Tirocinio {
         this.studente = studente;
     }
     
-    
 }

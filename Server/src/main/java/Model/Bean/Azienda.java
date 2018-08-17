@@ -5,6 +5,8 @@
  */
 package Model.Bean;
 
+import java.util.List;
+
 /**
  *
  * @author Paolo
@@ -15,6 +17,9 @@ public class Azienda extends Utente {
     private String nomeRappresentante, cognomeRappresentante, ragioneSociale,
             indirizzoSede, partitaIva, foroCompetente, telefono, citta, provincia;
     boolean abilitata;
+    private List richiesteStudenti;
+    
+    
 
     public void setCitta(String citta) {
         this.citta = citta;
