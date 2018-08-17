@@ -1,0 +1,137 @@
+//Variables
+$primary-color: #3a75fb;
+$primary-color-hover: #5b8dff;
+$base-font-size: 14px;
+$custom-font: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+//Theme Styles Only
+
+body {
+	font-size: $base-font-size;
+	font-family: $custom-font;
+}
+
+a, a:hover, a:focus {
+	color: $primary-color;
+}
+
+.color-blue {
+	color: #30a5ff;
+}
+
+.form-control:focus {
+	border: 1px solid $primary-color;
+	box-shadow: inset 0px 0px 0px 1px $primary-color;
+}
+
+.navbar-custom {
+	background: #191a1d;
+}
+
+.navbar-header .navbar-brand span {
+	color: $primary-color;
+}
+
+.dropdown-menu li a:hover {
+	color: $primary-color;
+}
+
+.btn-primary, .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary, .btn-primary.disabled, .btn-primary[disabled], fieldset[disabled] .btn-primary, .btn-primary.disabled:hover, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover, .btn-primary.disabled:focus, .btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus, .btn-primary.disabled:active, .btn-primary[disabled]:active, fieldset[disabled] .btn-primary:active, .btn-primary.disabled.active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary.active {
+	background-color: $primary-color!important;
+	border-color: $primary-color!important;
+}
+
+.btn-link, .page-link, .text-primary {
+	color: $primary-color!important;
+}
+
+.btn-link:focus, .btn-link:hover, .page-link:focus, .page-link:hover, a.text-primary:focus, a.text-primary:hover {
+	color: $primary-color-hover!important;
+}
+
+.label-info {
+	background-color: $primary-color;
+}
+
+.label-info[href]:hover, .label-info[href]:focus {
+	background-color: $primary-color;
+}
+
+.panel-primary > .panel-heading {
+	background-color: $primary-color;
+}
+.timeline-badge.primary {
+	background-color: $primary-color !important;
+}
+
+.progress-bar {
+	background-color: $primary-color;
+}
+
+.nav-tabs li.active a {
+	color: $primary-color;
+}
+
+.nav-pills li.active a, .nav-pills li.active a:hover {
+	background: $primary-color;
+}
+
+.navbar input:focus {
+	border: 1px solid $primary-color;
+	box-shadow: inset 0px 0px 0px 1px $primary-color;
+}
+
+.sidebar {
+	background: #292a2d;
+}
+
+.sidebar .form-control {
+	border: 1px solid #2f2b33;
+	box-shadow: inset 0px 0px 0px 1px #2f2b33;
+	color: #fff;
+	background: #191a1d;
+}
+
+.form-control:focus {
+	border: 1px solid $primary-color;
+	box-shadow: inset 0px 0px 0px 1px $primary-color;
+}
+
+.sidebar ul.nav ul.children,
+.sidebar ul.nav ul.children li a {
+	background: #191a1d;
+	color: #fff;
+}
+
+.sidebar ul.nav li a {
+	color: #fff;
+}
+
+.sidebar ul.nav a:hover, .sidebar ul.nav li.parent ul li a:hover {
+	background-color: $primary-color;
+	color: #fff;
+}
+
+.sidebar ul.nav .active a, .sidebar ul.nav li.parent a.active, .sidebar ul.nav .active > a:hover, .sidebar ul.nav li.parent a.active:hover, .sidebar ul.nav .active > a:focus, .sidebar ul.nav li.parent a.active:focus {
+	background-color: $primary-color;
+}
+
+.sidebar ul.nav li.current a {
+	background-color: $primary-color;
+}
+
+.profile-usertitle-name {
+	color: #fff;
+}
+
+.profile-sidebar {
+	border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+
+.datepicker table tr td.active, .datepicker table tr td.active:hover, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover, .datepicker table tr td.active:hover, .datepicker table tr td.active:hover:hover, .datepicker table tr td.active.disabled:hover, .datepicker table tr td.active.disabled:hover:hover, .datepicker table tr td.active:focus, .datepicker table tr td.active:hover:focus, .datepicker table tr td.active.disabled:focus, .datepicker table tr td.active.disabled:hover:focus, .datepicker table tr td.active:active, .datepicker table tr td.active:hover:active, .datepicker table tr td.active.disabled:active, .datepicker table tr td.active.disabled:hover:active, .datepicker table tr td.active.active, .datepicker table tr td.active:hover.active, .datepicker table tr td.active.disabled.active, .datepicker table tr td.active.disabled:hover.active, .open .dropdown-toggle.datepicker table tr td.active, .open .dropdown-toggle.datepicker table tr td.active:hover, .open .dropdown-toggle.datepicker table tr td.active.disabled, .open .dropdown-toggle.datepicker table tr td.active.disabled:hover {
+	background-color: $primary-color;
+}
+
+.chart {
+	filter: hue-rotate(15deg) saturate(100%);
+}

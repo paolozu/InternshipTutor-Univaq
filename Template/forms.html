@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Lumino - Forms</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/font-awesome.min.css" rel="stylesheet">
+		<link href="css/datepicker3.css" rel="stylesheet">
+		<link href="css/styles.css" rel="stylesheet">
+		
+		<!--Theme-->
+		<link href="css/theme-default.css" rel="stylesheet">
+		
+		<!--Custom Font-->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+		
+		<!--[if lt IE 9]>
+		<script src="js/html5shiv.js"></script>
+		<script src="js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+		<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse"><span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span></button>
+					<a class="navbar-brand" href="#"><span>Lumino</span>Admin</a>
+					<ul class="nav navbar-top-links navbar-right">
+						<li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+							<em class="fa fa-envelope"></em><span class="label label-info">15</span>
+						</a>
+							<ul class="dropdown-menu dropdown-messages">
+								<li>
+									<div class="dropdown-messages-box"><a href="profile.html" class="pull-left">
+										<img alt="image" class="img-circle" src="images/profile-pic-2.jpg" width="40">
+										</a>
+										<div class="message-body"><small class="pull-right">3 mins ago</small>
+											<a href="#"><strong>John Doe</strong> commented on <strong>your photo</strong>.</a>
+										<br /><small class="text-muted">1:24 pm - 25/03/2015</small></div>
+									</div>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<div class="dropdown-messages-box"><a href="profile.html" class="pull-left">
+										<img alt="image" class="img-circle" src="images/profile-pic-1.jpg" width="40">
+										</a>
+										<div class="message-body"><small class="pull-right">1 hour ago</small>
+											<a href="#">New message from <strong>Jane Doe</strong>.</a>
+										<br /><small class="text-muted">12:27 pm - 25/03/2015</small></div>
+									</div>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<div class="all-button"><a href="#">
+										<em class="fa fa-inbox"></em> <strong>All Messages</strong>
+									</a></div>
+								</li>
+							</ul>
+						</li>
+						<li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+							<em class="fa fa-bell"></em><span class="label label-primary">5</span>
+						</a>
+							<ul class="dropdown-menu dropdown-alerts">
+								<li><a href="#">
+									<div><em class="fa fa-envelope"></em> 1 New Message
+										<span class="pull-right text-muted small">3 mins ago</span></div>
+								</a></li>
+								<li class="divider"></li>
+								<li><a href="#">
+									<div><em class="fa fa-heart"></em> 12 New Likes
+										<span class="pull-right text-muted small">4 mins ago</span></div>
+								</a></li>
+								<li class="divider"></li>
+								<li><a href="#">
+									<div><em class="fa fa-user"></em> 5 New Followers
+										<span class="pull-right text-muted small">4 mins ago</span></div>
+								</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div><!-- /.container-fluid -->
+		</nav>
+		<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+			<div class="profile-sidebar">
+				<div class="profile-userpic">
+					<img src="images/profile-pic-1.jpg" width="60" alt="User Avatar" class="img-circle" />
+				</div>
+				<div class="profile-usertitle">
+					<div class="profile-usertitle-name">Username</div>
+					<div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="divider"></div>
+			<form role="search">
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Search">
+				</div>
+			</form>
+			<ul class="nav menu">
+				<li><a href="index.html"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
+				<li><a href="widgets.html"><em class="fa fa-calendar">&nbsp;</em> Widgets</a></li>
+				<li><a href="charts.html"><em class="fa fa-bar-chart">&nbsp;</em> Charts</a></li>
+				<li><a href="buttons.html"><em class="fa fa-hand-pointer-o">&nbsp;</em> Buttons</a></li>
+				<li class="active"><a href="forms.html"><em class="fa fa-pencil-square-o">&nbsp;</em> Forms</a></li>
+				<li><a href="tables.html"><em class="fa fa-table">&nbsp;</em> Tables</a></li>
+				<li><a href="panels.html"><em class="fa fa-clone">&nbsp;</em> Alerts &amp; Panels</a></li>
+				<li><a href="icons.html"><em class="fa fa-star-o">&nbsp;</em> Icons</a></li>
+				<li class="parent "><a data-toggle="collapse" href="#sub-item-1">
+					<em class="fa fa-file-o">&nbsp;</em> Pages <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><i class="fa fa-plus"></i></span>
+					</a>
+					<ul class="children collapse" id="sub-item-1">
+						<li><a class="" href="gallery.html">
+							Gallery
+						</a></li>
+						<li><a class="" href="search.html">
+							Search
+						</a></li>
+						<li><a class="" href="login.html">
+							Login
+						</a></li>
+						<li><a class="" href="error.html">
+							Error 404
+						</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div><!--/.sidebar-->
+			
+		<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+			<div class="row">
+				<ol class="breadcrumb">
+					<li><a href="#">
+						<em class="fa fa-home"></em>
+					</a></li>
+					<li class="active">Forms</li>
+				</ol>
+			</div><!--/.row-->
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Forms</h1>
+				</div>
+			</div><!--/.row-->
+			
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Inputs</div>
+						<div class="panel-body">
+							<form class="form-horizontal row-border" action="#">
+								<div class="form-group">
+									<label class="col-md-2 control-label">Default input field</label>
+									<div class="col-md-10">
+										<input type="text" name="regular" class="form-control">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">Password</label>
+									<div class="col-md-10">
+										<input class="form-control" type="password" name="pass">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">With placeholder</label>
+									<div class="col-md-10">
+										<input class="form-control" type="text" name="placeholder" placeholder="placeholder">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">Disabled field</label>
+									<div class="col-md-10">
+										<input type="text" name="disabled" disabled="disabled" value="disabled" class="form-control">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">Read only field</label>
+									<div class="col-md-10">
+										<input class="form-control" type="text" name="readonly" readonly="" value="read only">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">Help text</label>
+									<div class="col-md-10">
+									<input type="text" name="regular" class="form-control"><span class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span></div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">Predefined value</label>
+									<div class="col-md-10">
+										<input type="text" name="regular" value="http://" class="form-control">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">Column sizing</label>
+									<div class="col-md-10">
+										<div class="row">
+											<div class="col-xs-3">
+												<input type="text" class="form-control" placeholder=".col-xs-3">
+											</div>
+											<div class="col-xs-5">
+												<input type="text" class="form-control" placeholder=".col-xs-5">
+											</div>
+											<div class="col-xs-4">
+												<input type="text" class="form-control" placeholder=".col-xs-4">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group has-success">
+									<label class="col-md-2 control-label">Input success</label>
+									<div class="col-md-10">
+									<input type="text" class="form-control" id="inputSuccess" placeholder="Input Success"><i class="icon-pencil input-icon success"></i></div>
+								</div>
+								<div class="form-group has-warning">
+									<label class="col-md-2 control-label">Input warning</label>
+									<div class="col-md-10">
+									<input type="text" class="form-control" id="inputWarning" placeholder="Input Warning"><i class="icon-pencil input-icon warning"></i></div>
+								</div>
+								<div class="form-group has-error">
+									<label class="col-md-2 control-label">Input error</label>
+									<div class="col-md-10">
+									<input type="text" class="form-control" id="inputError" placeholder="Input Error"><i class="icon-pencil input-icon error"></i></div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div><!--/.row-->
+			
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Input Groups</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-4 col-sm-4">
+									<div class="input-group"><span class="input-group-addon">@</span>
+										<input type="text" class="form-control" placeholder="Username">
+									</div>
+								</div>
+								<div class="col-lg-4 col-sm-4">
+									<div class="input-group">
+									<input type="text" class="form-control"><span class="input-group-addon">.00</span></div>
+								</div>
+								<div class="col-lg-4 col-sm-4">
+									<div class="input-group"><span class="input-group-addon">$</span>
+									<input type="text" class="form-control"><span class="input-group-addon">.00</span></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div><!--/.row-->
+			
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Button Addons</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-6 col-sm-6 col-sx-6">
+									<div class="input-group"><span class="input-group-btn">
+										<button class="btn btn-default" type="button" title="">Go!</button>
+										</span>
+										<input type="text" class="form-control">
+									</div>
+								</div>
+								<div class="col-lg-6 col-sm-6 col-sx-6">
+									<div class="input-group">
+										<input type="text" class="form-control"><span class="input-group-btn">
+											<button class="btn btn-default" type="button" data-original-title="" title="">Submit!</button>
+									</span></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div><!--/.row-->
+			
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Check boxes</div>
+						<div class="panel-body">
+							<label class="checkbox-inline">
+								<input type="checkbox" id="inlineCheckbox1" value="option1" checked="">1
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" id="inlineCheckbox2" value="option2">2
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" id="inlineCheckbox3" value="option3" disabled="">3
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Radio buttons</div>
+						<div class="panel-body">
+							<label class="radio-inline">
+								<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">1
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">2
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="optionsRadios" id="optionsRadios3" value="option2" disabled="">3
+							</label>
+						</div>
+					</div>
+				</div>
+			</div><!--/.row-->
+			
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Check Boxes &amp; Radio Addons</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-3 col-sm-3">
+									<div class="input-group"><span class="input-group-addon">
+										<input type="checkbox">
+										</span>
+										<input type="text" class="form-control">
+									</div>
+								</div>
+								<div class="col-md-3 col-sm-3">
+									<div class="input-group"><span class="input-group-addon">
+										<input type="checkbox" checked="">
+										</span>
+										<input type="text" class="form-control">
+									</div>
+								</div>
+								<div class="col-md-3 col-sm-3">
+									<div class="input-group"><span class="input-group-addon">
+										<input type="radio" name="optionsRadio" id="optionsRadiosX" value="optionx">
+										</span>
+										<input type="text" class="form-control">
+									</div>
+								</div>
+								<div class="col-md-3 col-sm-3">
+									<div class="input-group"><span class="input-group-addon">
+										<input type="radio" name="optionsRadio" id="optionsRadiosY" value="optiony" checked="">
+										</span>
+										<input type="text" class="form-control">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div><!--/.row-->
+						
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Inline Form</div>
+						<div class="panel-body">
+							<form class="form-inline" role="form">
+								<div class="form-group">
+									<label class="sr-only" for="exampleInputEmail2">Email address</label>
+									<input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
+								</div>
+								<div class="form-group">
+									<label class="sr-only" for="exampleInputPassword2">Password</label>
+									<input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+								</div>
+								<button type="submit" class="btn btn-primary btn-lg" title="">Sign in</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div><!--/.row-->
+					
+			
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Input Sizing</div>
+						<div class="panel-body">
+							<div class="input-group input-group-lg"><span class="input-group-addon">@</span>
+								<input type="text" class="form-control input-lg" placeholder="Username">
+							</div>
+							<br>
+							<div class="input-group"><span class="input-group-addon">$</span>
+								<input type="text" class="form-control" placeholder="Currency">
+							</div>
+							<br>
+							<div class="input-group input-group-sm"><span class="input-group-addon">{}</span>
+								<input type="text" class="form-control" placeholder="Code">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Height Sizing</div>
+						<div class="panel-body">
+							<select class="form-control input-lg">
+								<option value="">.input-lg</option>
+							</select>
+							<br>
+							<select class="form-control">
+								<option value="">Default select</option>
+							</select>
+							<br>
+							<select class="form-control input-sm">
+								<option value="">.input-sm</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div><!--/.row-->
+				
+			 
+				
+				
+
+			
+			<div class="col-sm-12">
+				<p class="back-link">Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a></p>
+			</div>
+		</div><!-- /.row -->
+		</div><!--/.main-->
+		
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/chart.min.js"></script>
+		<script src="js/chart-data.js"></script>
+		<script src="js/easypiechart.js"></script>
+		<script src="js/easypiechart-data.js"></script>
+		<script src="js/bootstrap-datepicker.js"></script>
+		<script src="js/custom.js"></script>
+		
+	</body>
+</html>

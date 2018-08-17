@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Internship Tutor</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/styles.css" rel="stylesheet">
+		<!--Theme-->
+		<link href="css/theme-default.css" rel="stylesheet">
+		<!--Custom Font-->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+		
+		<style>
+		
+			input[type=checkbox] {
+  			display: none;
+			}
+
+			input[type=checkbox]:checked~.remove-check {
+			  display: none;
+			}
+
+			input[type=checkbox]:checked~#email {
+				display: block;
+				transition: up 3s;
+			}
+
+			#email {
+			  display: none;
+			}
+		</style>
+		<!--[if lt IE 9]>
+		<script src="js/html5shiv.js"></script>
+		<script src="js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+		<div class="row">
+			<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+				<div class="login-panel panel panel-default">
+					<div class="panel-heading">Login</div>
+					<div class="panel-body">
+						<form role="form">
+							<fieldset>
+								<div class="form-group">
+									<input class="form-control" placeholder="E-mail" name="email" type="email" autofocus="">
+								</div>
+								<div class="form-group">
+									<input class="form-control" placeholder="Password" name="password" type="password" value="">
+								</div>
+								<div class="text-center mt-3">
+									<a href="index.html" class="btn btn-lg btn-primary">Login</a>
+								</div>
+			
+							</fieldset>
+						</form>
+					</div>
+				</div>
+				<div class="login-panel panel panel-default">
+					<label for="reveal-email" class="btn btn-lg btn-link form-control"> Sign Up</label>
+					<input type="checkbox" id="reveal-email" role="button">
+					<div id="email" class="panel-body">
+						<form role="form">
+							<fieldset>						
+								<div class="text-center	"><p>Non hai un account? Registrati:</p></div>
+								<div class="text-center"><a href="index.html" class="btn btn-lg btn-primary">Azienda</a></div>
+								<div class="text-center mt-1"><p>oppure</p></div>
+								<div class="text-center"><a href="index.html" class="btn btn-lg btn-primary">Studente</a></div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div><!-- /.col-->
+		</div><!-- /.row -->	
+	
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+	</body>
+</html>
