@@ -17,10 +17,35 @@ public class Azienda extends Utente {
     private String nomeRappresentante, cognomeRappresentante, ragioneSociale,
             indirizzoSede, partitaIva, foroCompetente, telefono, citta, provincia;
     boolean abilitata;
+    Convenzione convenzione;
     private List richiesteStudenti;
+    private List tirocinanti;
     
     
+    public Convenzione getConvenzione() {
+        return convenzione;
+    }
 
+    public void setConvenzione(Convenzione convenzione) {
+        this.convenzione = convenzione;
+    }
+
+    public List getRichiesteStudenti() {
+        return richiesteStudenti;
+    }
+
+    public void setRichiesteStudenti(List richiesteStudenti) {
+        this.richiesteStudenti = richiesteStudenti;
+    }
+
+    public List getTirocinanti() {
+        return tirocinanti;
+    }
+
+    public void setTirocinanti(List tirocinanti) {
+        this.tirocinanti = tirocinanti;
+    }
+    
     public void setCitta(String citta) {
         this.citta = citta;
     }
