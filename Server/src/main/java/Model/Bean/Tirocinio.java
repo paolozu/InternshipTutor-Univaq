@@ -17,6 +17,7 @@ public class Tirocinio {
     private Date dataInizio, dataFine;
     private String attivitaSvolta, risultatoConseguito;
     private Studente studente;
+    private Resoconto resoconto;
 
     public int getOreSvolte() {
         return oreSvolte;
