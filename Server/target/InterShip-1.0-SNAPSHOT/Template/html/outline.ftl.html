@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>${page_title!"Untitled page"}</title>
+        <link rel="stylesheet" href="style/default.css" type="text/css"/>
+    </head>
+    <body>
+        <div class="header">${page_title!"Untitled page"}</div>
+        <div class="body">
+            <div id="topmenu">
+                <ul>
+                    <li><b><a href="http://www.di.univaq.it/gdellape/students.php">course homepage</a></b></li>
+                    <#list menu as item>
+                    <li><a href="${item.link}">${item.label}</a></li>
+                    </#list>
+                </ul>
+            </div>
+
+            <#include content_tpl>
+
+        </div>
+        <div class="footer">Copyright &copy; 2010 ${defaults.author}. Page compiled on ${compiled_on?datetime}</div>
+    </body>
+</html>

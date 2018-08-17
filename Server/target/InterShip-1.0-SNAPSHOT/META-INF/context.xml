@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/InterShip">
+<Resource
+        name="jdbc/webdb2" 
+        type="javax.sql.DataSource"
+        auth="Container"
+        driverClassName="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://localhost/webdb"
+        username="root"
+        password="root"
+        maxActive="10"
+        maxIdle="5"
+        maxWait="10"
+    />
+
+</Context>
