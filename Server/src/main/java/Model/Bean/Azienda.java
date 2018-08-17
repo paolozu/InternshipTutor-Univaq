@@ -11,13 +11,25 @@ package Model.Bean;
  */
 public class Azienda extends Utente {
     
-    private int id, CAP, idConvenzione;
+    private int CAP, idConvenzione;
     private String nomeRappresentante, cognomeRappresentante, ragioneSociale,
-            indirizzoSede, partitaIva, foroCompetente, telefono;
+            indirizzoSede, partitaIva, foroCompetente, telefono, citta, provincia;
     boolean abilitata;
 
-    public int getId() {
-        return id;
+    public void setCitta(String citta) {
+        this.citta = citta;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+
+    public String getCitta() {
+        return citta;
+    }
+
+    public String getProvincia() {
+        return provincia;
     }
 
     public int getCAP() {
