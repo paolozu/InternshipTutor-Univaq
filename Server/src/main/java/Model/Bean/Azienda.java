@@ -72,9 +72,6 @@ public class Azienda extends Utente {
         return abilitata;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public void setCAP(int CAP) {
         this.CAP = CAP;
