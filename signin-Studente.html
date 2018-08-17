@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Internship Tutor</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/styles.css" rel="stylesheet">
+
+		<!--Theme-->
+		<link href="css/theme-default.css" rel="stylesheet">
+		<!--Custom Font-->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+		<!--[if lt IE 9]>
+		<script src="js/html5shiv.js"></script>
+		<script src="js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+		<div class="row">
+			<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
+				<div class="login-panel panel panel-primary">
+					<div class="panel-heading">Sign In</div>
+					<div class="panel-body">
+						<form role="form">
+							<fieldset>
+								<label class="">Dati di accesso</label>
+								<div class="row">
+									<div class="col-lg-6 mt-1">
+									  <input class="form-control" placeholder="Username" id="usernameStudente" type="text" autofocus required>
+									</div>
+									<div class="col-lg-6 mt-1">
+									  <input class="form-control" placeholder="Email" id="emailDatiDiAccesso" type="email" required>
+									</div>
+								</div><!--./row -->
+								<div class="row">
+									<div class="col-lg-6 mt-1">
+									  <input class="form-control" placeholder="Password" id="password" type="password" required>
+									</div>
+								</div><!--./row -->
+								<hr>
+								<label class="">Informazioni personali</label>
+								<div class="row">
+								  <div class="col-lg-6 mt-1">
+										<input class="form-control" placeholder="Nome" id="nomeStudente" type="text" required>
+									</div>
+								  <div class="col-lg-6 mt-1">
+										<input class="form-control" placeholder="Cognome" id="cognomeStudente" type="text" required>
+									</div>
+								</div><!--./row -->
+								<div class="row">
+									<div class="col-lg-6 mt-1">
+										<input placeholder="Data di Nascita gg/mm/aaaa" class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date">
+									</div>
+									<div class="col-lg-6 mt-1">
+												<input class="form-control" placeholder="Codice Fiscale" id="CFStudente" type="text" required>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-6 mt-1">
+										<input class="form-control" placeholder="Luogo di Nascita" id="luogoNascita" type="text" required>
+									</div>
+									<div class="col-lg-6 mt-1">
+									  <input class="form-control" placeholder="CAP Luogo di Nascita" id="capNascita" type="number" required>
+									</div>
+								</div><!--./row -->
+								<div class="row">
+									<div class="col-lg-6 mt-1">
+										<input class="form-control" placeholder="Provincia di Nascita" id="provinciaNascita" type="text" required>
+									</div>
+								</div><!--./row -->
+								<div class="row  ">
+									<div class="col-lg-12 mt-1">
+										<label class="checkbox-inline" id="handicap"><input type="checkbox" value="">Portatore di handicap</label>
+									</div>
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col-lg-6 mt-1">
+										<input class="form-control" placeholder="Città di residenza" id="residenzaStudente" type="text" required>
+									</div>
+									<div class="col-lg-6 mt-1">
+										<input class="form-control" placeholder="CAP di residenza" id="capResidenza" type="number" required>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-6 mt-1">
+										<input class="form-control" placeholder="Indirizzo Residenza" id="indirizzoResidenza" type="number" required>
+									</div>
+									<div class="col-lg-6 mt-1">
+										<input class="form-control" placeholder="Provincia di Residenza" id="provinciaResidenza" type="text" required>
+									</div>
+								</div>
+								<hr>
+								<label class="">Informazioni sugli studi</label>
+								<div class="row">
+									<div class="col-lg-6 mt-1">
+										<input class="form-control" placeholder="Diplomato in" id="diploma" type="text" required>
+									</div>
+									<div class="col-lg-6 mt-1">
+										<input class="form-control" placeholder="Laureato in" id="laurea" type="text" required>
+									</div>
+								</div><!--./row -->
+								<div class="row">
+									<div class="col-lg-6 mt-1">
+										<input class="form-control" placeholder="Dottorato" id="dottorato" type="text" required>
+									</div>
+									<div class="col-lg-6 mt-1">
+											<input class="form-control" placeholder="Corso di laurea in corso" id="dottorato" type="text" required>
+									</div>
+								</div><!--./row -->
+								<div class="row">
+									<div class="col-lg-6 mt-1">
+												<input class="form-control" placeholder="Crediti richiesti" id="crediti" type="number" required>
+									</div>
+								</div><!--./row -->
+								<hr>
+								<label class="">Responsabile</label>
+								<div class="row  ">
+									<div class="col-lg-6 mt-1">
+									  <input class="form-control" placeholder="Email" id="emailResponsabile" type="email" required>
+									</div>
+									<div class="col-lg-6 mt-1">
+									  <input class="form-control" placeholder="Telefono" id="telefonoResponsabile" type="number" required>
+									</div>
+								</div><!--./row -->
+								<hr>
+								<label class="">Tutore</label>
+								<div class="row  ">
+									<div class="col-lg-6 mt-1">
+									  <input class="form-control" placeholder="Nome tutore" id="nomeTutore" type="text"  ="" required>
+									</div>
+									<div class="col-lg-6 mt-1">
+									  <input class="form-control" placeholder="Cognome tutore" id="cognomeTutore" type="text"  ="" required>
+									</div>
+								</div><!--./row -->
+								<div class="row  ">
+									<div class="col-lg-6 mt-1">
+									  <input class="form-control" placeholder="Email tutore" id="emailTutore" type="email"  ="" required>
+									</div>
+								</div><!--./row-->
+								<div class="row mt-5">
+									<div class="text-center col-lg-6 col-lg-offset-3">
+										<a href="" class="btn btn-lg btn-primary">Iscriviti</a>
+									</div>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div><!-- /.col-->
+		</div><!-- /.row -->
+		<footer class="col-sm-12 mt-1">
+					<p class="back-link">Università degli studi dell' Aquila</p>
+		</footer>
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+	</body>
+</html>
