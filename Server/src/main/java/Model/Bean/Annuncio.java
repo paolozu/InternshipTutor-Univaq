@@ -14,8 +14,10 @@ import java.util.Date;
 public class Annuncio {
     
     private int id;
-    private String titolo,corpo, modalita, setotre, sussidio;
+    private String titolo,corpo, modalita, settore, sussidio;
     private Date dataAvvio, dataTermine;
+    private Azienda azienda;
+    private Tutore tutore;
 
     public int getId() {
         return id;
@@ -45,11 +47,11 @@ public class Annuncio {
         this.modalita = modalita;
     }
 
-    public String getSetotre() {
+    public String getSettore() {
         return setotre;
     }
 
-    public void setSetotre(String setotre) {
+    public void setSettore(String settore) {
         this.setotre = setotre;
     }
 

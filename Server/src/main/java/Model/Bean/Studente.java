@@ -5,6 +5,7 @@
  */
 
 package Model.Bean;
+import java.awt.List;
 import java.util.Date;
 /**
  *
@@ -17,6 +18,7 @@ public class Studente extends Utente {
     private String indirizzoResidenza, corsoLaurea, diploma,laurea,dottorato, settore;
     private boolean handicap;
     private String capNascita,capResidenza,cittaResidenza,provinciaResidenza, cittaNascita, provinciaNascita;
+    private List Tirocini;
 
     public void setNome(String nome) {
         this.nome = nome;
