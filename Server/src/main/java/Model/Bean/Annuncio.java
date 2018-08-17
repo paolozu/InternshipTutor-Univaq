@@ -48,11 +48,11 @@ public class Annuncio {
     }
 
     public String getSettore() {
-        return setotre;
+        return settore;
     }
 
     public void setSettore(String settore) {
-        this.setotre = setotre;
+        this.settore = settore;
     }
 
     public String getSussidio() {
