@@ -6,11 +6,9 @@
 package Model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Resource;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -28,7 +26,7 @@ public class DB {
          InitialContext ctx;
          try {
              ctx = new InitialContext();
-             DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/webdb2");
+             DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/webdb");
          } catch (NamingException ex) {
              Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
          }
@@ -38,31 +36,15 @@ public class DB {
 
    
             InitialContext ctx = new InitialContext();
-            DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/webdb2");
+            DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/webdb");
             
             conn = ds.getConnection();
             
             return conn;
-
     }
     
     public void closeCon() throws SQLException {
         conn.close();
     }
-
-    public Connection getConnectionOld() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e1) {
-            e1.printStackTrace();
-        }
-
-        conn = null;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/webdb", "root", "root");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return conn;
-    }
+    
 }

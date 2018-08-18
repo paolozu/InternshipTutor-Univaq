@@ -27,7 +27,9 @@ import javax.sql.DataSource;
  */
 public class StudenteDAOImpl implements StudenteDAO {
 
-    private static final String INSERIMENTO = "INSERT INTO Studente() VALUES ();"; // inserimento casuale
+    private static final String INSERIMENTO = "INSERT INTO `utente` (`idAmministratore`, `username`, `password`, `Studente_idStudente`, `Azienda_idAzienda`)\n" +
+"VALUES\n" +
+"	(13, '', '', NULL, NULL);"; // inserimento casuale
 
     @Override
     public void executeQ() {

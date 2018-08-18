@@ -1,11 +1,11 @@
-Controller/Login.class
 Controller/Framework/TemplateResult.class
-Controller/HomeStudente.class
-Model/Bean/Studente.class
 Controller/Framework/TemplateManagerException.class
-Model/Bean/Utente.class
-Controller/Framework/FailureResult.class
-Model/DAO/Impl/StudenteDAOImpl.class
 Model/DAO/Interface/StudenteDAO.class
 Model/DB.class
 Controller/Framework/DataModelFiller.class
+Controller/Login.class
+Controller/HomeStudente.class
+Model/Bean/Studente.class
+Model/Bean/Utente.class
+Controller/Framework/FailureResult.class
+Model/DAO/Impl/StudenteDAOImpl.class

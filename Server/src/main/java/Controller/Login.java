@@ -40,11 +40,11 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
        
-        StudenteDAO st = new StudenteDAOImpl();
+
+                StudenteDAO st = new StudenteDAOImpl();
     
         st.executeQ();
-        
-  
+  System.out.println();
         
         //TEMPLATE
         try {
