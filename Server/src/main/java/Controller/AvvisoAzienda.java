@@ -38,6 +38,7 @@ public class AvvisoAzienda extends HttpServlet {
         try {
             Map data = new HashMap();
             data.put("outline_tpl", "");//rimozione outline
+            data.put("corpo", "ciao bello");
             TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
             res.activate("AvvisoAzienda.ftl.html", data, response);
         } catch (TemplateManagerException ex) {
