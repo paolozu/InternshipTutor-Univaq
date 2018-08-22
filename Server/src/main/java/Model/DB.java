@@ -19,7 +19,7 @@ import javax.sql.DataSource;
  */
 public class DB {
 
-    Connection conn;
+    private Connection conn;
 
     public DB() {
 

@@ -11,9 +11,10 @@ package Model.Bean;
  */
 public abstract class Utente {
     
-    private String id, username,password;
+    protected int id;
+    protected String username,password;
 
-        public String getId() {
+    public int getId() {
         return id;
     }
 

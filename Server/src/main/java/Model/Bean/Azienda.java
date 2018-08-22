@@ -20,6 +20,10 @@ public class Azienda extends Utente {
     Convenzione convenzione;
     private List richiesteStudenti;
     private List tirocinanti;
+
+    public Azienda(String ragioneSociale) {
+        this.ragioneSociale = ragioneSociale;
+    }
     
     
     public Convenzione getConvenzione() {

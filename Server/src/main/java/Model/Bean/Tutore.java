@@ -13,6 +13,15 @@ public class Tutore extends Utente {
     
     private String nome, cognome, telefono;
 
+    public Tutore(int id, String nome, String cognome, String telefono) {
+        super.id = id;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.telefono = telefono;
+    }
+    
+    
+
     public String getNome() {
         return nome;
     }

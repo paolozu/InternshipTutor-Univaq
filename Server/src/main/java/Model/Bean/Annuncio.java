@@ -23,6 +23,26 @@ public class Annuncio {
         return id;
     }
 
+    @Override
+    public String toString() {
+        return "Annuncio{" + "id=" + id + ", titolo=" + titolo + ", corpo=" + corpo + ", modalita=" + modalita + ", settore=" + settore + ", sussidio=" + sussidio + ", dataAvvio=" + dataAvvio + ", dataTermine=" + dataTermine + ", azienda=" + azienda + ", tutore=" + tutore + '}';
+    }
+
+    public Annuncio(int id, String titolo, String corpo, Date dataAvvio, Date dataTermine, String modalita, String settore, String sussidio, Azienda azienda, Tutore tutore) {
+        this.id = id;
+        this.titolo = titolo;
+        this.corpo = corpo;
+        this.modalita = modalita;
+        this.settore = settore;
+        this.sussidio = sussidio;
+        this.dataAvvio = dataAvvio;
+        this.dataTermine = dataTermine;
+        this.azienda = azienda;
+        this.tutore = tutore;
+    }
+    
+    
+
     public String getTitolo() {
         return titolo;
     }

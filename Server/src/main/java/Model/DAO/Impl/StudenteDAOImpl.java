@@ -7,19 +7,13 @@ package Model.DAO.Impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
-
 import Model.DAO.Interface.StudenteDAO;
 import Model.DB;
-import java.sql.DriverManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Resource;
 import javax.naming.NamingException;
-import javax.sql.DataSource;
+
 
 /**
  *
@@ -27,7 +21,8 @@ import javax.sql.DataSource;
  */
 public class StudenteDAOImpl implements StudenteDAO {
 
-    private static final String INSERIMENTO = "INSERT INTO `utente` (`idAmministratore`, `username`, `password`, `Studente_idStudente`, `Azienda_idAzienda`)\n" +
+    private static final String INSERIMENTO = "INSERT INTO `utente` "
+            + "                                (`idAmministratore`, `username`, `password`, `Studente_idStudente`, `Azienda_idAzienda`)\n" +
 "VALUES\n" +
 "	(13, '', '', NULL, NULL);"; // inserimento casuale
 
@@ -48,7 +43,6 @@ public class StudenteDAOImpl implements StudenteDAO {
         } catch (NamingException | SQLException ex) {
             Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-          
 
     }
     
