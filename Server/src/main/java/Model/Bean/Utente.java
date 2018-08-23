@@ -10,9 +10,9 @@ package Model.Bean;
  * @author lorenzo
  */
 public abstract class Utente {
-    
+
     protected int id;
-    protected String username,password;
+    protected String username, password, email;
 
     public int getId() {
         return id;
@@ -33,9 +33,13 @@ public abstract class Utente {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
-   
-    
-    
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }

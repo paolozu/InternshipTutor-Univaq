@@ -10,6 +10,7 @@ import Controller.Framework.TemplateResult;
 import Model.Bean.Annuncio;
 import Model.DAO.Impl.AnnuncioDAOImpl;
 import Model.DAO.Interface.AnnuncioDAO;
+import Model.DAO.Interface.AziendaDAO;
 import Model.DB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -50,10 +51,14 @@ public class Login extends HttpServlet {
 //      System.out.println(annuncio.toString());
 
         //TEST SET ANNUNCIO
-        query.setAnnuncio("Titolo1", "Corpo1", LocalDate.of(2014,9,9), LocalDate.of(2015,9,9), "mod1", "sus1", "set1", 1, 1);
+//        query.setAnnuncio("Titolo1", "Corpo1", LocalDate.of(2014,9,9), LocalDate.of(2015,9,9), "mod1", "sus1", "set1", 1, 1);
       
-        //TEMPLATE
+        AziendaDAO queryA = new AziendaDAOImpl();
         
+        
+        
+        
+        //TEMPLATE
         try {
             Map data = new HashMap();
             data.put("outline_tpl", "");//rimozione outline

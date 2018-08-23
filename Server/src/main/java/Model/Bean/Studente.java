@@ -20,6 +20,13 @@ public class Studente extends Utente {
     private String capNascita,capResidenza,cittaResidenza,provinciaResidenza, cittaNascita, provinciaNascita;
     private List Tirocini;
 
+    public Studente(int id,String nome, String cognome,String email) {
+        super.id=id;
+        this.nome = nome;
+        this.cognome = cognome;
+        super.email = email;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
