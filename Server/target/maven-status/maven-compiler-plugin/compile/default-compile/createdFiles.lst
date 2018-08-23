@@ -1,8 +1,6 @@
 Model/Bean/Annuncio.class
 Model/Bean/Amministratore.class
 Controller/Framework/TemplateResult.class
-Model/DAO/Impl/AnnuncioDAOImpl.class
-Model/Bean/Resoconto.class
 Controller/Framework/TemplateManagerException.class
 Model/Bean/Convenzione.class
 Model/DAO/Interface/AnnuncioDAO.class
@@ -10,12 +8,7 @@ Model/DAO/Interface/StudenteDAO.class
 Model/DB.class
 Controller/Framework/DataModelFiller.class
 Model/Bean/Tutore.class
-Model/Bean/Tirocinio.class
 Model/Bean/Azienda.class
 Controller/Login.class
-Controller/HomeStudente.class
-Model/Bean/Studente.class
 Model/Bean/Utente.class
-Controller/AvvisoAzienda.class
-Controller/Framework/FailureResult.class
 Model/DAO/Impl/StudenteDAOImpl.class

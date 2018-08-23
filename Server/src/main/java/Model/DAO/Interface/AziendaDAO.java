@@ -5,6 +5,7 @@
  */
 package Model.DAO.Interface;
 
+import Model.Bean.Azienda;
 import Model.Bean.Studente;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  */
 public interface AziendaDAO {
     
-      public List<Studente> getRichieste();
+      public List<Azienda> getAziende();
+      public List<Studente> getRichieste(int id);
     
 }

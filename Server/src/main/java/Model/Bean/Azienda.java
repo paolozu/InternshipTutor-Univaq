@@ -21,8 +21,13 @@ public class Azienda extends Utente {
     private List richiesteStudenti;
     private List tirocinanti;
 
-    public Azienda(String ragioneSociale) {
+    public Azienda(int id, String ragioneSociale) {
+        super.id = id;
         this.ragioneSociale = ragioneSociale;
+    }
+    
+    public Azienda(int id) {
+        super.id = id;
     }
     
     

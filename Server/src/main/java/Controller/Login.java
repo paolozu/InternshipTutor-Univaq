@@ -9,6 +9,7 @@ import Controller.Framework.TemplateManagerException;
 import Controller.Framework.TemplateResult;
 import Model.Bean.Annuncio;
 import Model.DAO.Impl.AnnuncioDAOImpl;
+import Model.DAO.Impl.AziendaDAOImpl;
 import Model.DAO.Interface.AnnuncioDAO;
 import Model.DAO.Interface.AziendaDAO;
 import Model.DB;
@@ -54,8 +55,9 @@ public class Login extends HttpServlet {
 //        query.setAnnuncio("Titolo1", "Corpo1", LocalDate.of(2014,9,9), LocalDate.of(2015,9,9), "mod1", "sus1", "set1", 1, 1);
       
         AziendaDAO queryA = new AziendaDAOImpl();
-        
-        
+        System.out.println(queryA.getRichieste(1));
+        System.out.println("-----\n");
+        System.out.println(queryA.getAziende());
         
         
         //TEMPLATE

@@ -24,16 +24,22 @@ import javax.naming.NamingException;
  *
  * @author lorenzo
  */
-public class AzindaDAOImpl implements AziendaDAO {
-    
+public class AziendaDAOImpl implements AziendaDAO {
+
     private static final String GET_RICHIESTE = "SELECT Studente.idStudente,Studente.nome,Studente.cognome,Studente.email "
             + "                                  FROM Azienda JOIN Richiesta  ON Azienda.idAzienda=Richiesta.Azienda_idAzienda "
             + "                                  JOIN Studente ON Richiesta.Studente_idStudente = Studente.idStudente "
             + "                                  WHERE Azienda.idAzienda = ?";
+
+    private static final String GET_AZIENDE = "SELECT azienda.idAzienda,azienda.ragSociale FROM azienda";
     
-    public List<Studente> getRichieste(){
-        
-       DB db = new DB();
+    
+    
+    
+    
+    
+    public List<Studente> getRichieste(int id) {
+        DB db = new DB();
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
@@ -41,9 +47,10 @@ public class AzindaDAOImpl implements AziendaDAO {
         try {
             connection = db.getConnection();
             ps = connection.prepareStatement(GET_RICHIESTE);
+            ps.setInt(1, id);
             rset = ps.executeQuery();
             while (rset.next()) {
-                richieste.add(new Studente(rset.getInt("idStudente"),rset.getString("nome"),rset.getString("cognome"),rset.getString("email")));
+                richieste.add(new Studente(rset.getInt("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email")));
             }
         } catch (NamingException | SQLException ex) {
             Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -56,6 +63,33 @@ public class AzindaDAOImpl implements AziendaDAO {
                 Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return richieste; 
+        return richieste;
+    }
+
+    public List<Azienda> getAziende() {
+        DB db = new DB();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rset = null;
+        List<Azienda> aziende = new ArrayList();
+        try {
+            connection = db.getConnection();
+            ps = connection.prepareStatement(GET_AZIENDE);
+            rset = ps.executeQuery();
+            while (rset.next()){
+                aziende.add(new Azienda(rset.getInt("idAzienda"), rset.getString("ragSociale")));
+            }
+        } catch (NamingException | SQLException ex) {
+            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rset.close();
+                ps.close();
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return aziende;
     }
 }

@@ -54,7 +54,7 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
 
             if (rset.next()) {
                 Tutore tutoreAnnuncio = new Tutore(rset.getInt("idTutore"), rset.getString("nome"), rset.getString("cognome"), rset.getString("telefono"));
-                Azienda aziendaAnnuncio = new Azienda(rset.getString("idAzienda"));
+                Azienda aziendaAnnuncio = new Azienda(rset.getInt("idAzienda"));
                 annuncio = new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio"), rset.getDate("dataTermine"), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), aziendaAnnuncio, tutoreAnnuncio);
             }
         } catch (SQLException | NamingException ex) {
@@ -84,7 +84,7 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
             ps = connection.prepareStatement(GET_ANNUNCI);
             rset = ps.executeQuery();
             while (rset.next()) {
-                annunci.add(new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio"), rset.getDate("dataTermine"), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), new Azienda(rset.getString("idAzienda"))));
+                annunci.add(new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio"), rset.getDate("dataTermine"), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), new Azienda(rset.getInt("idAzienda"))));
             }
         } catch (NamingException | SQLException ex) {
             Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
