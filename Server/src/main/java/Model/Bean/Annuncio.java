@@ -13,13 +13,13 @@ import java.util.Date;
  */
 public class Annuncio {
     
-    private int id;
+    private int id, id_referente;
     private String titolo,corpo, modalita, settore, sussidio;
     private Date dataAvvio, dataTermine;
     private Azienda azienda;
     private Tutore tutore;
 
-    public Annuncio(int id, String titolo, String corpo, Date dataAvvio, Date dataTermine, String modalita, String settore, String sussidio, Azienda azienda) {
+    public Annuncio(int id, String titolo, String corpo, Date dataAvvio, Date dataTermine, String modalita, String settore, String sussidio, Azienda azienda, int id_referente) {
         this.id = id;
         this.titolo = titolo;
         this.corpo = corpo;
@@ -29,6 +29,7 @@ public class Annuncio {
         this.dataAvvio = dataAvvio;
         this.dataTermine = dataTermine;
         this.azienda = azienda;
+        this.id_referente = id_referente;
     }
 
     public int getId() {
@@ -40,7 +41,7 @@ public class Annuncio {
         return "Annuncio{" + "id=" + id + ", titolo=" + titolo + ", corpo=" + corpo + ", modalita=" + modalita + ", settore=" + settore + ", sussidio=" + sussidio + ", dataAvvio=" + dataAvvio + ", dataTermine=" + dataTermine + ", azienda=" + azienda + ", tutore=" + tutore + '}';
     }
 
-    public Annuncio(int id, String titolo, String corpo, Date dataAvvio, Date dataTermine, String modalita, String settore, String sussidio, Azienda azienda, Tutore tutore) {
+    public Annuncio(int id, String titolo, String corpo, Date dataAvvio, Date dataTermine, String modalita, String settore, String sussidio, Azienda azienda, Tutore tutore, int id_referente) {
         this.id = id;
         this.titolo = titolo;
         this.corpo = corpo;
@@ -51,6 +52,8 @@ public class Annuncio {
         this.dataTermine = dataTermine;
         this.azienda = azienda;
         this.tutore = tutore;
+        this.id_referente = id_referente;
+
     }
     
     
