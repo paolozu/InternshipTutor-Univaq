@@ -14,6 +14,8 @@ import Model.DB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -46,8 +48,12 @@ public class Login extends HttpServlet {
         AnnuncioDAO query = new AnnuncioDAOImpl();
 //      Annuncio annuncio = query.getAnnuncioById(1);
 //      System.out.println(annuncio.toString());
-        query.getAnnunci();
+
+        //TEST SET ANNUNCIO
+        query.setAnnuncio("Titolo1", "Corpo1", LocalDate.of(2014,9,9), LocalDate.of(2015,9,9), "mod1", "sus1", "set1", 1, 1);
+      
         //TEMPLATE
+        
         try {
             Map data = new HashMap();
             data.put("outline_tpl", "");//rimozione outline
