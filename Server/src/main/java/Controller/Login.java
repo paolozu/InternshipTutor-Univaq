@@ -10,6 +10,7 @@ import Controller.Framework.TemplateResult;
 import Model.Bean.Annuncio;
 import Model.DAO.Impl.AnnuncioDAOImpl;
 import Model.DAO.Interface.AnnuncioDAO;
+import Model.DB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,13 +41,12 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
+
         //Query annuncio
         AnnuncioDAO query = new AnnuncioDAOImpl();
-        Annuncio annuncio = query.getAnnuncioById(1);
-        
-        System.out.println(annuncio.toString());
+//      Annuncio annuncio = query.getAnnuncioById(1);
+//      System.out.println(annuncio.toString());
+        query.getAnnunci();
         //TEMPLATE
         try {
             Map data = new HashMap();
@@ -55,7 +56,7 @@ public class Login extends HttpServlet {
         } catch (TemplateManagerException ex) {
             throw new ServletException(ex);
         }
-       
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

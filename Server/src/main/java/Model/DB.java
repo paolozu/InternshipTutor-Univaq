@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -19,32 +20,15 @@ import javax.sql.DataSource;
  */
 public class DB {
 
-    private Connection conn;
-
-    public DB() {
-
-         InitialContext ctx;
-         try {
-             ctx = new InitialContext();
-             DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/webdb");
-         } catch (NamingException ex) {
-             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
-         }
-    }
-
+    private DataSource ds;
+ 
     public  Connection getConnection() throws NamingException, SQLException   {
 
    
             InitialContext ctx = new InitialContext();
             DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/webdb");
             
-            conn = ds.getConnection();
-            
-            return conn;
-    }
-    
-    public void closeCon() throws SQLException {
-        conn.close();
+            return ds.getConnection();
     }
     
 }

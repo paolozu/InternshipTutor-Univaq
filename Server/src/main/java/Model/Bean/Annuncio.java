@@ -19,6 +19,18 @@ public class Annuncio {
     private Azienda azienda;
     private Tutore tutore;
 
+    public Annuncio(int id, String titolo, String corpo, Date dataAvvio, Date dataTermine, String modalita, String settore, String sussidio, Azienda azienda) {
+        this.id = id;
+        this.titolo = titolo;
+        this.corpo = corpo;
+        this.modalita = modalita;
+        this.settore = settore;
+        this.sussidio = sussidio;
+        this.dataAvvio = dataAvvio;
+        this.dataTermine = dataTermine;
+        this.azienda = azienda;
+    }
+
     public int getId() {
         return id;
     }

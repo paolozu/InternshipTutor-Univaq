@@ -14,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
 
-
 /**
  *
  * @author lorenzo
@@ -22,30 +21,32 @@ import javax.naming.NamingException;
 public class StudenteDAOImpl implements StudenteDAO {
 
     private static final String INSERIMENTO = "INSERT INTO `utente` "
-            + "                                (`idAmministratore`, `username`, `password`, `Studente_idStudente`, `Azienda_idAzienda`)\n" +
-"VALUES\n" +
-"	(13, '', '', NULL, NULL);"; // inserimento casuale
+            + "                                (`idAmministratore`, `username`, `password`, `Studente_idStudente`, `Azienda_idAzienda`)\n"
+            + "VALUES\n"
+            + "	(13, '', '', NULL, NULL);"; // inserimento casuale
 
     @Override
     public void executeQ() {
 
-    DB db = new DB();
-    Connection connection;
-    
+        DB db = new DB();
+        PreparedStatement ps = null;
+        Connection connection = null;
+
         try {
             connection = db.getConnection();
-            try (PreparedStatement ps = connection.prepareStatement(INSERIMENTO)) {
+            ps = connection.prepareStatement(INSERIMENTO);
             int result = ps.executeUpdate();
-            }
-            connection.close();
-            db.closeCon();
-                
-        } catch (NamingException | SQLException ex) {
+        } catch (SQLException | NamingException ex) {
             Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                ps.close();
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }
-    
-    
 
 }

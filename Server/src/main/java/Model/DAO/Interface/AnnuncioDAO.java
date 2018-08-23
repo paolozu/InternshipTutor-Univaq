@@ -6,6 +6,7 @@
 package Model.DAO.Interface;
 
 import Model.Bean.Annuncio;
+import java.util.List;
 
 /**
  *
@@ -14,5 +15,5 @@ import Model.Bean.Annuncio;
 public interface AnnuncioDAO {
     
     public Annuncio getAnnuncioById(int id);
-    
+    public List<Annuncio> getAnnunci();
 }
