@@ -10,13 +10,17 @@ import Controller.Framework.TemplateResult;
 import Model.Bean.Annuncio;
 import Model.DAO.Impl.AnnuncioDAOImpl;
 import Model.DAO.Interface.AnnuncioDAO;
+import Model.DB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,14 +43,17 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
+
         //Query annuncio
         AnnuncioDAO query = new AnnuncioDAOImpl();
-        Annuncio annuncio = query.getAnnuncioById(1);
-        
-        System.out.println(annuncio.toString());
+//      Annuncio annuncio = query.getAnnuncioById(1);
+//      System.out.println(annuncio.toString());
+
+        //TEST SET ANNUNCIO
+        query.setAnnuncio("Titolo1", "Corpo1", LocalDate.of(2014,9,9), LocalDate.of(2015,9,9), "mod1", "sus1", "set1", 1, 1);
+      
         //TEMPLATE
+        
         try {
             Map data = new HashMap();
             data.put("outline_tpl", "");//rimozione outline
@@ -55,7 +62,7 @@ public class Login extends HttpServlet {
         } catch (TemplateManagerException ex) {
             throw new ServletException(ex);
         }
-       
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
