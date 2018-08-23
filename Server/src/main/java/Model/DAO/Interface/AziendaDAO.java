@@ -6,6 +6,7 @@
 package Model.DAO.Interface;
 
 import Model.Bean.Azienda;
+import Model.Bean.Convenzione;
 import Model.Bean.Studente;
 import java.util.List;
 
@@ -16,6 +17,9 @@ import java.util.List;
 public interface AziendaDAO {
     
       public List<Azienda> getAziende();
+      public Azienda getAziendaById(int id);
       public List<Studente> getRichieste(int id);
+      public List<Studente> getTirocinanti(int id);
+      public Convenzione getConvenzione(int id);
     
 }

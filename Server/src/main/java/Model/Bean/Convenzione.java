@@ -13,8 +13,18 @@ import java.util.Date;
  */
 public class Convenzione {
     private int id;
-    private String nome,directory,estensione,peso,durataConvezione;
+    private long peso;
+    private String nome,directory,estensione,durataConvezione;
     private Date dataConvezione;
+
+    public Convenzione(String nome, String directory, String estensione, long peso) {
+        this.peso = peso;
+        this.nome = nome;
+        this.directory = directory;
+        this.estensione = estensione;
+    }
+    
+    
 
     public int getId() {
         return id;
@@ -44,11 +54,11 @@ public class Convenzione {
         this.estensione = estensione;
     }
 
-    public String getPeso() {
+    public long getPeso() {
         return peso;
     }
 
-    public void setPeso(String peso) {
+    public void setPeso(long peso) {
         this.peso = peso;
     }
 

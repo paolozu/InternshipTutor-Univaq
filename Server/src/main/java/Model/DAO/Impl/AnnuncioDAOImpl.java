@@ -46,7 +46,6 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
         PreparedStatement ps = null;
         ResultSet rset = null;
         Annuncio annuncio = null;
-        LocalDate date = LocalDate.of(2014,9,9);
 
         try {
             connection = db.getConnection();
