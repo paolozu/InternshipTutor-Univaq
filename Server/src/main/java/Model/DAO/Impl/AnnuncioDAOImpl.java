@@ -7,6 +7,7 @@ package Model.DAO.Impl;
 
 import Model.Bean.Annuncio;
 import Model.Bean.Azienda;
+import Model.Bean.Referente;
 import Model.Bean.Tutore;
 import Model.DAO.Interface.AnnuncioDAO;
 import Model.DB;
@@ -30,6 +31,7 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
     private static final String GET_ANNUNCIO_BY_ID = "SELECT * FROM annuncio JOIN azienda "
             + "                                     ON annuncio.Azienda_idAzienda=azienda.idAzienda  "
             + "                                     JOIN tutore ON annuncio.Tutore_idTutore=tutore.idTutore"
+            + "                                     JOIN referente ON annuncio.Referente_idReferente=Referente.idReferente"
             + "                                     WHERE annuncio.idAnnuncio = ?";
 
     private static final String GET_ANNUNCI = "SELECT * FROM annuncio JOIN azienda "
@@ -53,9 +55,10 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
             rset = ps.executeQuery();
 
             if (rset.next()) {
+                Referente referenteAnnuncio = new Referente(rset.getString("referente.nome"), rset.getString("referente.cognome"),rset.getString("referente.telefono"));
                 Tutore tutoreAnnuncio = new Tutore(rset.getInt("idTutore"), rset.getString("nome"), rset.getString("cognome"), rset.getString("telefono"));
                 Azienda aziendaAnnuncio = new Azienda(rset.getInt("idAzienda"));
-                annuncio = new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio"), rset.getDate("dataTermine"), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), aziendaAnnuncio, tutoreAnnuncio);
+                annuncio = new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio"), rset.getDate("dataTermine"), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), aziendaAnnuncio, tutoreAnnuncio,referenteAnnuncio);
             }
         } catch (SQLException | NamingException ex) {
             Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

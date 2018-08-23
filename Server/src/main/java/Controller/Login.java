@@ -48,16 +48,16 @@ public class Login extends HttpServlet {
 
         //Query annuncio
         AnnuncioDAO query = new AnnuncioDAOImpl();
-//      Annuncio annuncio = query.getAnnuncioById(1);
-//      System.out.println(annuncio.toString());
-
+      Annuncio annuncio = query.getAnnuncioById(1);
+      System.out.println(annuncio.toString());
+     System.out.println(annuncio.getReferente().getCognome());
         //TEST SET ANNUNCIO
 //        query.setAnnuncio("Titolo1", "Corpo1", LocalDate.of(2014,9,9), LocalDate.of(2015,9,9), "mod1", "sus1", "set1", 1, 1);
       
-        AziendaDAO queryA = new AziendaDAOImpl();
-        System.out.println(queryA.getRichieste(1));
-        System.out.println("-----\n");
-        System.out.println(queryA.getAziende());
+//        AziendaDAO queryA = new AziendaDAOImpl();
+//        System.out.println(queryA.getRichieste(1));
+//        System.out.println("-----\n");
+//        System.out.println(queryA.getAziende());
         
         
         //TEMPLATE

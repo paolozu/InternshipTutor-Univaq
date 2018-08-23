@@ -31,6 +31,8 @@ public class Azienda extends Utente {
     }
     
     
+    
+    
     public Convenzione getConvenzione() {
         return convenzione;
     }
