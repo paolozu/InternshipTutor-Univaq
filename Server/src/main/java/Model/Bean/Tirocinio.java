@@ -5,7 +5,7 @@
  */
 package Model.Bean;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -13,12 +13,26 @@ import java.util.Date;
  */
 public class Tirocinio {
     
-    private int oreSvolte, valutazione, idAnnuncio, idResoconto;
-    private Date dataInizio, dataFine;
+    private int oreSvolte, valutazione;
+    private Annuncio annuncio;
+    private LocalDate dataInizio, dataFine;
     private String attivitaSvolta, risultatoConseguito;
     private Studente studente;
     private Resoconto resoconto;
 
+    public Tirocinio(LocalDate dataInizio, LocalDate dataFine) {
+        this.dataInizio = dataInizio;
+        this.dataFine = dataFine;
+    }
+
+    public Tirocinio(Annuncio annuncio, LocalDate dataInizio, LocalDate dataFine) {
+       this.annuncio=annuncio;
+       this.dataInizio=dataInizio;
+       this.dataFine = dataFine;
+    }
+
+    
+    
     public int getOreSvolte() {
         return oreSvolte;
     }
@@ -35,35 +49,35 @@ public class Tirocinio {
         this.valutazione = valutazione;
     }
 
-    public int getIdAnnuncio() {
-        return idAnnuncio;
+    public Annuncio getAnnuncio() {
+        return annuncio;
     }
 
-    public void setIdAnnuncio(int idAnnuncio) {
-        this.idAnnuncio = idAnnuncio;
+    public void setAnnuncio(Annuncio annuncio) {
+        this.annuncio = annuncio;
     }
 
-    public int getIdResoconto() {
-        return idResoconto;
+    public Resoconto getResoconto() {
+        return resoconto;
     }
 
-    public void setIdResoconto(int idResoconto) {
-        this.idResoconto = idResoconto;
+    public void setIdResoconto(Resoconto resoconto) {
+        this.resoconto = resoconto;
     }
 
-    public Date getDataInizio() {
+    public LocalDate getDataInizio() {
         return dataInizio;
     }
 
-    public void setDataInizio(Date dataInizio) {
+    public void setDataInizio(LocalDate dataInizio) {
         this.dataInizio = dataInizio;
     }
 
-    public Date getDataFine() {
+    public LocalDate getDataFine() {
         return dataFine;
     }
 
-    public void setDataFine(Date dataFine) {
+    public void setDataFine(LocalDate dataFine) {
         this.dataFine = dataFine;
     }
 

@@ -5,8 +5,7 @@
  */
 
 package Model.Bean;
-import java.awt.List;
-import java.util.Date;
+import java.time.LocalDate;
 /**
  *
  * @author lorenzo
@@ -14,12 +13,15 @@ import java.util.Date;
 public class Studente extends Utente {
     
     private String nome, cognome, codFiscale, telefono, crediti;
-    Date dataNascita;
+    private LocalDate dataNascita;
     private String indirizzoResidenza, corsoLaurea, diploma,laurea,dottorato, settore;
     private boolean handicap;
     private String capNascita,capResidenza,cittaResidenza,provinciaResidenza, cittaNascita, provinciaNascita;
-    private List Tirocini;
+    
 
+    public Studente() {
+    }
+        
     public Studente(int id,String nome, String cognome,String email) {
         super.id=id;
         this.nome = nome;
@@ -47,7 +49,7 @@ public class Studente extends Utente {
         this.crediti = crediti;
     }
 
-    public void setDataNascita(Date dataNascita) {
+    public void setDataNascita(LocalDate dataNascita) {
         this.dataNascita = dataNascita;
     }
 
@@ -123,7 +125,7 @@ public class Studente extends Utente {
         return crediti;
     }
 
-    public Date getDataNascita() {
+    public LocalDate getDataNascita() {
         return dataNascita;
     }
 

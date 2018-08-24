@@ -8,12 +8,15 @@ package Controller;
 import Controller.Framework.TemplateManagerException;
 import Controller.Framework.TemplateResult;
 import Model.Bean.Annuncio;
+import Model.Bean.Tirocinante;
 import Model.DAO.Impl.AmministratoreDAOImpl;
 import Model.DAO.Impl.AnnuncioDAOImpl;
 import Model.DAO.Impl.AziendaDAOImpl;
+import Model.DAO.Impl.TirocinanteDAOImpl;
 import Model.DAO.Interface.AmministratoreDAO;
 import Model.DAO.Interface.AnnuncioDAO;
 import Model.DAO.Interface.AziendaDAO;
+import Model.DAO.Interface.TirocinanteDAO;
 import Model.DB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -48,13 +51,13 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        //Query annuncio
-//      AnnuncioDAO query = new AnnuncioDAOImpl();
-//      Annuncio annuncio = query.getAnnuncioById(1);
-//      System.out.println(annuncio.toString());
-//      System.out.println(annuncio.getReferente().getCognome());
-        //TEST SET ANNUNCIO
-//        query.setAnnuncio("Titolo1", "Corpo1", LocalDate.of(2014,9,9), LocalDate.of(2015,9,9), "mod1", "sus1", "set1", 1, 1);
+//TEST SET ANNUNCIO
+//        AnnuncioDAO query = new AnnuncioDAOImpl();
+//        Annuncio annuncio = query.getAnnuncioById(1);
+//        System.out.println(annuncio.toString());
+//        System.out.println(annuncio.getReferente().getCognome());
+//
+//        query.setAnnuncio("Titolo1", "Corpo1", LocalDate.of(2014, 9, 9), LocalDate.of(2015, 9, 9), "mod1", "sus1", "set1", 1, 1, 0);
 //        AziendaDAO queryA = new AziendaDAOImpl();
 //        System.out.println(queryA.getRichieste(1));
 //        System.out.println(queryA.getAziende());
@@ -62,13 +65,15 @@ public class Login extends HttpServlet {
 //        System.out.println(queryA.getConvenzione(1));
 //        System.out.println(queryA.getApprovazione(1).toString());
 //        System.out.println(queryA.getApprovazione(1).getConvenzione().getDataConvezione());
-//        
 
-//        AMMINISTRATORE
-          AmministratoreDAO queryAmm = new AmministratoreDAOImpl();
-          System.out.println(queryAmm.daConvenzionare());
+//AMMINISTRATORE
+//        AmministratoreDAO queryAmm = new AmministratoreDAOImpl();
+//        System.out.println(queryAmm.daConvenzionare());
 
-        //TEMPLATE
+//TIROCINANTE
+        TirocinanteDAO queryT = new TirocinanteDAOImpl();
+queryT.setValutazione(1, 1);        
+//TEMPLATE
         try {
             Map data = new HashMap();
             data.put("outline_tpl", "");//rimozione outline

@@ -46,6 +46,14 @@ public class Annuncio {
         this.dataTermine = dataTermine;
         this.azienda = azienda;
     }
+
+    public Annuncio(Azienda aziendaAnnuncio, Tutore tutoreAnnuncio){
+    this.azienda=aziendaAnnuncio;
+    this.tutore=tutoreAnnuncio;
+    }
+    
+    
+   
     
     public int getId() {
         return id;

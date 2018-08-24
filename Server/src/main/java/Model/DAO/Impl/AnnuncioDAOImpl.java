@@ -37,8 +37,8 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
     private static final String GET_ANNUNCI = "SELECT * FROM annuncio JOIN azienda "
             + "                                     ON annuncio.Azienda_idAzienda=azienda.idAzienda";
 
-    private static final String SET_ANNUNCIO = "INSERT INTO annuncio (titolo, corpo, dataAvvio, dataTermine, modalita, sussidio, settore, Azienda_idAzienda,Tutore_idTutore)\n"
-            + "VALUES(?,?,?,?,?,?,?,?,?)";
+    private static final String SET_ANNUNCIO = "INSERT INTO annuncio (titolo, corpo, dataAvvio, dataTermine, modalita, sussidio, settore, Azienda_idAzienda,Tutore_idTutore, Referente_idReferente)\n"
+            + "VALUES(?,?,?,?,?,?,?,?,?,?)";
 
     public Annuncio getAnnuncioById(int id) {
         DB db = new DB();
@@ -103,7 +103,7 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
     }
 
     @Override
-    public void setAnnuncio(String titolo, String corpo, LocalDate dataAvvio, LocalDate dataTermine, String modalita, String sussidio, String settore, int idAzienda, int idTutore) {
+    public void setAnnuncio(String titolo, String corpo, LocalDate dataAvvio, LocalDate dataTermine, String modalita, String sussidio, String settore, int idAzienda, int idTutore,int idReferente) {
 
         DB db = new DB();
         PreparedStatement ps = null;
@@ -121,6 +121,7 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
             ps.setString(7, settore);
             ps.setInt(8, idAzienda);
             ps.setInt(9, idTutore);
+            ps.setInt(10, idReferente);
             
             
             int result = ps.executeUpdate();

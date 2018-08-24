@@ -11,7 +11,7 @@ package Model.Bean;
  */
 public class Tutore extends Utente {
     
-    private String nome, cognome, telefono;
+    private String nome, cognome, telefono, email;
 
     public Tutore(int id, String nome, String cognome, String telefono) {
         super.id = id;
@@ -20,7 +20,20 @@ public class Tutore extends Utente {
         this.telefono = telefono;
     }
     
-    
+        public Tutore(String nome, String cognome, String email) {
+        super.id = id;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.telefono = telefono;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }    
 
     public String getNome() {
         return nome;

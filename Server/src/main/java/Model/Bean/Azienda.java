@@ -14,12 +14,12 @@ import java.util.List;
 public class Azienda extends Utente {
     
     private String cap,nomeRappresentante, cognomeRappresentante, ragioneSociale,
-            indirizzoSede, partitaIva, foroCompetente, telResponsabile,nomeResponsabile,cognomeResponsabile, citta, provincia;
-    boolean abilitata;
+            indirizzoSede, partitaIva, foroCompetente, telResponsabile,nomeResponsabile,cognomeResponsabile,emailResponsabile, citta, provincia;
     Convenzione convenzione;
-    private List richiesteStudenti;
-    private List tirocinanti;
 
+
+    public Azienda(){}
+    
     public Azienda(int id, String ragioneSociale) {
         super.id = id;
         this.ragioneSociale = ragioneSociale;
@@ -39,9 +39,20 @@ public class Azienda extends Utente {
         this.partitaIva = partitaIva;
         this.foroCompetente = foroCompetente;
         this.telResponsabile = telResponsabile;
+        this.emailResponsabile = emailResponsabile;
         this.citta = citta;
         this.provincia = provincia;
         this.convenzione = convenzione;
+    }
+
+    public Azienda(String ragioneSociale, String indirizzoSede, String citta, String nomeResponsabile, String cognomeResponsabile, String emailResponsabile, String telResponsabile) {
+        this.ragioneSociale = ragioneSociale;
+        this.indirizzoSede = indirizzoSede;
+        this.citta = citta;
+        this.nomeResponsabile = nomeResponsabile;
+        this.cognomeResponsabile = cognomeResponsabile;
+        this.emailResponsabile = emailResponsabile;
+        this.telResponsabile = telResponsabile;
     }
 
     public String getTelResponsabile() {
@@ -100,21 +111,6 @@ public class Azienda extends Utente {
         this.convenzione = convenzione;
     }
 
-    public List getRichiesteStudenti() {
-        return richiesteStudenti;
-    }
-
-    public void setRichiesteStudenti(List richiesteStudenti) {
-        this.richiesteStudenti = richiesteStudenti;
-    }
-
-    public List getTirocinanti() {
-        return tirocinanti;
-    }
-
-    public void setTirocinanti(List tirocinanti) {
-        this.tirocinanti = tirocinanti;
-    }
     
     public void setCitta(String citta) {
         this.citta = citta;
@@ -162,11 +158,6 @@ public class Azienda extends Utente {
     }
 
 
-    public boolean isAbilitata() {
-        return abilitata;
-    }
-
-
     public void setCAP(String cap) {
         this.cap = cap;
     }
@@ -197,14 +188,15 @@ public class Azienda extends Utente {
     }
 
 
-    public void setAbilitata(boolean abilitata) {
-        this.abilitata = abilitata;
+    public String getEmailResponsabile() {
+        return emailResponsabile;
     }
 
-    @Override
-    public String toString() {
-        return "Azienda{" + "cap=" + cap + ", nomeRappresentante=" + nomeRappresentante + ", cognomeRappresentante=" + cognomeRappresentante + ", ragioneSociale=" + ragioneSociale + ", indirizzoSede=" + indirizzoSede + ", partitaIva=" + partitaIva + ", foroCompetente=" + foroCompetente + ", telResponsabile=" + telResponsabile + ", nomeResponsabile=" + nomeResponsabile + ", cognomeResponsabile=" + cognomeResponsabile + ", citta=" + citta + ", provincia=" + provincia + ", abilitata=" + abilitata + ", convenzione=" + convenzione + ", richiesteStudenti=" + richiesteStudenti + ", tirocinanti=" + tirocinanti + '}';
+    public void setEmailResponsabile(String emailResponsabile) {
+        this.emailResponsabile = emailResponsabile;
     }
+
+
     
     
 }
