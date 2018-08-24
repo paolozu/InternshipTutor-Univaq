@@ -21,5 +21,6 @@ public interface AziendaDAO {
       public List<Studente> getRichieste(int id);
       public List<Studente> getTirocinanti(int id);
       public Convenzione getConvenzione(int id);
+      public Azienda getApprovazione(int id);
     
 }

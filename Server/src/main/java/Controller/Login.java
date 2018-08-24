@@ -46,22 +46,22 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-      //Query annuncio
+        //Query annuncio
 //      AnnuncioDAO query = new AnnuncioDAOImpl();
 //      Annuncio annuncio = query.getAnnuncioById(1);
 //      System.out.println(annuncio.toString());
 //      System.out.println(annuncio.getReferente().getCognome());
         //TEST SET ANNUNCIO
 //        query.setAnnuncio("Titolo1", "Corpo1", LocalDate.of(2014,9,9), LocalDate.of(2015,9,9), "mod1", "sus1", "set1", 1, 1);
-      
         AziendaDAO queryA = new AziendaDAOImpl();
 //        System.out.println(queryA.getRichieste(1));
 //        System.out.println(queryA.getAziende());
 //        System.out.println(queryA.getTirocinanti(1));
-          System.out.println(queryA.getConvenzione(1));
+//        System.out.println(queryA.getConvenzione(1));
+//        System.out.println(queryA.getApprovazione(1).toString());
+//        System.out.println(queryA.getApprovazione(1).getConvenzione().getDataConvezione());
+//        
 
-        
-        
         //TEMPLATE
         try {
             Map data = new HashMap();

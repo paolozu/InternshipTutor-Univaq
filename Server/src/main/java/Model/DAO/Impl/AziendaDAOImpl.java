@@ -51,6 +51,10 @@ public class AziendaDAOImpl implements AziendaDAO {
             + "                                         WHERE idAzienda = ?";
     
     
+    private static final String GET_APPROVAZIONE = "SELECT * FROM Azienda "
+            + "                                         JOIN Convenzione ON Azienda.idConvenzione = Convenzione.idConvenzione "
+            + "                                             WHERE Azienda.idAzienda=?";
+            
     @Override
     public List<Studente> getRichieste(int id) {
         DB db = new DB();
@@ -172,5 +176,39 @@ public class AziendaDAOImpl implements AziendaDAO {
             }
         }
         return convenzione;
+    }
+
+    @Override
+    public Azienda getApprovazione(int id) {
+        DB db = new DB();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rset = null;
+        Convenzione convenzione = null;
+        Azienda azienda = null;
+
+        try {
+            connection = db.getConnection();
+            ps = connection.prepareStatement(GET_APPROVAZIONE);
+            ps.setInt(1, id);
+            rset = ps.executeQuery();
+
+            if (rset.next()) {
+                
+                convenzione = new Convenzione(rset.getInt("durataConvenzione"),rset.getDate("dataConvenzione").toLocalDate());
+                azienda = new Azienda(rset.getInt("idAzienda"), rset.getString("nomeRap"),rset.getString("cognomeRap"), rset.getString("telResponsabile"), rset.getString("nomeResponsabile"), rset.getString("cognomeResponsabile"), rset.getString("emailResponsabile"), rset.getString("ragSociale"), rset.getString("indirizzoSede"), rset.getString("pIVA"), rset.getString("foro"), rset.getString("cap"), rset.getString("citta"), rset.getString("provincia"), convenzione);
+            }
+        } catch (SQLException | NamingException ex) {
+            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rset.close();
+                ps.close();
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return azienda;
     }
 }

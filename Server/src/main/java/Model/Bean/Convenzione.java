@@ -5,6 +5,7 @@
  */
 package Model.Bean;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -12,16 +13,21 @@ import java.util.Date;
  * @author lorenzo
  */
 public class Convenzione {
-    private int id;
+    private int id,durataConvezione;
     private long peso;
-    private String nome,directory,estensione,durataConvezione;
-    private Date dataConvezione;
+    private String nome,directory,estensione;
+    private LocalDate dataConvezione;
 
     public Convenzione(String nome, String directory, String estensione, long peso) {
         this.peso = peso;
         this.nome = nome;
         this.directory = directory;
         this.estensione = estensione;
+    }
+
+    public Convenzione(int durataConvezione, LocalDate dataConvezione) {
+        this.durataConvezione = durataConvezione;
+        this.dataConvezione = dataConvezione;
     }
     
     
@@ -62,19 +68,19 @@ public class Convenzione {
         this.peso = peso;
     }
 
-    public String getDurataConvezione() {
+    public int getDurataConvezione() {
         return durataConvezione;
     }
 
-    public void setDurataConvezione(String durataConvezione) {
+    public void setDurataConvezione(int durataConvezione) {
         this.durataConvezione = durataConvezione;
     }
 
-    public Date getDataConvezione() {
+    public LocalDate getDataConvezione() {
         return dataConvezione;
     }
 
-    public void setDataConvezione(Date dataConvezione) {
+    public void setDataConvezione(LocalDate dataConvezione) {
         this.dataConvezione = dataConvezione;
     }
     

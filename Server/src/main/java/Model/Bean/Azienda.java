@@ -13,9 +13,8 @@ import java.util.List;
  */
 public class Azienda extends Utente {
     
-    private int CAP, idConvenzione;
-    private String nomeRappresentante, cognomeRappresentante, ragioneSociale,
-            indirizzoSede, partitaIva, foroCompetente, telefono, citta, provincia;
+    private String cap,nomeRappresentante, cognomeRappresentante, ragioneSociale,
+            indirizzoSede, partitaIva, foroCompetente, telResponsabile,nomeResponsabile,cognomeResponsabile, citta, provincia;
     boolean abilitata;
     Convenzione convenzione;
     private List richiesteStudenti;
@@ -29,9 +28,69 @@ public class Azienda extends Utente {
     public Azienda(int id) {
         super.id = id;
     }
-    
-    
-    
+
+    public Azienda(int idAzienda, String nomeRappresentante, String cognomeRappresentante, String telResponsabile, String nomeResponsabile, String cognomeResponsabile, String emailResponsabile, String ragioneSociale, String indirizzoSede, String partitaIva, String foroCompetente, String cap, String citta, String provincia, Convenzione convenzione ) {
+        super.id = id;
+        this.cap = cap;
+        this.nomeRappresentante = nomeRappresentante;
+        this.cognomeRappresentante = cognomeRappresentante;
+        this.ragioneSociale = ragioneSociale;
+        this.indirizzoSede = indirizzoSede;
+        this.partitaIva = partitaIva;
+        this.foroCompetente = foroCompetente;
+        this.telResponsabile = telResponsabile;
+        this.citta = citta;
+        this.provincia = provincia;
+        this.convenzione = convenzione;
+    }
+
+    public String getTelResponsabile() {
+        return telResponsabile;
+    }
+
+    public void setTelResponsabile(String telResponsabile) {
+        this.telResponsabile = telResponsabile;
+    }
+
+    public String getNomeResponsabile() {
+        return nomeResponsabile;
+    }
+
+    public void setNomeResponsabile(String nomeResponsabile) {
+        this.nomeResponsabile = nomeResponsabile;
+    }
+
+    public String getCognomeResponsabile() {
+        return cognomeResponsabile;
+    }
+
+    public void setCognomeResponsabile(String cognomeResponsabile) {
+        this.cognomeResponsabile = cognomeResponsabile;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
     
     public Convenzione getConvenzione() {
         return convenzione;
@@ -73,13 +132,10 @@ public class Azienda extends Utente {
         return provincia;
     }
 
-    public int getCAP() {
-        return CAP;
+    public String getCAP() {
+        return cap;
     }
 
-    public int getIdConvenzione() {
-        return idConvenzione;
-    }
 
     public String getNomeRappresentante() {
         return nomeRappresentante;
@@ -105,22 +161,16 @@ public class Azienda extends Utente {
         return foroCompetente;
     }
 
-    public String getTelefono() {
-        return telefono;
-    }
 
     public boolean isAbilitata() {
         return abilitata;
     }
 
 
-    public void setCAP(int CAP) {
-        this.CAP = CAP;
+    public void setCAP(String cap) {
+        this.cap = cap;
     }
 
-    public void setIdConvenzione(int idConvenzione) {
-        this.idConvenzione = idConvenzione;
-    }
 
     public void setNomeRappresentante(String nomeRappresentante) {
         this.nomeRappresentante = nomeRappresentante;
@@ -146,12 +196,14 @@ public class Azienda extends Utente {
         this.foroCompetente = foroCompetente;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
 
     public void setAbilitata(boolean abilitata) {
         this.abilitata = abilitata;
+    }
+
+    @Override
+    public String toString() {
+        return "Azienda{" + "cap=" + cap + ", nomeRappresentante=" + nomeRappresentante + ", cognomeRappresentante=" + cognomeRappresentante + ", ragioneSociale=" + ragioneSociale + ", indirizzoSede=" + indirizzoSede + ", partitaIva=" + partitaIva + ", foroCompetente=" + foroCompetente + ", telResponsabile=" + telResponsabile + ", nomeResponsabile=" + nomeResponsabile + ", cognomeResponsabile=" + cognomeResponsabile + ", citta=" + citta + ", provincia=" + provincia + ", abilitata=" + abilitata + ", convenzione=" + convenzione + ", richiesteStudenti=" + richiesteStudenti + ", tirocinanti=" + tirocinanti + '}';
     }
     
     
