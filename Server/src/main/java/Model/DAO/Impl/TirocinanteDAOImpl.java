@@ -10,7 +10,7 @@ import Model.Bean.Azienda;
 import Model.Bean.Convenzione;
 import Model.Bean.Resoconto;
 import Model.Bean.Tirocinio;
-import Model.Bean.Tutore;
+import Model.Bean.Docente;
 import Model.DAO.Interface.TirocinanteDAO;
 import Model.DB;
 import java.sql.Connection;
@@ -31,11 +31,11 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
 
     private static final String GET_INFO_TIROCINIO="SELECT Tirocinio.dataInizio, Tirocinio.dataFine, Tirocinio.Resoconto_idResoconto, Azienda.ragSociale, "
             + "                                 Azienda.indirizzoSede, Azienda.citta, Azienda.nomeResponsabile, Azienda.cognomeResponsabile, "
-            + "                                 Azienda.emailResponsabile, Azienda.telResponsabile, Tutore.nome, Tutore.cognome,"
-            + "                                 Tutore.email   "
+            + "                                 Azienda.emailResponsabile, Azienda.telResponsabile, Docente.nome, Docente.cognome,"
+            + "                                 Docente.email   "
             + "                                     FROM Tirocinio "
             + "                                     JOIN Annuncio ON Tirocinio.idAnnuncio = Annuncio.idAnnuncio "
-            + "                                     JOIN Tutore ON Annuncio.Tutore_idTutore = Tutore.idTutore "
+            + "                                     JOIN Docente ON Annuncio.Docente_idDocente = Docente.idDocente "
             + "                                     JOIN Azienda ON Annuncio.Azienda_idAzienda = Azienda.idAzienda"
             + "                                     WHERE Tirocinio.Studente_idStudente=?";
             
@@ -59,9 +59,9 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
             rset = ps.executeQuery();
             while (rset.next()) {
                 Resoconto resocontoAnnuncio = new Resoconto(rset.getInt("Tirocinio.Resoconto_idResoconto"));
-                Tutore tutoreAnnuncio = new Tutore(rset.getString("Tutore.nome"),rset.getString("Tutore.cognome"), rset.getString("Tutore.email"));
+                Docente docenteAnnuncio = new Docente(rset.getString("Docente.nome"),rset.getString("Docente.cognome"), rset.getString("Docente.email"));
                 Azienda aziendaAnnuncio = new Azienda(rset.getString("ragSociale"), rset.getString("indirizzoSede"),  rset.getString("citta"),rset.getString("nomeResponsabile"), rset.getString("cognomeResponsabile"), rset.getString("emailResponsabile"),rset.getString("telResponsabile"));
-                Annuncio annuncio = new Annuncio(aziendaAnnuncio, tutoreAnnuncio);
+                Annuncio annuncio = new Annuncio(aziendaAnnuncio, docenteAnnuncio);
                 infoTirocini.add(new Tirocinio(resocontoAnnuncio,annuncio, rset.getDate("Tirocinio.dataInizio").toLocalDate(),rset.getDate("Tirocinio.dataFine").toLocalDate()));
             }
         } catch (NamingException | SQLException ex) {

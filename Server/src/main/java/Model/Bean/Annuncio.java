@@ -17,11 +17,11 @@ public class Annuncio {
     private String titolo,corpo, modalita, settore, sussidio;
     private Date dataAvvio, dataTermine;
     private Azienda azienda;
-    private Tutore tutore;
+    private Docente docente;
     private Referente referente;
 
 
-        public Annuncio(int id, String titolo, String corpo, Date dataAvvio, Date dataTermine, String modalita, String settore, String sussidio, Azienda azienda, Tutore tutore, Referente referente) {
+        public Annuncio(int id, String titolo, String corpo, Date dataAvvio, Date dataTermine, String modalita, String settore, String sussidio, Azienda azienda, Docente docente, Referente referente) {
         this.id = id;
         this.titolo = titolo;
         this.corpo = corpo;
@@ -31,7 +31,7 @@ public class Annuncio {
         this.dataAvvio = dataAvvio;
         this.dataTermine = dataTermine;
         this.azienda = azienda;
-        this.tutore = tutore;
+        this.docente = docente;
         this.referente = referente;
     }
         
@@ -47,9 +47,9 @@ public class Annuncio {
         this.azienda = azienda;
     }
 
-    public Annuncio(Azienda aziendaAnnuncio, Tutore tutoreAnnuncio){
+    public Annuncio(Azienda aziendaAnnuncio, Docente docenteAnnuncio){
     this.azienda=aziendaAnnuncio;
-    this.tutore=tutoreAnnuncio;
+    this.docente=docenteAnnuncio;
     }
     
     
@@ -61,7 +61,7 @@ public class Annuncio {
 
     @Override
     public String toString() {
-        return "Annuncio{" + "id=" + id + ", titolo=" + titolo + ", corpo=" + corpo + ", modalita=" + modalita + ", settore=" + settore + ", sussidio=" + sussidio + ", dataAvvio=" + dataAvvio + ", dataTermine=" + dataTermine + ", azienda=" + azienda + ", tutore=" + tutore + '}';
+        return "Annuncio{" + "id=" + id + ", titolo=" + titolo + ", corpo=" + corpo + ", modalita=" + modalita + ", settore=" + settore + ", sussidio=" + sussidio + ", dataAvvio=" + dataAvvio + ", dataTermine=" + dataTermine + ", azienda=" + azienda + ", docente=" + docente + '}';
     }
 
 
@@ -133,12 +133,12 @@ public class Annuncio {
         this.azienda = azienda;
     }
 
-    public Tutore getTutore() {
-        return tutore;
+    public Docente getDocente() {
+        return docente;
     }
 
-    public void setTutore(Tutore tutore) {
-        this.tutore = tutore;
+    public void setDocente(Docente docente) {
+        this.docente = docente;
     }
 
     public Referente getReferente() {

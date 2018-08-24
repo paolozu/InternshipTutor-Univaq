@@ -9,10 +9,17 @@ package Model.Bean;
  *
  * @author lorenzo
  */
-public abstract class Utente {
+public class Utente {
 
     protected int id;
     protected String username, password, email;
+
+    public Utente(){}
+    
+    public Utente(String username, String password) {
+        this.username=username;
+        this.password=password;
+    }
 
     public int getId() {
         return id;

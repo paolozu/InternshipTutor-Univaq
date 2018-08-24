@@ -10,7 +10,7 @@ import Model.Bean.Azienda;
 import Model.Bean.Convenzione;
 import Model.Bean.Referente;
 import Model.Bean.Studente;
-import Model.Bean.Tutore;
+import Model.Bean.Docente;
 import Model.DAO.Interface.AziendaDAO;
 import Model.DB;
 import java.sql.Connection;
@@ -30,18 +30,20 @@ import javax.naming.NamingException;
  */
 public class AziendaDAOImpl implements AziendaDAO {
 
-    private static final String GET_RICHIESTE = "SELECT Studente.idStudente,Studente.nome,Studente.cognome,Studente.email "
+    private static final String GET_RICHIESTE = "SELECT Studente.idStudente,Studente.nome,Studente.cognome,Utente.email "
             + "                                  FROM Azienda JOIN Richiesta  ON Azienda.idAzienda=Richiesta.Azienda_idAzienda "
             + "                                  JOIN Studente ON Richiesta.Studente_idStudente = Studente.idStudente "
+            + "                                  JOIN Utente ON Utente.idUtente = Studente.idStudente "
             + "                                  WHERE Azienda.idAzienda = ?";
 
     private static final String GET_AZIENDE = "SELECT azienda.idAzienda,azienda.ragSociale FROM azienda";
     
-    private static final String GET_TIROCINANTI = "SELECT Studente.idStudente, Studente.nome, Studente.cognome, Studente.email "
+    private static final String GET_TIROCINANTI = "SELECT Studente.idStudente, Studente.nome, Studente.cognome, Utente.email "
             + "                                    FROM Studente "
             + "                                     JOIN Tirocinio ON Studente.idStudente = Tirocinio.Studente_idStudente "
             + "                                     JOIN Annuncio ON Tirocinio.idAnnuncio = Annuncio.idAnnuncio "
             + "                                     JOIN Azienda ON Azienda.idAzienda = Annuncio.Azienda_idAzienda "
+            + "                                  JOIN Utente ON Utente.idUtente = Studente.idStudente "
             + "                                         WHERE idAzienda = ?";
     
     

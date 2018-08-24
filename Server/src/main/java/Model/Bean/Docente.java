@@ -9,19 +9,20 @@ package Model.Bean;
  *
  * @author Paolo
  */
-public class Tutore extends Utente {
+public class Docente {
     
+    int id;
     private String nome, cognome, telefono, email;
 
-    public Tutore(int id, String nome, String cognome, String telefono) {
-        super.id = id;
+    public Docente(int id, String nome, String cognome, String telefono) {
+        this.id = id;
         this.nome = nome;
         this.cognome = cognome;
         this.telefono = telefono;
     }
     
-        public Tutore(String nome, String cognome, String email) {
-        super.id = id;
+        public Docente(String nome, String cognome, String email) {
+        this.id = id;
         this.nome = nome;
         this.cognome = cognome;
         this.telefono = telefono;

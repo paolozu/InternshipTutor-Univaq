@@ -7,31 +7,10 @@ package Controller;
 
 import Controller.Framework.TemplateManagerException;
 import Controller.Framework.TemplateResult;
-import Model.Bean.Annuncio;
-import Model.Bean.Tirocinante;
-import Model.DAO.Impl.AmministratoreDAOImpl;
-import Model.DAO.Impl.AnnuncioDAOImpl;
-import Model.DAO.Impl.AziendaDAOImpl;
-import Model.DAO.Impl.ReferenteDAOImpl;
-import Model.DAO.Impl.TirocinanteDAOImpl;
-import Model.DAO.Impl.UtenteDAOImpl;
-import Model.DAO.Interface.AmministratoreDAO;
-import Model.DAO.Interface.AnnuncioDAO;
-import Model.DAO.Interface.AziendaDAO;
-import Model.DAO.Interface.ReferenteDAO;
-import Model.DAO.Interface.TirocinanteDAO;
-import Model.DAO.Interface.UtenteDAO;
-import Model.DB;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,9 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author lorenzo paolo
+ * @author lorenzo
  */
-public class Login extends HttpServlet {
+public class Error extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -54,52 +33,20 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-/*ANNUNCIO*/
-//        AnnuncioDAO query = new AnnuncioDAOImpl();
-//        Annuncio annuncio = query.getAnnuncioById(1);
-//        System.out.println(annuncio.toString());
-//        System.out.println(annuncio.getReferente().getCognome());
-
-//        query.setAnnuncio("Titolo1", "Corpo1", LocalDate.of(2014, 9, 9), LocalDate.of(2015, 9, 9), "mod1", "sus1", "set1", 101, 1, 0);
-//        AziendaDAO queryA = new AziendaDAOImpl();
-//        System.out.println(queryA.getRichieste(101));
-//        System.out.println(queryA.getAziende());
-//        System.out.println(queryA.getTirocinanti(101));
-//        System.out.println(queryA.getConvenzione(100));
-//        System.out.println(queryA.getApprovazione(100).toString());
-//        System.out.println(queryA.getApprovazione(100).getConvenzione().getDataConvezione());
-
-/*AMMINISTRATORE*/
-//        AmministratoreDAO queryAmm = new AmministratoreDAOImpl();
-//        System.out.println(queryAmm.daConvenzionare());
-
-/*TIROCINANTE*/
-//        TirocinanteDAO queryT = new TirocinanteDAOImpl();
-//        System.out.println(queryT.getInfoTirocinio(201)); //info  tirocinante 201
-//        queryT.setValutazione(1, 1);  //Update valutazione tirocinio      
-//        System.out.println(queryT.getPathResoconto(1)); //info  resoconto 1
-
-/*UTENTE*/
-//        UtenteDAO queryU = new UtenteDAOImpl();
-//        System.out.println(queryU.getCredenziali("loreand", "123"));
+       
         
-/*REFERENTE*/
-//        ReferenteDAO queryR =new ReferenteDAOImpl();
-//        queryR.setReferente("Mario", "Verdi", "ref@mail.it", "380591435");
-
-/*Docente*/
-          
-/*TEMPLATE*/
+        //Rilevare tipologia errore
+        
+        
+        /*TEMPLATE*/
         try {
             Map data = new HashMap();
             data.put("outline_tpl", "");//rimozione outline
             TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-            res.activate("login.html", data, response);
+            res.activate("500.html", data, response);
         } catch (TemplateManagerException ex) {
             throw new ServletException(ex);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
