@@ -72,9 +72,9 @@ public class Login extends HttpServlet {
 
 /*TIROCINANTE*/
         TirocinanteDAO queryT = new TirocinanteDAOImpl();
-        
-        queryT.setValutazione(1, 1);  //Update valutazione tirocinio      
-
+//        System.out.println(queryT.getInfoTirocinio(201)); //info  tirocinante 201
+//        queryT.setValutazione(1, 1);  //Update valutazione tirocinio      
+          System.out.println(queryT.getPathResoconto(1)); //info  resoconto 1
 
 
 

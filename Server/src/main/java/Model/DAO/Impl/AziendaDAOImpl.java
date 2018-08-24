@@ -149,7 +149,7 @@ public class AziendaDAOImpl implements AziendaDAO {
     
     @Override
     public Convenzione getConvenzione(int id){
-    DB db = new DB();
+        DB db = new DB();
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;

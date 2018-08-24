@@ -11,8 +11,23 @@ package Model.Bean;
  */
 public class Resoconto {
     private int id;
-    private String nome,directory,estensione,peso;
+    private String nome,directory,estensione;
+    private long peso;
 
+    public Resoconto(int idResoconto) {
+        this.id=idResoconto;
+    }
+
+
+    public Resoconto(String nome, String directory, String estensione, long peso) {
+        this.nome = nome;
+        this.directory = directory;
+        this.estensione = estensione;
+        this.peso = peso;
+    }
+
+    
+    
     public int getId() {
         return id;
     }
@@ -42,12 +57,19 @@ public class Resoconto {
         this.estensione = estensione;
     }
 
-    public String getPeso() {
+    public long getPeso() {
         return peso;
     }
 
-    public void setPeso(String peso) {
+    public void setPeso(long peso) {
         this.peso = peso;
     }
+
+    @Override
+    public String toString() {
+        return "Resoconto{" + "id=" + id + ", nome=" + nome + ", directory=" + directory + ", estensione=" + estensione + ", peso=" + peso + '}';
+    }
+    
+    
     
 }

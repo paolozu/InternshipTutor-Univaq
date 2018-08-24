@@ -6,6 +6,7 @@
 package Model.DAO.Interface;
 
 import Model.Bean.Annuncio;
+import Model.Bean.Resoconto;
 import Model.Bean.Tirocinio;
 import java.util.List;
 
@@ -17,4 +18,5 @@ public interface TirocinanteDAO {
     
      public List<Tirocinio> getInfoTirocinio(int idTirocinante);
      public void setValutazione(int valutazione, int idResoconto);
+     public Resoconto getPathResoconto(int idResoconto);
 }

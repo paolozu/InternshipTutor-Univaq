@@ -25,7 +25,8 @@ public class Tirocinio {
         this.dataFine = dataFine;
     }
 
-    public Tirocinio(Annuncio annuncio, LocalDate dataInizio, LocalDate dataFine) {
+    public Tirocinio(Resoconto resoconto, Annuncio annuncio, LocalDate dataInizio, LocalDate dataFine) {
+       this.resoconto=resoconto;
        this.annuncio=annuncio;
        this.dataInizio=dataInizio;
        this.dataFine = dataFine;

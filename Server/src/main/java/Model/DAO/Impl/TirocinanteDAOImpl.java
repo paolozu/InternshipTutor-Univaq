@@ -7,6 +7,8 @@ package Model.DAO.Impl;
 
 import Model.Bean.Annuncio;
 import Model.Bean.Azienda;
+import Model.Bean.Convenzione;
+import Model.Bean.Resoconto;
 import Model.Bean.Tirocinio;
 import Model.Bean.Tutore;
 import Model.DAO.Interface.TirocinanteDAO;
@@ -27,7 +29,7 @@ import javax.naming.NamingException;
  */
 public class TirocinanteDAOImpl implements TirocinanteDAO {
 
-    private static final String GET_INFO_TIROCINIO="SELECT Tirocinio.dataInizio, Tirocinio.dataFine, Azienda.ragSociale, "
+    private static final String GET_INFO_TIROCINIO="SELECT Tirocinio.dataInizio, Tirocinio.dataFine, Tirocinio.Resoconto_idResoconto, Azienda.ragSociale, "
             + "                                 Azienda.indirizzoSede, Azienda.citta, Azienda.nomeResponsabile, Azienda.cognomeResponsabile, "
             + "                                 Azienda.emailResponsabile, Azienda.telResponsabile, Tutore.nome, Tutore.cognome,"
             + "                                 Tutore.email   "
@@ -40,7 +42,7 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
     
     private static final String SET_VALUTAZIONE="UPDATE RESOCONTO SET valutazione=? WHERE idResoconto=?";
     
-    private static final String GET_RESOCONTO="";
+    private static final String GET_PATH_RESOCONTO="SELECT Resoconto.nome, Resoconto.directory, Resoconto.estensione, Resoconto.peso FROM Resoconto WHERE idResoconto=?";
     
     
     @Override
@@ -53,13 +55,14 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
         try {
             connection = db.getConnection();
             ps = connection.prepareStatement(GET_INFO_TIROCINIO);
+            ps.setInt(1, idTirocinante);
             rset = ps.executeQuery();
             while (rset.next()) {
-                
+                Resoconto resocontoAnnuncio = new Resoconto(rset.getInt("Tirocinio.Resoconto_idResoconto"));
                 Tutore tutoreAnnuncio = new Tutore(rset.getString("Tutore.nome"),rset.getString("Tutore.cognome"), rset.getString("Tutore.email"));
                 Azienda aziendaAnnuncio = new Azienda(rset.getString("ragSociale"), rset.getString("indirizzoSede"),  rset.getString("citta"),rset.getString("nomeResponsabile"), rset.getString("cognomeResponsabile"), rset.getString("emailResponsabile"),rset.getString("telResponsabile"));
                 Annuncio annuncio = new Annuncio(aziendaAnnuncio, tutoreAnnuncio);
-                infoTirocini.add(new Tirocinio(annuncio, rset.getDate("Tirocinio.dataInizio").toLocalDate(),rset.getDate("Tirocinio.dataFine").toLocalDate()));
+                infoTirocini.add(new Tirocinio(resocontoAnnuncio,annuncio, rset.getDate("Tirocinio.dataInizio").toLocalDate(),rset.getDate("Tirocinio.dataFine").toLocalDate()));
             }
         } catch (NamingException | SQLException ex) {
             Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -100,6 +103,37 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
             }
         }
         
+    }
+
+    @Override
+    public Resoconto getPathResoconto(int idResoconto) {
+        DB db = new DB();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rset = null;
+        Resoconto resoconto = null;
+
+        try {
+            connection = db.getConnection();
+            ps = connection.prepareStatement(GET_PATH_RESOCONTO);
+            ps.setInt(1, idResoconto);
+            rset = ps.executeQuery();
+
+            if (rset.next()) {
+                resoconto = new Resoconto(rset.getString("nome"),rset.getString("directory"),rset.getString("estensione"),rset.getLong("peso"));
+            }
+        } catch (SQLException | NamingException ex) {
+            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rset.close();
+                ps.close();
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return resoconto;
     }
    
 }
