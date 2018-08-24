@@ -40,6 +40,8 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
     
     private static final String SET_VALUTAZIONE="UPDATE RESOCONTO SET valutazione=? WHERE idResoconto=?";
     
+    private static final String GET_RESOCONTO="";
+    
     
     @Override
     public List<Tirocinio> getInfoTirocinio(int idTirocinante) {

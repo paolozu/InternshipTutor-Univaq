@@ -51,7 +51,7 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-//TEST SET ANNUNCIO
+/*ANNUNCIO*/
 //        AnnuncioDAO query = new AnnuncioDAOImpl();
 //        Annuncio annuncio = query.getAnnuncioById(1);
 //        System.out.println(annuncio.toString());
@@ -66,14 +66,19 @@ public class Login extends HttpServlet {
 //        System.out.println(queryA.getApprovazione(1).toString());
 //        System.out.println(queryA.getApprovazione(1).getConvenzione().getDataConvezione());
 
-//AMMINISTRATORE
+/*AMMINISTRATORE*/
 //        AmministratoreDAO queryAmm = new AmministratoreDAOImpl();
 //        System.out.println(queryAmm.daConvenzionare());
 
-//TIROCINANTE
+/*TIROCINANTE*/
         TirocinanteDAO queryT = new TirocinanteDAOImpl();
-queryT.setValutazione(1, 1);        
-//TEMPLATE
+        
+        queryT.setValutazione(1, 1);  //Update valutazione tirocinio      
+
+
+
+
+/*TEMPLATE*/
         try {
             Map data = new HashMap();
             data.put("outline_tpl", "");//rimozione outline
