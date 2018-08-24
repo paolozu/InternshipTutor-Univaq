@@ -12,12 +12,14 @@ import Model.Bean.Tirocinante;
 import Model.DAO.Impl.AmministratoreDAOImpl;
 import Model.DAO.Impl.AnnuncioDAOImpl;
 import Model.DAO.Impl.AziendaDAOImpl;
+import Model.DAO.Impl.DocenteDAOImpl;
 import Model.DAO.Impl.ReferenteDAOImpl;
 import Model.DAO.Impl.TirocinanteDAOImpl;
 import Model.DAO.Impl.UtenteDAOImpl;
 import Model.DAO.Interface.AmministratoreDAO;
 import Model.DAO.Interface.AnnuncioDAO;
 import Model.DAO.Interface.AziendaDAO;
+import Model.DAO.Interface.DocenteDAO;
 import Model.DAO.Interface.ReferenteDAO;
 import Model.DAO.Interface.TirocinanteDAO;
 import Model.DAO.Interface.UtenteDAO;
@@ -89,6 +91,8 @@ public class Login extends HttpServlet {
 //        queryR.setReferente("Mario", "Verdi", "ref@mail.it", "380591435");
 
 /*Docente*/
+          DocenteDAO queryD = new DocenteDAOImpl();
+          queryD.setDocente("Henry", "Muccini", "doc@mail.it");
           
 /*TEMPLATE*/
         try {
