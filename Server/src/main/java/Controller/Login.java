@@ -8,8 +8,10 @@ package Controller;
 import Controller.Framework.TemplateManagerException;
 import Controller.Framework.TemplateResult;
 import Model.Bean.Annuncio;
+import Model.DAO.Impl.AmministratoreDAOImpl;
 import Model.DAO.Impl.AnnuncioDAOImpl;
 import Model.DAO.Impl.AziendaDAOImpl;
+import Model.DAO.Interface.AmministratoreDAO;
 import Model.DAO.Interface.AnnuncioDAO;
 import Model.DAO.Interface.AziendaDAO;
 import Model.DB;
@@ -53,7 +55,7 @@ public class Login extends HttpServlet {
 //      System.out.println(annuncio.getReferente().getCognome());
         //TEST SET ANNUNCIO
 //        query.setAnnuncio("Titolo1", "Corpo1", LocalDate.of(2014,9,9), LocalDate.of(2015,9,9), "mod1", "sus1", "set1", 1, 1);
-        AziendaDAO queryA = new AziendaDAOImpl();
+//        AziendaDAO queryA = new AziendaDAOImpl();
 //        System.out.println(queryA.getRichieste(1));
 //        System.out.println(queryA.getAziende());
 //        System.out.println(queryA.getTirocinanti(1));
@@ -61,6 +63,10 @@ public class Login extends HttpServlet {
 //        System.out.println(queryA.getApprovazione(1).toString());
 //        System.out.println(queryA.getApprovazione(1).getConvenzione().getDataConvezione());
 //        
+
+//        AMMINISTRATORE
+          AmministratoreDAO queryAmm = new AmministratoreDAOImpl();
+          System.out.println(queryAmm.daConvenzionare());
 
         //TEMPLATE
         try {
