@@ -20,7 +20,7 @@ public class Azienda extends Utente {
 
     public Azienda(){}
     
-    public Azienda(int id, String ragioneSociale) {
+    public Azienda(long id, String ragioneSociale) {
         super.id = id;
         this.ragioneSociale = ragioneSociale;
     }
@@ -29,7 +29,7 @@ public class Azienda extends Utente {
         super.id = id;
     }
 
-    public Azienda(int idAzienda, String nomeRappresentante, String cognomeRappresentante, String telResponsabile, String nomeResponsabile, String cognomeResponsabile, String emailResponsabile, String ragioneSociale, String indirizzoSede, String partitaIva, String foroCompetente, String cap, String citta, String provincia, Convenzione convenzione ) {
+    public Azienda(long idAzienda, String nomeRappresentante, String cognomeRappresentante, String telResponsabile, String nomeResponsabile, String cognomeResponsabile, String emailResponsabile, String ragioneSociale, String indirizzoSede, String partitaIva, String foroCompetente, String cap, String citta, String provincia, Convenzione convenzione ) {
         super.id = id;
         this.cap = cap;
         this.nomeRappresentante = nomeRappresentante;
@@ -53,6 +53,13 @@ public class Azienda extends Utente {
         this.cognomeResponsabile = cognomeResponsabile;
         this.emailResponsabile = emailResponsabile;
         this.telResponsabile = telResponsabile;
+    }
+
+    public Azienda(String username, String password, String email, String tipo) {
+               this.username=username;
+        this.password=password;
+        this.email=email;
+        this.tipo=tipo;
     }
 
     public String getTelResponsabile() {

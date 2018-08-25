@@ -22,11 +22,15 @@ public class Studente extends Utente {
     public Studente() {
     }
         
-    public Studente(int id,String nome, String cognome,String email) {
+    public Studente(long id,String nome, String cognome,String email) {
         super.id=id;
         this.nome = nome;
         this.cognome = cognome;
         super.email = email;
+    }
+
+    public Studente(long id) {
+        super.id=id;
     }
 
     public void setNome(String nome) {

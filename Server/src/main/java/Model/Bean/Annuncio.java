@@ -5,6 +5,7 @@
  */
 package Model.Bean;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -13,15 +14,28 @@ import java.util.Date;
  */
 public class Annuncio {
     
-    private int id;
+    private long id;
     private String titolo,corpo, modalita, settore, sussidio;
-    private Date dataAvvio, dataTermine;
+    private LocalDate dataAvvio, dataTermine;
     private Azienda azienda;
     private Docente docente;
     private Referente referente;
 
 
-        public Annuncio(int id, String titolo, String corpo, Date dataAvvio, Date dataTermine, String modalita, String settore, String sussidio, Azienda azienda, Docente docente, Referente referente) {
+    public Annuncio(String titolo, String corpo, LocalDate dataAvvio, LocalDate dataTermine, String modalita, String settore, String sussidio, Azienda azienda, Docente docente, Referente referente) {
+        this.titolo = titolo;
+        this.corpo = corpo;
+        this.modalita = modalita;
+        this.settore = settore;
+        this.sussidio = sussidio;
+        this.dataAvvio = dataAvvio;
+        this.dataTermine = dataTermine;
+        this.azienda = azienda;
+        this.docente = docente;
+        this.referente = referente;
+    }
+    
+    public Annuncio(long id, String titolo, String corpo, LocalDate dataAvvio, LocalDate dataTermine, String modalita, String settore, String sussidio, Azienda azienda, Docente docente, Referente referente) {
         this.id = id;
         this.titolo = titolo;
         this.corpo = corpo;
@@ -35,7 +49,7 @@ public class Annuncio {
         this.referente = referente;
     }
         
-    public Annuncio(int id, String titolo, String corpo, Date dataAvvio, Date dataTermine, String modalita, String settore, String sussidio, Azienda azienda) {
+    public Annuncio(long id, String titolo, String corpo, LocalDate dataAvvio, LocalDate dataTermine, String modalita, String settore, String sussidio, Azienda azienda) {
         this.id = id;
         this.titolo = titolo;
         this.corpo = corpo;
@@ -51,23 +65,23 @@ public class Annuncio {
     this.azienda=aziendaAnnuncio;
     this.docente=docenteAnnuncio;
     }
-    
-    
-   
-    
-    public int getId() {
-        return id;
-    }
 
     @Override
     public String toString() {
-        return "Annuncio{" + "id=" + id + ", titolo=" + titolo + ", corpo=" + corpo + ", modalita=" + modalita + ", settore=" + settore + ", sussidio=" + sussidio + ", dataAvvio=" + dataAvvio + ", dataTermine=" + dataTermine + ", azienda=" + azienda + ", docente=" + docente + '}';
+        return "Annuncio{" + "id=" + id + ", titolo=" + titolo + ", corpo=" + corpo + ", modalita=" + modalita + ", settore=" + settore + ", sussidio=" + sussidio + ", dataAvvio=" + dataAvvio + ", dataTermine=" + dataTermine + ", azienda=" + azienda + ", docente=" + docente + ", referente=" + referente + '}';
     }
 
-
     
     
-
+    public Annuncio(long id) {
+        this.id=id;
+    }
+    
+    
+    public long getId() {
+        return id;
+    }
+    
     public String getTitolo() {
         return titolo;
     }
@@ -108,19 +122,19 @@ public class Annuncio {
         this.sussidio = sussidio;
     }
 
-    public Date getDataAvvio() {
+    public LocalDate getDataAvvio() {
         return dataAvvio;
     }
 
-    public void setDataAvvio(Date dataAvvio) {
+    public void setDataAvvio(LocalDate dataAvvio) {
         this.dataAvvio = dataAvvio;
     }
 
-    public Date getDataTermine() {
+    public LocalDate getDataTermine() {
         return dataTermine;
     }
 
-    public void setDataTermine(Date dataTermine) {
+    public void setDataTermine(LocalDate dataTermine) {
         this.dataTermine = dataTermine;
     }
     

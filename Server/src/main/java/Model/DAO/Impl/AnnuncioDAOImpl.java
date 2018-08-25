@@ -30,34 +30,31 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
 
     private static final String GET_ANNUNCIO_BY_ID = "SELECT * FROM annuncio JOIN azienda "
             + "                                     ON annuncio.Azienda_idAzienda=azienda.idAzienda  "
-            + "                                     JOIN docente ON annuncio.Docente_idDocente=docente.idDocente"
-            + "                                     JOIN referente ON annuncio.Referente_idReferente=Referente.idReferente"
             + "                                     WHERE annuncio.idAnnuncio = ?";
 
     private static final String GET_ANNUNCI = "SELECT * FROM annuncio JOIN azienda "
-            + "                                     ON annuncio.Azienda_idAzienda=azienda.idAzienda";
+            + "                                     ON annuncio.Azienda_idAzienda=azienda.idAzienda LIMIT ?,4";
 
-    private static final String SET_ANNUNCIO = "INSERT INTO annuncio (titolo, corpo, dataAvvio, dataTermine, modalita, sussidio, settore, Azienda_idAzienda,Docente_idDocente, Referente_idReferente)\n"
-            + "VALUES(?,?,?,?,?,?,?,?,?,?)";
+    private static final String SET_ANNUNCIO = "INSERT INTO annuncio (titolo, corpo, dataAvvio, dataTermine, modalita, sussidio, settore, Azienda_idAzienda,nomeDocente,cognomeDocente,emailDocente,nomeReferente,cognomeReferente,emailReferente,telefonoReferente)\n"
+            + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-    public Annuncio getAnnuncioById(int id) {
-        DB db = new DB();
+    public Annuncio getAnnuncioById(long id) {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
         Annuncio annuncio = null;
 
         try {
-            connection = db.getConnection();
+            connection = DB.getConnection();
             ps = connection.prepareStatement(GET_ANNUNCIO_BY_ID);
-            ps.setInt(1, id);
+            ps.setLong(1, id);
             rset = ps.executeQuery();
 
             if (rset.next()) {
-                Referente referenteAnnuncio = new Referente(rset.getString("referente.nome"), rset.getString("referente.cognome"),rset.getString("referente.telefono"));
-                Docente docenteAnnuncio = new Docente(rset.getInt("idDocente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("telefono"));
+                Referente referenteAnnuncio = new Referente(rset.getString("nomeReferente"), rset.getString("cognomeReferente"),rset.getString("telefonoReferente"));
+                Docente docenteAnnuncio = new Docente(rset.getString("nomeDocente"), rset.getString("cognomeDocente"), rset.getString("emailDocente"));
                 Azienda aziendaAnnuncio = new Azienda(rset.getInt("idAzienda"));
-                annuncio = new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio"), rset.getDate("dataTermine"), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), aziendaAnnuncio, docenteAnnuncio,referenteAnnuncio);
+                annuncio = new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio").toLocalDate(), rset.getDate("dataTermine").toLocalDate(), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), aziendaAnnuncio, docenteAnnuncio,referenteAnnuncio);
             }
         } catch (SQLException | NamingException ex) {
             Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,18 +72,18 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
     }
 
     @Override
-    public List<Annuncio> getAnnunci() {
-        DB db = new DB();
+    public List<Annuncio> getAnnunci(int valuePage) {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
         List<Annuncio> annunci = new ArrayList();
         try {
-            connection = db.getConnection();
+            connection = DB.getConnection();
             ps = connection.prepareStatement(GET_ANNUNCI);
+            ps.setInt(1, valuePage);
             rset = ps.executeQuery();
             while (rset.next()) {
-                annunci.add(new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio"), rset.getDate("dataTermine"), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), new Azienda(rset.getInt("idAzienda"))));
+                annunci.add(new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio").toLocalDate(), rset.getDate("dataTermine").toLocalDate(), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), new Azienda(rset.getInt("idAzienda"))));
             }
         } catch (NamingException | SQLException ex) {
             Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -103,25 +100,30 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
     }
 
     @Override
-    public void setAnnuncio(String titolo, String corpo, LocalDate dataAvvio, LocalDate dataTermine, String modalita, String sussidio, String settore, int idAzienda, int idDocente,int idReferente) {
-
-        DB db = new DB();
-        PreparedStatement ps = null;
+    public void saveAnnuncio(Annuncio annuncio) {
+        
         Connection connection = null;
-      
+        PreparedStatement ps = null;
+        
+        
         try {
-            connection = db.getConnection();
+            connection = DB.getConnection();
             ps = connection.prepareStatement(SET_ANNUNCIO);
-            ps.setString(1, titolo);
-            ps.setString(2, corpo);
-            ps.setDate(3, java.sql.Date.valueOf( dataAvvio ));
-            ps.setDate(4, java.sql.Date.valueOf( dataTermine ));
-            ps.setString(5, modalita);
-            ps.setString(6, sussidio);
-            ps.setString(7, settore);
-            ps.setInt(8, idAzienda);
-            ps.setInt(9, idDocente);
-            ps.setInt(10, idReferente);
+            ps.setString(1, annuncio.getTitolo());
+            ps.setString(2, annuncio.getCorpo());
+            ps.setDate(3, java.sql.Date.valueOf( annuncio.getDataAvvio() ));
+            ps.setDate(4, java.sql.Date.valueOf( annuncio.getDataTermine() ));
+            ps.setString(5, annuncio.getModalita());
+            ps.setString(6, annuncio.getSussidio());
+            ps.setString(7, annuncio.getSettore());
+            ps.setLong(8, annuncio.getAzienda().getId());
+            ps.setString(9, annuncio.getDocente().getNome());
+            ps.setString(10, annuncio.getDocente().getCognome());
+            ps.setString(11, annuncio.getDocente().getEmail());
+            ps.setString(12, annuncio.getReferente().getNome());
+            ps.setString(13, annuncio.getReferente().getCognome());
+            ps.setString(14, annuncio.getReferente().getEmail());
+            ps.setString(15, annuncio.getReferente().getTelefono());
             
             
             int result = ps.executeUpdate();
@@ -136,4 +138,5 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
             }
         }
     }
+    
 }

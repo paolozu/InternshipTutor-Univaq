@@ -40,7 +40,7 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
             + "                                     WHERE Tirocinio.Studente_idStudente=?";
             
     
-    private static final String SET_VALUTAZIONE="UPDATE RESOCONTO SET valutazione=? WHERE idResoconto=?";
+    private static final String SET_VALUTAZIONE="UPDATE Resoconto SET valutazione=? WHERE idResoconto=?";
     
     private static final String GET_PATH_RESOCONTO="SELECT Resoconto.nome, Resoconto.directory, Resoconto.estensione, Resoconto.peso FROM Resoconto WHERE idResoconto=?";
     

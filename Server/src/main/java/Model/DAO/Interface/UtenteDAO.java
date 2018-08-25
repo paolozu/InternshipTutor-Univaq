@@ -14,4 +14,5 @@ import Model.Bean.Utente;
 public interface UtenteDAO {
     
     public Utente getCredenziali(String username, String password);
+    public Utente nuovoUtente(Utente utente);
 }

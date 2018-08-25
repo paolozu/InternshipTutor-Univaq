@@ -13,7 +13,8 @@ import java.util.Date;
  * @author lorenzo
  */
 public class Convenzione {
-    private int id,durataConvezione;
+    private long id;
+    private int durataConvezione;
     private long peso;
     private String nome,directory,estensione;
     private LocalDate dataConvezione;
@@ -32,7 +33,7 @@ public class Convenzione {
     
     
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

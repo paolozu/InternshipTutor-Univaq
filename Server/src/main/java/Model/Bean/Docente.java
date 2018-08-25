@@ -11,21 +11,14 @@ package Model.Bean;
  */
 public class Docente {
     
-    int id;
-    private String nome, cognome, telefono, email;
+    private String nome, cognome, email;
 
-    public Docente(int id, String nome, String cognome, String telefono) {
-        this.id = id;
-        this.nome = nome;
-        this.cognome = cognome;
-        this.telefono = telefono;
-    }
     
-        public Docente(String nome, String cognome, String email) {
-        this.id = id;
+    public Docente(String nome, String cognome, String email) {
+
         this.nome = nome;
         this.cognome = cognome;
-        this.telefono = telefono;
+        this.email = email;
     }
 
     public String getEmail() {
@@ -50,15 +43,5 @@ public class Docente {
 
     public void setCognome(String cognome) {
         this.cognome = cognome;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-    
-    
+    }    
 }

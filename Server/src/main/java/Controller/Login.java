@@ -8,19 +8,22 @@ package Controller;
 import Controller.Framework.TemplateManagerException;
 import Controller.Framework.TemplateResult;
 import Model.Bean.Annuncio;
+import Model.Bean.Azienda;
+import Model.Bean.Docente;
+import Model.Bean.Referente;
+import Model.Bean.Resoconto;
+import Model.Bean.Studente;
 import Model.Bean.Tirocinante;
+import Model.Bean.Tirocinio;
+import Model.Bean.Utente;
 import Model.DAO.Impl.AmministratoreDAOImpl;
 import Model.DAO.Impl.AnnuncioDAOImpl;
 import Model.DAO.Impl.AziendaDAOImpl;
-import Model.DAO.Impl.DocenteDAOImpl;
-import Model.DAO.Impl.ReferenteDAOImpl;
 import Model.DAO.Impl.TirocinanteDAOImpl;
 import Model.DAO.Impl.UtenteDAOImpl;
 import Model.DAO.Interface.AmministratoreDAO;
 import Model.DAO.Interface.AnnuncioDAO;
 import Model.DAO.Interface.AziendaDAO;
-import Model.DAO.Interface.DocenteDAO;
-import Model.DAO.Interface.ReferenteDAO;
 import Model.DAO.Interface.TirocinanteDAO;
 import Model.DAO.Interface.UtenteDAO;
 import Model.DB;
@@ -58,13 +61,26 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
 
 /*ANNUNCIO*/
-//        AnnuncioDAO query = new AnnuncioDAOImpl();
+        AnnuncioDAO query = new AnnuncioDAOImpl();
 //        Annuncio annuncio = query.getAnnuncioById(1);
+          System.out.println(query.getAnnunci(1).toString());
+          System.out.println(query.getAnnunci(2).toString());
+          System.out.println(query.getAnnunci(3).toString());
 //        System.out.println(annuncio.toString());
-//        System.out.println(annuncio.getReferente().getCognome());
-
-//        query.setAnnuncio("Titolo1", "Corpo1", LocalDate.of(2014, 9, 9), LocalDate.of(2015, 9, 9), "mod1", "sus1", "set1", 101, 1, 0);
+//
+//        Azienda a = new Azienda(100);
+//        Docente d = new Docente("no","co","em");
+//        Referente r = new Referente("no","co","em","tel");
+//        
+//        Annuncio annuncio1 = new Annuncio("","",LocalDate.of(2014, 9, 9),LocalDate.of(2014, 9, 9), "","","",a,d,r);
+//        query.saveAnnuncio(annuncio1);
+/*AZIENDA*/
 //        AziendaDAO queryA = new AziendaDAOImpl();
+//        Resoconto r = new Resoconto(80,"OK","OK");
+//        Studente s = new Studente(202);
+//        Annuncio an = new Annuncio(1);
+//        Tirocinio t = new Tirocinio(s,an,r);
+//        queryA.setConcludiTirocinio(t);
 //        System.out.println(queryA.getRichieste(101));
 //        System.out.println(queryA.getAziende());
 //        System.out.println(queryA.getTirocinanti(101));
@@ -83,16 +99,24 @@ public class Login extends HttpServlet {
 //        System.out.println(queryT.getPathResoconto(1)); //info  resoconto 1
 
 /*UTENTE*/
-//        UtenteDAO queryU = new UtenteDAOImpl();
+//          UtenteDAO queryU = new UtenteDAOImpl();
+//          Utente nuovoUtente = new Utente("lolo","123","email","ST");
+//          System.out.println(queryU.nuovoUtente(nuovoUtente).getId());
+
 //        System.out.println(queryU.getCredenziali("loreand", "123"));
+
+/*NUOVA AZIENDA*/
+          AziendaDAO queryAz = new AziendaDAOImpl();
+          Azienda nuovoAzienda = new Azienda("lolo","123","email","AZ");
+          queryAz.setRegistrazioneAzienda(nuovoAzienda);
         
 /*REFERENTE*/
 //        ReferenteDAO queryR =new ReferenteDAOImpl();
 //        queryR.setReferente("Mario", "Verdi", "ref@mail.it", "380591435");
 
 /*Docente*/
-          DocenteDAO queryD = new DocenteDAOImpl();
-          queryD.setDocente("Henry", "Muccini", "doc@mail.it");
+//          DocenteDAO queryD = new DocenteDAOImpl();
+//          queryD.setDocente("Henry", "Muccini", "doc@mail.it");
           
 /*TEMPLATE*/
         try {

@@ -19,16 +19,12 @@ import javax.sql.DataSource;
  * @author lorenzo
  */
 public class DB {
-
-    private DataSource ds;
  
-    public  Connection getConnection() throws NamingException, SQLException   {
+    public static Connection getConnection() throws NamingException, SQLException   {
 
-   
             InitialContext ctx = new InitialContext();
             DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/webdb");
             
             return ds.getConnection();
     }
-    
 }

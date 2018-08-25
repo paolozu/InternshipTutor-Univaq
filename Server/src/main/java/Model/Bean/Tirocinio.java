@@ -13,12 +13,15 @@ import java.time.LocalDate;
  */
 public class Tirocinio {
     
-    private int oreSvolte, valutazione;
     private Annuncio annuncio;
     private LocalDate dataInizio, dataFine;
-    private String attivitaSvolta, risultatoConseguito;
+
     private Studente studente;
     private Resoconto resoconto;
+    
+    public Tirocinio(Resoconto resoconto) {
+        this.resoconto = resoconto;
+    }
 
     public Tirocinio(LocalDate dataInizio, LocalDate dataFine) {
         this.dataInizio = dataInizio;
@@ -32,23 +35,13 @@ public class Tirocinio {
        this.dataFine = dataFine;
     }
 
+    public Tirocinio(Studente s, Annuncio an, Resoconto r) {
+        this.studente=s;
+        this.annuncio=an;
+        this.resoconto=r;
+    }
+
     
-    
-    public int getOreSvolte() {
-        return oreSvolte;
-    }
-
-    public void setOreSvolte(int oreSvolte) {
-        this.oreSvolte = oreSvolte;
-    }
-
-    public int getValutazione() {
-        return valutazione;
-    }
-
-    public void setValutazione(int valutazione) {
-        this.valutazione = valutazione;
-    }
 
     public Annuncio getAnnuncio() {
         return annuncio;
@@ -80,22 +73,6 @@ public class Tirocinio {
 
     public void setDataFine(LocalDate dataFine) {
         this.dataFine = dataFine;
-    }
-
-    public String getAttivitaSvolta() {
-        return attivitaSvolta;
-    }
-
-    public void setAttivitaSvolta(String attivitaSvolta) {
-        this.attivitaSvolta = attivitaSvolta;
-    }
-
-    public String getRisultatoConseguito() {
-        return risultatoConseguito;
-    }
-
-    public void setRisultatoConseguito(String risultatoConseguito) {
-        this.risultatoConseguito = risultatoConseguito;
     }
 
     public Studente getStudente() {

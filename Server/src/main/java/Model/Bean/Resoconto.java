@@ -10,11 +10,13 @@ package Model.Bean;
  * @author lorenzo
  */
 public class Resoconto {
-    private int id;
+    private long id;
     private String nome,directory,estensione;
     private long peso;
-
-    public Resoconto(int idResoconto) {
+    private String attivitaSvolta, risultatoConseguito;
+    private int oreSvolte, valutazione;
+    
+    public Resoconto(long idResoconto) {
         this.id=idResoconto;
     }
 
@@ -25,10 +27,48 @@ public class Resoconto {
         this.estensione = estensione;
         this.peso = peso;
     }
+    
+    public Resoconto(int oreSvolte, String attivitaSvolta, String risultatoConseguito) {
+        this.oreSvolte = oreSvolte;
+        this.attivitaSvolta = attivitaSvolta;
+        this.risultatoConseguito = risultatoConseguito;
+    }
+
+    public String getAttivitaSvolta() {
+        return attivitaSvolta;
+    }
+
+    public void setAttivitaSvolta(String attivitaSvolta) {
+        this.attivitaSvolta = attivitaSvolta;
+    }
+
+    public String getRisultatoConseguito() {
+        return risultatoConseguito;
+    }
+
+    public void setRisultatoConseguito(String risultatoConseguito) {
+        this.risultatoConseguito = risultatoConseguito;
+    }
+
+    public int getOreSvolte() {
+        return oreSvolte;
+    }
+
+    public void setOreSvolte(int oreSvolte) {
+        this.oreSvolte = oreSvolte;
+    }
+
+    public int getValutazione() {
+        return valutazione;
+    }
+
+    public void setValutazione(int valutazione) {
+        this.valutazione = valutazione;
+    }
 
     
     
-    public int getId() {
+    public long getId() {
         return id;
     }
 

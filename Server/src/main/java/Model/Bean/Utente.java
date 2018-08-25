@@ -11,8 +11,8 @@ package Model.Bean;
  */
 public class Utente {
 
-    protected int id;
-    protected String username, password, email;
+    protected long id;
+    protected String username, password, email,tipo;
 
     public Utente(){}
     
@@ -20,8 +20,27 @@ public class Utente {
         this.username=username;
         this.password=password;
     }
+    
+    public Utente(String username, String password, String email, String tipo) {
+        this.username=username;
+        this.password=password;
+        this.email=email;
+        this.tipo=tipo;
+    }
 
-    public int getId() {
+    public void setId(Long id){
+        this.id=id;
+    }
+    
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public long getId() {
         return id;
     }
 

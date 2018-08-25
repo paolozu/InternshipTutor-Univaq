@@ -1,14 +1,11 @@
 Controller/Error.class
 Model/Bean/Referente.class
 Model/DAO/Impl/AziendaDAOImpl.class
-Model/DAO/Impl/ReferenteDAOImpl.class
 Controller/Framework/TemplateManagerException.class
 Model/DAO/Impl/TirocinanteDAOImpl.class
 Model/DAO/Interface/AmministratoreDAO.class
 Model/DB.class
 Controller/Framework/DataModelFiller.class
-Model/DAO/Interface/ReferenteDAO.class
-Model/DAO/Impl/DocenteDAOImpl.class
 Model/Bean/Azienda.class
 Model/Bean/Studente.class
 Model/DAO/Impl/StudenteDAOImpl.class
@@ -24,7 +21,6 @@ Model/Bean/Convenzione.class
 Model/DAO/Interface/AnnuncioDAO.class
 Model/DAO/Interface/StudenteDAO.class
 Model/Bean/Docente.class
-Model/DAO/Interface/DocenteDAO.class
 Model/Bean/Tirocinio.class
 Controller/Login.class
 Controller/HomeStudente.class

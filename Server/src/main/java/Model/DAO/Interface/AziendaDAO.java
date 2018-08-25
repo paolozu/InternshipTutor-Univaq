@@ -8,6 +8,7 @@ package Model.DAO.Interface;
 import Model.Bean.Azienda;
 import Model.Bean.Convenzione;
 import Model.Bean.Studente;
+import Model.Bean.Tirocinio;
 import java.util.List;
 
 /**
@@ -17,10 +18,11 @@ import java.util.List;
 public interface AziendaDAO {
     
       public List<Azienda> getAziende();
-      public Azienda getAziendaById(int id);
-      public List<Studente> getRichieste(int id);
-      public List<Studente> getTirocinanti(int id);
-      public Convenzione getConvenzione(int id);
-      public Azienda getApprovazione(int id);
+      public List<Studente> getRichieste(long id);
+      public List<Studente> getTirocinanti(long id);
+      public Convenzione getConvenzione(long id);
+      public Azienda getApprovazione(long id);
+      public void setConcludiTirocinio(Tirocinio tirocinio);
+      public void setRegistrazioneAzienda(Azienda azienda);
     
 }

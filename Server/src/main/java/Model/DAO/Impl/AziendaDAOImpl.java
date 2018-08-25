@@ -11,12 +11,16 @@ import Model.Bean.Convenzione;
 import Model.Bean.Referente;
 import Model.Bean.Studente;
 import Model.Bean.Docente;
+import Model.Bean.Tirocinio;
+import Model.Bean.Utente;
 import Model.DAO.Interface.AziendaDAO;
+import Model.DAO.Interface.UtenteDAO;
 import Model.DB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +48,7 @@ public class AziendaDAOImpl implements AziendaDAO {
             + "                                     JOIN Annuncio ON Tirocinio.idAnnuncio = Annuncio.idAnnuncio "
             + "                                     JOIN Azienda ON Azienda.idAzienda = Annuncio.Azienda_idAzienda "
             + "                                  JOIN Utente ON Utente.idUtente = Studente.idStudente "
-            + "                                         WHERE idAzienda = ?";
+            + "                                         WHERE idAzienda = ? AND Tirocinio.Resoconto_idResoconto IS NULL";
     
     
     private static final String GET_CONVENZIONE = "SELECT Convenzione.nome, Convenzione.directory, Convenzione.estensione, Convenzione.peso "
@@ -57,20 +61,25 @@ public class AziendaDAOImpl implements AziendaDAO {
             + "                                         JOIN Convenzione ON Azienda.idConvenzione = Convenzione.idConvenzione "
             + "                                             WHERE Azienda.idAzienda=?";
             
+    private static final String SET_CONCLUDI_TIROCINIO="INSERT INTO `resoconto` (oreSvolte, attivitaSvolta, risConseguito) VALUES (?,?,?);";
+    
+    private static final String UPDATE_ID_RESOCONTO_TIROCINIO="UPDATE Tirocinio SET Resoconto_idResoconto=? WHERE Annuncio_idAnnuncio=? AND Studente_idStudente=?";
+    
+    private static final String REGISTRAZIONE_AZIENDA="";
+    
     @Override
-    public List<Studente> getRichieste(int id) {
-        DB db = new DB();
+    public List<Studente> getRichieste(long id) {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
         List<Studente> richieste = new ArrayList();
         try {
-            connection = db.getConnection();
+            connection = DB.getConnection();
             ps = connection.prepareStatement(GET_RICHIESTE);
-            ps.setInt(1, id);
+            ps.setLong(1, id);
             rset = ps.executeQuery();
             while (rset.next()) {
-                richieste.add(new Studente(rset.getInt("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email")));
+                richieste.add(new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email")));
             }
         } catch (NamingException | SQLException ex) {
             Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -89,13 +98,12 @@ public class AziendaDAOImpl implements AziendaDAO {
     
     @Override
     public List<Azienda> getAziende() {
-        DB db = new DB();
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
         List<Azienda> aziende = new ArrayList();
         try {
-            connection = db.getConnection();
+            connection = DB.getConnection();
             ps = connection.prepareStatement(GET_AZIENDE);
             rset = ps.executeQuery();
             while (rset.next()){
@@ -115,13 +123,9 @@ public class AziendaDAOImpl implements AziendaDAO {
         return aziende;
     }
     
-    public Azienda getAziendaById(int id){
-        
-        return null;
-    }
     
     @Override
-    public List<Studente> getTirocinanti(int id){
+    public List<Studente> getTirocinanti(long id){
         DB db = new DB();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -130,10 +134,10 @@ public class AziendaDAOImpl implements AziendaDAO {
         try {
             connection = db.getConnection();
             ps = connection.prepareStatement(GET_TIROCINANTI);
-            ps.setInt(1, id);
+            ps.setLong(1, id);
             rset = ps.executeQuery();
             while (rset.next()) {
-                tirocinanti.add(new Studente(rset.getInt("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email")));
+                tirocinanti.add(new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email")));
             }
         } catch (NamingException | SQLException ex) {
             Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -150,17 +154,16 @@ public class AziendaDAOImpl implements AziendaDAO {
     }
     
     @Override
-    public Convenzione getConvenzione(int id){
-        DB db = new DB();
+    public Convenzione getConvenzione(long id){
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
         Convenzione convenzione = null;
 
         try {
-            connection = db.getConnection();
+            connection = DB.getConnection();
             ps = connection.prepareStatement(GET_CONVENZIONE);
-            ps.setInt(1, id);
+            ps.setLong(1, id);
             rset = ps.executeQuery();
 
             if (rset.next()) {
@@ -181,8 +184,7 @@ public class AziendaDAOImpl implements AziendaDAO {
     }
 
     @Override
-    public Azienda getApprovazione(int id) {
-        DB db = new DB();
+    public Azienda getApprovazione(long id) {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
@@ -190,16 +192,17 @@ public class AziendaDAOImpl implements AziendaDAO {
         Azienda azienda = null;
 
         try {
-            connection = db.getConnection();
+            connection = DB.getConnection();
             ps = connection.prepareStatement(GET_APPROVAZIONE);
-            ps.setInt(1, id);
+            ps.setLong(1, id);
             rset = ps.executeQuery();
 
             if (rset.next()) {
                 
                 convenzione = new Convenzione(rset.getInt("durataConvenzione"),rset.getDate("dataConvenzione").toLocalDate());
-                azienda = new Azienda(rset.getInt("idAzienda"), rset.getString("nomeRap"),rset.getString("cognomeRap"), rset.getString("telResponsabile"), rset.getString("nomeResponsabile"), rset.getString("cognomeResponsabile"), rset.getString("emailResponsabile"), rset.getString("ragSociale"), rset.getString("indirizzoSede"), rset.getString("pIVA"), rset.getString("foro"), rset.getString("cap"), rset.getString("citta"), rset.getString("provincia"), convenzione);
+                azienda = new Azienda(rset.getLong("idAzienda"), rset.getString("nomeRap"),rset.getString("cognomeRap"), rset.getString("telResponsabile"), rset.getString("nomeResponsabile"), rset.getString("cognomeResponsabile"), rset.getString("emailResponsabile"), rset.getString("ragSociale"), rset.getString("indirizzoSede"), rset.getString("pIVA"), rset.getString("foro"), rset.getString("cap"), rset.getString("citta"), rset.getString("provincia"), convenzione);
             }
+            
         } catch (SQLException | NamingException ex) {
             Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -212,5 +215,91 @@ public class AziendaDAOImpl implements AziendaDAO {
             }
         }
         return azienda;
+    }
+    
+    /**
+     * Salva nel db il resoconto aggiornando la tabella tirocinio
+     * @param tirocinio 
+     */
+    @Override
+    public void setConcludiTirocinio(Tirocinio tirocinio){
+        Connection connection = null;
+        PreparedStatement ps = null;
+        
+        try {
+            connection = DB.getConnection();
+            ps = connection.prepareStatement(SET_CONCLUDI_TIROCINIO,Statement.RETURN_GENERATED_KEYS);
+            
+            ps.setInt(1, tirocinio.getResoconto().getOreSvolte());
+            ps.setString(2, tirocinio.getResoconto().getAttivitaSvolta());
+            ps.setString(3, tirocinio.getResoconto().getRisultatoConseguito());
+                   
+            int result = ps.executeUpdate();
+            
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+
+            if (generatedKeys.next() && result!=0) {
+                long idResoconto= generatedKeys.getLong(1);
+     
+                ps = connection.prepareStatement(UPDATE_ID_RESOCONTO_TIROCINIO);
+                ps.setLong(1,idResoconto);
+                ps.setLong(2,tirocinio.getAnnuncio().getId());
+                ps.setLong(3,tirocinio.getStudente().getId());
+                
+                ps.executeUpdate();
+            }      
+        } catch (SQLException | NamingException ex) {
+            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                ps.close();
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+    }
+
+    @Override
+    public void setRegistrazioneAzienda(Azienda azienda) {
+        
+        
+        UtenteDAO u = new UtenteDAOImpl();
+        Utente nuovoUtente = u.nuovoUtente(new Utente(azienda.getUsername(),azienda.getPassword(),azienda.getEmail(),azienda.getTipo()));
+        
+        if(nuovoUtente!=null){
+            
+        Connection connection = null;
+        PreparedStatement ps = null;
+        
+        try {
+            connection = DB.getConnection();
+            ps = connection.prepareStatement(REGISTRAZIONE_AZIENDA);
+            
+            ps.setInt(1, tirocinio.getResoconto().getOreSvolte());
+            ps.setString(2, tirocinio.getResoconto().getAttivitaSvolta());
+            ps.setString(3, tirocinio.getResoconto().getRisultatoConseguito());
+                   
+            int result = ps.executeUpdate();
+            
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+
+        } catch (SQLException | NamingException ex) {
+            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                ps.close();
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+            
+        
+        }else{
+            Logger.getLogger("Errore creazione utente");
+            //Verificare presenza utenti
+        }    
     }
 }
