@@ -29,6 +29,8 @@ public class Azienda extends Utente {
         super.id = id;
     }
 
+    
+    
     public Azienda(long idAzienda, String nomeRappresentante, String cognomeRappresentante, String telResponsabile, String nomeResponsabile, String cognomeResponsabile, String emailResponsabile, String ragioneSociale, String indirizzoSede, String partitaIva, String foroCompetente, String cap, String citta, String provincia, Convenzione convenzione ) {
         super.id = id;
         this.cap = cap;
@@ -54,12 +56,34 @@ public class Azienda extends Utente {
         this.emailResponsabile = emailResponsabile;
         this.telResponsabile = telResponsabile;
     }
+    
+    
 
     public Azienda(String username, String password, String email, String tipo) {
-               this.username=username;
+        this.username=username;
         this.password=password;
         this.email=email;
         this.tipo=tipo;
+    }
+
+    public Azienda(String username, String password, String email, String tipo, String nomR, String cognR, String telResp, String nomeResp, String cognResp, String emailResp, String ragSoc, String ind, String piva, String foro, String cap, String citta, String pro) {
+        this.username=username;
+        this.password=password;
+        this.email=email;
+        this.tipo=tipo;
+        this.cap = cap;
+        this.nomeRappresentante = nomR;
+        this.cognomeRappresentante = cognR;
+        this.ragioneSociale = ragSoc;
+        this.indirizzoSede = ind;
+        this.partitaIva = piva;
+        this.foroCompetente = foro;
+        this.telResponsabile = telResp;
+        this.emailResponsabile = emailResp;
+        this.nomeResponsabile = nomeResp;
+        this.cognomeResponsabile = cognResp;
+        this.citta = citta;
+        this.provincia = pro;
     }
 
     public String getTelResponsabile() {

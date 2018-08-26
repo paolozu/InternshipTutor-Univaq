@@ -12,15 +12,42 @@ import java.time.LocalDate;
  */
 public class Studente extends Utente {
     
-    private String nome, cognome, codFiscale, telefono, crediti;
-    private LocalDate dataNascita;
-    private String indirizzoResidenza, corsoLaurea, diploma,laurea,dottorato, settore;
-    private boolean handicap;
+    private String nome, cognome, codFiscale, telefono, indirizzoResidenza, corsoLaurea, diploma,laurea,dottorato;
     private String capNascita,capResidenza,cittaResidenza,provinciaResidenza, cittaNascita, provinciaNascita;
+    private int crediti;
+    private LocalDate dataNascita;
+    private boolean handicap;
     
 
     public Studente() {
     }
+
+    public Studente(String username, String password, String email, String tipo,String nome, String cognome, String codFiscale, String telefono, String indirizzoResidenza, String corsoLaurea, String diploma, String laurea, String dottorato, String capNascita, String capResidenza, String cittaResidenza, String provinciaResidenza, String cittaNascita, String provinciaNascita, int crediti, LocalDate dataNascita, boolean handicap) {
+        this.username=username;
+        this.password=password;
+        this.email=email;
+        this.tipo=tipo;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.codFiscale = codFiscale;
+        this.telefono = telefono;
+        this.indirizzoResidenza = indirizzoResidenza;
+        this.corsoLaurea = corsoLaurea;
+        this.diploma = diploma;
+        this.laurea = laurea;
+        this.dottorato = dottorato;
+        this.capNascita = capNascita;
+        this.capResidenza = capResidenza;
+        this.cittaResidenza = cittaResidenza;
+        this.provinciaResidenza = provinciaResidenza;
+        this.cittaNascita = cittaNascita;
+        this.provinciaNascita = provinciaNascita;
+        this.crediti = crediti;
+        this.dataNascita = dataNascita;
+        this.handicap = handicap;
+    }
+    
+    
         
     public Studente(long id,String nome, String cognome,String email) {
         super.id=id;
@@ -49,7 +76,7 @@ public class Studente extends Utente {
         this.telefono = telefono;
     }
 
-    public void setCrediti(String crediti) {
+    public void setCrediti(int crediti) {
         this.crediti = crediti;
     }
 
@@ -75,10 +102,6 @@ public class Studente extends Utente {
 
     public void setDottorato(String dottorato) {
         this.dottorato = dottorato;
-    }
-
-    public void setSettore(String settore) {
-        this.settore = settore;
     }
 
     public void setHandicap(boolean handicap) {
@@ -125,10 +148,6 @@ public class Studente extends Utente {
         return telefono;
     }
 
-    public String getCrediti() {
-        return crediti;
-    }
-
     public LocalDate getDataNascita() {
         return dataNascita;
     }
@@ -151,10 +170,6 @@ public class Studente extends Utente {
 
     public String getDottorato() {
         return dottorato;
-    }
-
-    public String getSettore() {
-        return settore;
     }
 
     public boolean isHandicap() {
@@ -183,6 +198,10 @@ public class Studente extends Utente {
 
     public String getProvinciaNascita() {
         return provinciaNascita;
+    }
+    
+    public int getCrediti() {
+        return crediti;
     }
     
 

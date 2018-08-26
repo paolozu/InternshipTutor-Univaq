@@ -5,10 +5,13 @@
  */
 package Model.DAO.Impl;
 
+import Model.Bean.Studente;
+import Model.Bean.Utente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import Model.DAO.Interface.StudenteDAO;
+import Model.DAO.Interface.UtenteDAO;
 import Model.DB;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,33 +23,68 @@ import javax.naming.NamingException;
  */
 public class StudenteDAOImpl implements StudenteDAO {
 
-    private static final String INSERIMENTO = "INSERT INTO `utente` "
-            + "                                (`idAmministratore`, `username`, `password`, `Studente_idStudente`, `Azienda_idAzienda`)\n"
-            + "VALUES\n"
-            + "	(13, '', '', NULL, NULL);"; // inserimento casuale
+    private static final String REGISTRAZIONE_STUDENTE="INSERT INTO Studente (idStudente, nome, cognome, codFiscale, telefono, crediti, handicap, dataNascita, indirizzoResidenza, corsoLaurea, diploma, laurea, dottorato, cap_nascita, citta_nascita, provincia_nascita, cap_residenza, citta_residenza, provincia_residenza)"
+            +                                          " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     @Override
-    public void executeQ() {
+    public int setRegistrazioneStudente(Studente studente) {
+       int result = 0;
+        //Creazione Utente
+        UtenteDAO u = new UtenteDAOImpl();
+        Utente nuovoUtente = u.nuovoUtente(new Utente(studente.getUsername(), studente.getPassword(), studente.getEmail(), studente.getTipo()));
 
-        DB db = new DB();
-        PreparedStatement ps = null;
-        Connection connection = null;
+        if (nuovoUtente != null) {//NUOVO UTENTE - OK
 
-        try {
-            connection = db.getConnection();
-            ps = connection.prepareStatement(INSERIMENTO);
-            int result = ps.executeUpdate();
-        } catch (SQLException | NamingException ex) {
-            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+            Connection connection = null;
+            PreparedStatement ps = null;
+
             try {
-                ps.close();
-                connection.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+                connection = DB.getConnection(); // CREAZIONE CONNESSIONE
+                
+                ps = connection.prepareStatement(REGISTRAZIONE_STUDENTE);
 
+                ps.setLong(1, nuovoUtente.getId());
+                ps.setString(2, studente.getNome());
+                ps.setString(3, studente.getCognome());
+                ps.setString(4, studente.getCodFiscale());
+                ps.setString(5, studente.getTelefono());
+                ps.setInt(6, studente.getCrediti());
+                ps.setBoolean(7, studente.isHandicap());
+                ps.setDate(8, java.sql.Date.valueOf(studente.getDataNascita()));
+                ps.setString(9, studente.getIndirizzoResidenza());
+                ps.setString(10, studente.getCorsoLaurea());
+                ps.setString(11, studente.getDiploma());
+                ps.setString(12, studente.getLaurea());
+                ps.setString(13, studente.getDottorato());
+                ps.setString(14, studente.getCapNascita());
+                ps.setString(15, studente.getCittaNascita());
+                ps.setString(16, studente.getProvinciaNascita());
+                ps.setString(17, studente.getCapResidenza());
+                ps.setString(18, studente.getCittaResidenza());
+                ps.setString(19, studente.getProvinciaResidenza());
+
+
+
+                result = ps.executeUpdate();
+
+            } catch (SQLException | NamingException ex) {
+                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, "ERRORE CREAZIONE - AZIENDA", ex);
+            } finally {
+                //CHIUSURA CONNESSIONE
+                try {
+                    ps.close();
+                    connection.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {//NUOVO UTENTE - ERRORE
+            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, "ERRORE CREAZIONE - UTENTE");
+            //Verificare presenza utenti
+        }
+        return result;
     }
+    
+    
 
 }

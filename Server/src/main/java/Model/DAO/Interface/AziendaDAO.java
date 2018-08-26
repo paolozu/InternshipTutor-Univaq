@@ -23,6 +23,7 @@ public interface AziendaDAO {
       public Convenzione getConvenzione(long id);
       public Azienda getApprovazione(long id);
       public void setConcludiTirocinio(Tirocinio tirocinio);
-      public void setRegistrazioneAzienda(Azienda azienda);
+      public int setRegistrazioneAzienda(Azienda azienda);
+      public int updateStato(Azienda azienda,String stato);
     
 }

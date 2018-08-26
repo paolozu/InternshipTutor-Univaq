@@ -78,25 +78,24 @@ public class UtenteDAOImpl implements UtenteDAO{
             
             ResultSet generatedKeys = ps.getGeneratedKeys();
 
-            if (generatedKeys.next() && result!=0) {
+            if (generatedKeys.next()) {
                 utente.setId(generatedKeys.getLong(1));
             }else{
-                Logger.getLogger("Errore creazione utente");
+                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, "Errore recupero ID utente");
+                return null;
             }      
-            
-            
         } catch (SQLException | NamingException ex) {
-             Logger.getLogger("Errore creazione utente");
-            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, "Errore creazione utente", ex);
+            return null;
         } finally {
             try {
                 ps.close();
                 connection.close();
             } catch (SQLException ex) {
                 Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
             }
         }
-        
         return utente;
     }
 }

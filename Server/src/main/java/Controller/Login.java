@@ -7,36 +7,16 @@ package Controller;
 
 import Controller.Framework.TemplateManagerException;
 import Controller.Framework.TemplateResult;
-import Model.Bean.Annuncio;
 import Model.Bean.Azienda;
-import Model.Bean.Docente;
-import Model.Bean.Referente;
-import Model.Bean.Resoconto;
 import Model.Bean.Studente;
-import Model.Bean.Tirocinante;
-import Model.Bean.Tirocinio;
-import Model.Bean.Utente;
-import Model.DAO.Impl.AmministratoreDAOImpl;
-import Model.DAO.Impl.AnnuncioDAOImpl;
 import Model.DAO.Impl.AziendaDAOImpl;
-import Model.DAO.Impl.TirocinanteDAOImpl;
-import Model.DAO.Impl.UtenteDAOImpl;
-import Model.DAO.Interface.AmministratoreDAO;
-import Model.DAO.Interface.AnnuncioDAO;
+import Model.DAO.Impl.StudenteDAOImpl;
 import Model.DAO.Interface.AziendaDAO;
-import Model.DAO.Interface.TirocinanteDAO;
-import Model.DAO.Interface.UtenteDAO;
-import Model.DB;
+import Model.DAO.Interface.StudenteDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -61,11 +41,11 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
 
 /*ANNUNCIO*/
-        AnnuncioDAO query = new AnnuncioDAOImpl();
+//        AnnuncioDAO query = new AnnuncioDAOImpl();
 //        Annuncio annuncio = query.getAnnuncioById(1);
-          System.out.println(query.getAnnunci(1).toString());
-          System.out.println(query.getAnnunci(2).toString());
-          System.out.println(query.getAnnunci(3).toString());
+//          System.out.println(query.getAnnunci(1).toString());
+//          System.out.println(query.getAnnunci(2).toString());
+//          System.out.println(query.getAnnunci(3).toString());
 //        System.out.println(annuncio.toString());
 //
 //        Azienda a = new Azienda(100);
@@ -105,11 +85,18 @@ public class Login extends HttpServlet {
 
 //        System.out.println(queryU.getCredenziali("loreand", "123"));
 
-/*NUOVA AZIENDA*/
+/*NUOVA AZIENDA*/   //ATTENZIONE DUPLICATE
           AziendaDAO queryAz = new AziendaDAOImpl();
-          Azienda nuovoAzienda = new Azienda("lolo","123","email","AZ");
-          queryAz.setRegistrazioneAzienda(nuovoAzienda);
-        
+//          Azienda nuovoAzienda = new Azienda("lolo","123","email","AZ","nomR","cognR","telResp","nomeResp","cognResp","emailResp","ragSoc","ind","piva","foro","cap","citta","pro");
+//          queryAz.setRegistrazioneAzienda(nuovoAzienda);
+          
+          Azienda nuovoAzienda = new Azienda(100);
+          queryAz.updateStato(nuovoAzienda, "CONVENZIONATA");
+          
+/*NUOVO STUDENTE*/
+        Studente st = new Studente("lolo2","123","email2","ST","nomstu5", "cognstu5", "codFisclare", "438543324", "indirizzoResidenza", "corsoLaurea",  "diploma", "laurea" , "no" ,  "543",  "capResidenza",  "citta", "pescara",  "cittaNascita", "provinciaNascita", 4, LocalDate.of(2014, 9, 9), false);
+        StudenteDAO queryStu = new StudenteDAOImpl();
+        queryStu.setRegistrazioneStudente(st);
 /*REFERENTE*/
 //        ReferenteDAO queryR =new ReferenteDAOImpl();
 //        queryR.setReferente("Mario", "Verdi", "ref@mail.it", "380591435");
@@ -128,6 +115,9 @@ public class Login extends HttpServlet {
             throw new ServletException(ex);
         }
 
+    }
+
+    public Login() {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

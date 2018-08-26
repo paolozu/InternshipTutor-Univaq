@@ -5,7 +5,8 @@
  */
 package Model.DAO.Interface;
 
-import java.sql.SQLException;
+import Model.Bean.Studente;
+
 
 /**
  *
@@ -13,6 +14,6 @@ import java.sql.SQLException;
  */
 public interface StudenteDAO {
     
-    public void executeQ();
+    public int setRegistrazioneStudente(Studente studente);
     
 }
