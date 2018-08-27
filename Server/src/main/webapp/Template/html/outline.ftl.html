@@ -1,25 +1,74 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>${page_title!"Untitled page"}</title>
-        <link rel="stylesheet" href="style/default.css" type="text/css"/>
-    </head>
-    <body>
-        <div class="header">${page_title!"Untitled page"}</div>
-        <div class="body">
-            <div id="topmenu">
-                <ul>
-                    <li><b><a href="http://www.di.univaq.it/gdellape/students.php">course homepage</a></b></li>
-                    <#list menu as item>
-                    <li><a href="${item.link}">${item.label}</a></li>
-                    </#list>
-                </ul>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumino - Dashboard</title>
+<link href="Template/css/bootstrap.min.css" rel="stylesheet">
+<link href="Template/css/font-awesome.min.css" rel="stylesheet">
+<link href="Template/css/datepicker3.css" rel="stylesheet">
+<link href="Template/css/styles.css" rel="stylesheet">
+
+<!--Theme-->
+<link href="Template/css/theme-default.css" rel="stylesheet">
+
+<!--Custom Font-->
+<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+<!--[if lt IE 9]>
+		<script src="js/html5shiv.js"></script>
+		<script src="js/respond.min.js"></script>
+		<![endif]-->
+</head>
+        <body>
+            <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+              <div class="profile-sidebar">
+                <div class="profile-userpic"> <img src="images/profile-pic-1.jpg" width="50" class="img-responsive" alt=""> </div>
+                <div class="profile-usertitle">
+                  <div class="profile-usertitle-name">
+                    <#if username??>
+                       ${username}
+                    <#else>
+                       Accedi
+                    </#if>                     
+                  </div>
+                  <div class="profile-usertitle-status"><span class="indicator label-danger"></span>offline</div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="divider"></div>
+
+              <ul class="nav menu">
+                <li class="active"><a href="index.html"><em class="fa fa-dashboard">&nbsp;</em> Home</a></li>
+                <li><a href="search.html"><em class="fa fa-calendar">&nbsp;</em> Tirocini</a></li>
+                <li><a href="panels.html"><em class="fa fa-bar-chart">&nbsp;</em> Aziende</a></li>
+                <li><a href="buttons.html"><em class="fa fa-hand-pointer-o">&nbsp;</em> Faq</a></li>
+                <li><a href="forms.html"><em class="fa fa-pencil-square-o">&nbsp;</em> Contatti</a></li>
+              </ul>
             </div>
-
-            <#include content_tpl>
-
-        </div>
-        <div class="footer">Copyright &copy; 2010 ${defaults.author}. Page compiled on ${compiled_on?datetime}</div>
-    </body>
+            <script src="Template/js/jquery-1.11.1.min.js"></script> 
+            <script src="Template/js/bootstrap.min.js"></script> 
+            <script src="Template/js/chart.min.js"></script> 
+            <script src="Template/js/chart-data.js"></script> 
+            <script src="Template/js/easypiechart.js"></script> 
+            <script src="Template/js/easypiechart-data.js"></script> 
+            <script src="Template/js/bootstrap-datepicker.js"></script> 
+            <script src="Template/js/custom.js"></script> 
+            <script>
+                                    window.onload = function () {
+                                            var chart1 = document.getElementById("line-chart").getContext("2d");
+                                            window.myLine = new Chart(chart1).Line(lineChartData, {
+                                            responsive: true,
+                                            scaleLineColor: "rgba(0,0,0,.2)",
+                                            scaleGridLineColor: "rgba(0,0,0,.05)",
+                                            scaleFontColor: "#c5c7cc"
+                                            });
+                                    };
+                            </script>
+        </body>
 </html>
+
+
+
+
+
