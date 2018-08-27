@@ -77,24 +77,28 @@ ${outline}
   <div class="row">
     <ol class="breadcrumb">
       <li><a href="#"> <em class="fa fa-home"></em> </a></li>
-      <li class="active">#Titolo</li>
+      <li class="active">Resoconto tirocinio</li>
     </ol>
   </div>
   <!--/.row-->
   <div class="col-md-8 col-lg-offset-2">
   <div class="panel panel-default">
-    <div class="panel-heading mt-1">${titolo}</div>
+    <div class="panel-heading mt-1">Resoconto tirocionio</div>
     <div class="panel-body">
-        <p>${corpo}</p>
-        <hr>
-        <p>Docente: #NomeCognome - Email:docente@univaq.it</p>
-	<p>Contatto aziendale: #NomeCognome - Email:contatto@azienda.it</p>
-        <p class="text-center mt-4">
-		  <a class="btn btn-lg btn-default" href="#azienda" role="button">INVIA RICHIESTA</a>
-	</p>
-    </div>
+      <h5>Elenca le attività svolta dal tirocinante:</h5>
+      <textarea class="form-control" id="message" name="message" placeholder="Inserisci testo..." rows="5"></textarea>
+	  <h5>Risultato conseguito :</h5>
+	<textarea class="form-control" id="message" name="message" placeholder="Inserisci testo..." rows="5"></textarea>
+    <div class="col-md-4 col-lg-offset-4 mt-2 text-center">
+	  	<input type="button" class="form-control btn-success" id="newAnnuncio" value="CONCLUDI TIROCINIO"></input>
+		<button type="button" class="btn btn-sm btn-link">Elimina</button>
+		
+	  </div>
+	  </div>
+	  
+  </div> 
+	  
   </div>
-	</div>
   <div class="row"> </div>
   <!--/.row-->  <!--/.row-->  <!--/.row--> 
 </div>

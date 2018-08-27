@@ -8,6 +8,7 @@
 <link href="Template/css/font-awesome.min.css" rel="stylesheet">
 <link href="Template/css/datepicker3.css" rel="stylesheet">
 <link href="Template/css/styles.css" rel="stylesheet">
+<link href="Template/css/stelle.css" rel="stylesheet">
 
 <!--Theme-->
 <link href="Template/css/theme-default.css" rel="stylesheet">
@@ -70,30 +71,92 @@
   <!-- /.container-fluid --> 
 </nav>
 
-${outline}
+$(outline)
 <!--/.sidebar-->
 
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
   <div class="row">
     <ol class="breadcrumb">
       <li><a href="#"> <em class="fa fa-home"></em> </a></li>
-      <li class="active">#Titolo</li>
+      <li class="active">Dashboard</li>
     </ol>
   </div>
   <!--/.row-->
-  <div class="col-md-8 col-lg-offset-2">
-  <div class="panel panel-default">
-    <div class="panel-heading mt-1">${titolo}</div>
-    <div class="panel-body">
-        <p>${corpo}</p>
-        <hr>
-        <p>Docente: #NomeCognome - Email:docente@univaq.it</p>
-	<p>Contatto aziendale: #NomeCognome - Email:contatto@azienda.it</p>
-        <p class="text-center mt-4">
-		  <a class="btn btn-lg btn-default" href="#azienda" role="button">INVIA RICHIESTA</a>
-	</p>
-    </div>
-  </div>
+  <div class="col-md-8 col-lg-offset-2 mt-1">
+	<div class="panel panel-primary ">
+						<div class="panel-heading "> Info tirocinio</div>
+						<div class="panel-body timeline-container">
+							<div class="text-center">
+								<p>Tutore: #nomeTutore</p>
+							<p>Email: #emailTutore</p>
+							<p>Azienda: #nomeAzienda</p>
+							<p>Indirizzo: #indirizzoAzienda</p>
+							<p>Contatti: #telefonoAzienda</p>
+							</div>
+							<ul class="timeline">
+								<li>
+								  <div class="timeline-badge"><em class="fa fa-user"></em></div>
+									<div class="timeline-panel">
+										<div class="timeline-heading">
+										  <h4 class="timeline-title"><strong>REGISTRATI</strong></h4>
+										</div>
+										<div class="timeline-body">
+											<p>Compila i campi inserendo le proprie credenziali. Completa inserendo:</p>
+											<ul>
+												<li>Crediti richiesti</li>
+												<li>Email e nome del tutore</li>
+											</ul>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="timeline-badge"><em class="fa fa-handshake-o"></em></div>
+									<div class="timeline-panel">
+										<div class="timeline-heading">
+										  <h4 class="timeline-title"><strong>CONTATTA L'AZIENDA</strong></h4>
+										</div>
+										<div class="timeline-body">
+										  <p>Scegli l'azienda adatta a te ed avvia il tirocinio</p>
+										</div>
+									</div>
+								</li>
+								<li>
+								  <div class="timeline-badge primary"><em class="fa fa-flag"></em></div>
+									<div class="timeline-panel">
+										<div class="timeline-heading">
+											<h4 class="timeline-title"><strong>STAMPA I DOCUMENTI</strong></h4>
+										</div>
+										<div class="timeline-body">
+											<p>Al termine del tirocinio avrai a disposizione tutta la documentazione da consegnare in segreteria studenti</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							
+							<div class="panel-body text-center"><p>Valuta l'esperienza di tirocinio e scarica l'attestato:</p>
+								<div class="col-md-4 col-lg-offset-4 mt-1">
+									<fieldset class="rating">
+										<input type="radio" id="star6" name="rating" value="6" /><label class = "full" for="star6" title="Awesome - 6 stars"></label>
+										<input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+										<input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+										<input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+										<input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+										<input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+										<input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+										<input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+										<input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+										<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+										<input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+										
+									</fieldset>
+							</div>
+							<div class="col-md-8 col-lg-offset-2 mt-1">
+								<input type="submit" class="form-contol btn btn-success" value="VALUTA e SCARICA ATTESTATO"/>
+							</div>	
+						</div>
+	</div>
+	  
+	  
 	</div>
   <div class="row"> </div>
   <!--/.row-->  <!--/.row-->  <!--/.row--> 
@@ -108,16 +171,5 @@ ${outline}
 <script src="Template/js/easypiechart-data.js"></script> 
 <script src="Template/js/bootstrap-datepicker.js"></script> 
 <script src="Template/js/custom.js"></script> 
-<script>
-			window.onload = function () {
-				var chart1 = document.getElementById("line-chart").getContext("2d");
-				window.myLine = new Chart(chart1).Line(lineChartData, {
-				responsive: true,
-				scaleLineColor: "rgba(0,0,0,.2)",
-				scaleGridLineColor: "rgba(0,0,0,.05)",
-				scaleFontColor: "#c5c7cc"
-				});
-			};
-		</script>
 </body>
 </html>
