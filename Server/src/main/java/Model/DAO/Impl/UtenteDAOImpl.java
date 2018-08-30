@@ -44,7 +44,7 @@ public class UtenteDAOImpl implements UtenteDAO {
             rset = ps.executeQuery();
 
             if (rset.next()) {
-                utente = new Utente(rset.getLong("idUtente"),rset.getString("username"), rset.getString("tipologia"));
+                utente = new Utente(rset.getLong("idUtente"),rset.getString("username"),rset.getString("email"), rset.getString("tipologia"));
             }
         } catch (SQLException ex) {
             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);

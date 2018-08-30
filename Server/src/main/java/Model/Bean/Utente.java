@@ -29,7 +29,10 @@ public class Utente {
     }
 
     public Utente(long id, String username, String email, String tipo ) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.id=id;
+        this.username=username;
+        this.email=email;
+        this.tipo=tipo;
     }
 
     public void setId(Long id){

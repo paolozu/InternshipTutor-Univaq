@@ -43,11 +43,19 @@
                         </#if> 
                     </div>
                     <div class="profile-usertitle-status"><span class="indicator label-danger"></span>
-                        <#if utente_tipo??>
-                        ${utente_tipo}
-                        <#else>
-                             offline
-                        </#if>
+                        <#switch utente_tipo>
+                        <#case "AM">
+                        ADMIN
+                        <#break>
+                        <#case "ST">
+                        STUDENTE
+                        <#break>
+                        <#case "AZ">
+                        AZIENDA
+                        <#break>
+                        <#default>
+                        OFFLINE
+                        </#switch>
                     </div>
                 </div>
                 <div class="clear"></div>

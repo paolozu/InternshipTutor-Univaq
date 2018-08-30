@@ -73,7 +73,7 @@ public class HomePage extends HttpServlet {
         
     }
     
-        private void action_student(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void action_student(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
       
             data.put("headers", getHeaderList(request));
             data.put("page_title", "Homepage - Studente");
@@ -81,7 +81,6 @@ public class HomePage extends HttpServlet {
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
         try {
             res.activate("homeStudente.ftl.html", data, response);
-
         } catch (TemplateManagerException ex) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         }
