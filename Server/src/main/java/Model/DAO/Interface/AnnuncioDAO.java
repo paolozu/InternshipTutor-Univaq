@@ -5,6 +5,7 @@
  */
 package Model.DAO.Interface;
 
+import Framework.data.DataLayerException;
 import Model.Bean.Annuncio;
 import java.time.LocalDate;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public interface AnnuncioDAO {
     
-    public Annuncio getAnnuncioById(long id);
-    public List<Annuncio> getAnnunci(int valuePage);
-    public void saveAnnuncio(Annuncio annuncio);
+    public Annuncio getAnnuncioById(long id) throws DataLayerException;
+    public List<Annuncio> getAnnunci(int valuePage) throws DataLayerException;
+    public void saveAnnuncio(Annuncio annuncio) throws DataLayerException;
 }

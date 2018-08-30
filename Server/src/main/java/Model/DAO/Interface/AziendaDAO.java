@@ -5,6 +5,7 @@
  */
 package Model.DAO.Interface;
 
+import Framework.data.DataLayerException;
 import Model.Bean.Azienda;
 import Model.Bean.Convenzione;
 import Model.Bean.Studente;
@@ -17,13 +18,13 @@ import java.util.List;
  */
 public interface AziendaDAO {
     
-      public List<Azienda> getAziende();
-      public List<Studente> getRichieste(long id);
-      public List<Studente> getTirocinanti(long id);
-      public Convenzione getConvenzione(long id);
-      public Azienda getApprovazione(long id);
-      public void setConcludiTirocinio(Tirocinio tirocinio);
-      public int setRegistrazioneAzienda(Azienda azienda);
-      public int updateStato(Azienda azienda,String stato);
+      public List<Azienda> getAziende() throws DataLayerException;
+      public List<Studente> getRichieste(long id) throws DataLayerException;
+      public List<Studente> getTirocinanti(long id) throws DataLayerException;
+      public Convenzione getConvenzione(long id) throws DataLayerException;
+      public Azienda getApprovazione(long id) throws DataLayerException;
+      public void setConcludiTirocinio(Tirocinio tirocinio) throws DataLayerException;
+      public int setRegistrazioneAzienda(Azienda azienda) throws DataLayerException;
+      public int updateStato(Azienda azienda,String stato) throws DataLayerException;
     
 }

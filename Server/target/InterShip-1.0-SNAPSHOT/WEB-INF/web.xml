@@ -16,6 +16,10 @@
         <servlet-name>Error</servlet-name>
         <servlet-class>Controller.Error</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HomePage</servlet-name>
+        <servlet-class>Controller.HomePage</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>Error</servlet-name>
         <url-pattern>/Error</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomePage</servlet-name>
+        <url-pattern>/homepage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -49,6 +57,14 @@
         <param-name>view.avviso_azienda</param-name>
         <param-value>AvvisoAzienda.ftl.html</param-value>
     </context-param>
+    <context-param>
+        <param-name>view.homepage</param-name>
+        <param-value>index.ftl.html</param-value>
+    </context-param>
+    <context-param>
+        <param-name>view.error_template</param-name>
+        <param-value>500.html</param-value>
+    </context-param>
     <resource-ref>
         <res-ref-name>jdbc/webdb</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
@@ -56,7 +72,7 @@
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
     <welcome-file-list>
-        <welcome-file>login</welcome-file>
+        <welcome-file>homepage</welcome-file>
     </welcome-file-list>
     <error-page>
         <error-code>500</error-code>

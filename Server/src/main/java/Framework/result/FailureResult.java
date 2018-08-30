@@ -13,7 +13,7 @@
  * the class uses simple http errors.
  * 
  */
-package Controller.Framework;
+package Framework.result;
 
 import java.io.IOException;
 import java.util.logging.Level;

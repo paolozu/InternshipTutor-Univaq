@@ -1,4 +1,4 @@
-package Controller.Framework;
+package Framework.result;
 
 /**
  *

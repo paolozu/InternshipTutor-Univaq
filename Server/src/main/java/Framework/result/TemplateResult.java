@@ -13,14 +13,13 @@
  * init parameters (see web.xml).
  * 
  */
-package Controller.Framework;
+package Framework.result;
 
 import freemarker.core.HTMLOutputFormat;
 import freemarker.core.JSONOutputFormat;
 import freemarker.core.XMLOutputFormat;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapperBuilder;
-import freemarker.template.ObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateDateModel;
 import freemarker.template.TemplateException;
@@ -37,7 +36,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

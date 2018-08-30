@@ -41,25 +41,24 @@
 				<div class="login-panel panel panel-default">
 					<div class="panel-heading">Login</div>
 					<div class="panel-body">
-                                            <form role="form" action="/HomeStudente">
+                                            <form role="form" method="post">
 							<fieldset>
 								<div class="form-group">
-									<input class="form-control" placeholder="Username" id="user" type="email" autofocus="">
+									<input class="form-control" placeholder="Username" name="username" autofocus="">
 								</div>
 								<div class="form-group">
-									<input class="form-control" placeholder="Password" id="password" type="password" value="">
+									<input class="form-control" placeholder="Password" name="password" type="password">
 								</div>
 								<div class="text-center mt-3">
-									<a href="HomeStudente" class="btn btn-lg btn-primary">Login</a>
+									<input value="Login" name="login" class="btn btn-lg btn-primary" type="submit"/>
 								</div>
-			
 							</fieldset>
 						</form>
 					</div>
 				</div>
 				<div class="login-panel panel panel-default">
 					<label for="reveal-email" class="btn btn-lg btn-link form-control"> Sign Up</label>
-					<input type="checkbox" id="reveal-email" role="button">
+					<input type="checkbox" id="reveal-email" role="button"/>
 					<div id="email" class="panel-body">
 						<form role="form">
 							<fieldset>						

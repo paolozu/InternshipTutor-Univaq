@@ -5,8 +5,10 @@
  */
 package Controller;
 
+import Framework.result.FailureResult;
 import Framework.result.TemplateManagerException;
 import Framework.result.TemplateResult;
+import Framework.security.SecurityLayer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -15,12 +17,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Paolo
+ * @author lorenzo
  */
-public class AvvisoAzienda extends HttpServlet {
+public class HomePage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,18 +34,37 @@ public class AvvisoAzienda extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private void action_error(HttpServletRequest request, HttpServletResponse response) {
+        if (request.getAttribute("exception") != null) {
+            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+        } else {
+            (new FailureResult(getServletContext())).activate((String) request.getAttribute("message"), request, response);
+        }
+    }
+
+    private void action_anonymous(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map data = new HashMap();
+        TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+        try {
+            res.activate("index.ftl.html", data, response);
+        } catch (TemplateManagerException ex) {
+            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+        }
+        
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
         try {
-            Map data = new HashMap();
-            data.put("outline_tpl", "");//rimozione outline
-            data.put("corpo", "ciao bello");
-            TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-            res.activate("AvvisoAzienda.ftl.html", data, response);
-        } catch (TemplateManagerException ex) {
-            throw new ServletException(ex);
+            HttpSession s = SecurityLayer.checkSession(request);
+            if (s == null) {
+                action_anonymous(request, response);
+            } else {
+//                action_logged(request, response);
+            }
+        } catch (IOException ex) {
+            request.setAttribute("exception", ex);
+            action_error(request, response);
         }
     }
 

@@ -5,6 +5,7 @@
  */
 package Model.DAO.Interface;
 
+import Framework.data.DataLayerException;
 import Model.Bean.Studente;
 
 
@@ -14,6 +15,6 @@ import Model.Bean.Studente;
  */
 public interface StudenteDAO {
     
-    public int setRegistrazioneStudente(Studente studente);
+    public int setRegistrazioneStudente(Studente studente) throws DataLayerException;
     
 }

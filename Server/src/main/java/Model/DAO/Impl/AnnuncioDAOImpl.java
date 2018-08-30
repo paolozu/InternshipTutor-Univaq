@@ -10,7 +10,8 @@ import Model.Bean.Azienda;
 import Model.Bean.Referente;
 import Model.Bean.Docente;
 import Model.DAO.Interface.AnnuncioDAO;
-import Model.DB;
+import Framework.data.DB;
+import Framework.data.DataLayerException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,7 +39,7 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
     private static final String SET_ANNUNCIO = "INSERT INTO annuncio (titolo, corpo, dataAvvio, dataTermine, modalita, sussidio, settore, Azienda_idAzienda,nomeDocente,cognomeDocente,emailDocente,nomeReferente,cognomeReferente,emailReferente,telefonoReferente)\n"
             + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-    public Annuncio getAnnuncioById(long id) {
+    public Annuncio getAnnuncioById(long id) throws DataLayerException{
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
@@ -56,8 +57,8 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
                 Azienda aziendaAnnuncio = new Azienda(rset.getInt("idAzienda"));
                 annuncio = new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio").toLocalDate(), rset.getDate("dataTermine").toLocalDate(), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), aziendaAnnuncio, docenteAnnuncio,referenteAnnuncio);
             }
-        } catch (SQLException | NamingException ex) {
-            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
         } finally {
             try {
                 rset.close();
@@ -72,7 +73,7 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
     }
 
     @Override
-    public List<Annuncio> getAnnunci(int valuePage) {
+    public List<Annuncio> getAnnunci(int valuePage) throws DataLayerException {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
@@ -85,8 +86,8 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
             while (rset.next()) {
                 annunci.add(new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio").toLocalDate(), rset.getDate("dataTermine").toLocalDate(), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), new Azienda(rset.getInt("idAzienda"))));
             }
-        } catch (NamingException | SQLException ex) {
-            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
         } finally {
             try {
                 rset.close();
@@ -100,7 +101,7 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
     }
 
     @Override
-    public void saveAnnuncio(Annuncio annuncio) {
+    public void saveAnnuncio(Annuncio annuncio) throws DataLayerException{
         
         Connection connection = null;
         PreparedStatement ps = null;
@@ -127,8 +128,8 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
             
             
             int result = ps.executeUpdate();
-        } catch (SQLException | NamingException ex) {
-            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
         } finally {
             try {
                 ps.close();

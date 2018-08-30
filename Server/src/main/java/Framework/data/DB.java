@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package Framework.data;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,12 +19,24 @@ import javax.sql.DataSource;
  * @author lorenzo
  */
 public class DB {
- 
-    public static Connection getConnection() throws NamingException, SQLException   {
-
+    
+    private static DataSource ds;
+    
+    static{
+        try {
             InitialContext ctx = new InitialContext();
-            DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/webdb");
+            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/webdb");
+        } catch (NamingException ex) {
+                Logger.getLogger(DB.class.getName()).log(Level.SEVERE, "Error initializing", ex);
+        }
             
+    }
+    
+    public static Connection getConnection() throws DataLayerException{
+        try {
             return ds.getConnection();
+        } catch (SQLException ex) {
+            throw new DataLayerException("Error initializing data layer", ex);
+        }
     }
 }

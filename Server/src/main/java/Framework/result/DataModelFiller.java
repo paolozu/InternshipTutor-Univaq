@@ -17,7 +17,7 @@
  * context parameter view.model_filler.
  * 
  */
-package Controller.Framework;
+package Framework.result;
 
 import java.util.Map;
 

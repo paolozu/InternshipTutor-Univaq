@@ -12,7 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import Model.DAO.Interface.StudenteDAO;
 import Model.DAO.Interface.UtenteDAO;
-import Model.DB;
+import Framework.data.DB;
+import Framework.data.DataLayerException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
@@ -26,8 +27,12 @@ public class StudenteDAOImpl implements StudenteDAO {
     private static final String REGISTRAZIONE_STUDENTE="INSERT INTO Studente (idStudente, nome, cognome, codFiscale, telefono, crediti, handicap, dataNascita, indirizzoResidenza, corsoLaurea, diploma, laurea, dottorato, cap_nascita, citta_nascita, provincia_nascita, cap_residenza, citta_residenza, provincia_residenza)"
             +                                          " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
+    private static final String INVIA_RICHIESTA="";
+    
+    
+    
     @Override
-    public int setRegistrazioneStudente(Studente studente) {
+    public int setRegistrazioneStudente(Studente studente) throws DataLayerException{
        int result = 0;
         //Creazione Utente
         UtenteDAO u = new UtenteDAOImpl();
@@ -67,8 +72,8 @@ public class StudenteDAOImpl implements StudenteDAO {
 
                 result = ps.executeUpdate();
 
-            } catch (SQLException | NamingException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, "ERRORE CREAZIONE - AZIENDA", ex);
+            } catch (SQLException ex) {
+                 throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
             } finally {
                 //CHIUSURA CONNESSIONE
                 try {

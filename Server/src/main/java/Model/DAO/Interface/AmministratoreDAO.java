@@ -5,6 +5,7 @@
  */
 package Model.DAO.Interface;
 
+import Framework.data.DataLayerException;
 import Model.Bean.Azienda;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @author lorenzo
  */
 public interface AmministratoreDAO {
-    public List<Azienda> daConvenzionare();
-    public List<Azienda> convenzionate();
+    public List<Azienda> daConvenzionare() throws DataLayerException;
+    public List<Azienda> convenzionate()throws DataLayerException;
     
 }

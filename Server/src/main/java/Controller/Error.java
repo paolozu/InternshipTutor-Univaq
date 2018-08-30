@@ -5,8 +5,8 @@
  */
 package Controller;
 
-import Controller.Framework.TemplateManagerException;
-import Controller.Framework.TemplateResult;
+import Framework.result.TemplateManagerException;
+import Framework.result.TemplateResult;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;

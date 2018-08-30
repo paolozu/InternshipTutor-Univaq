@@ -12,7 +12,8 @@ import Model.Bean.Resoconto;
 import Model.Bean.Tirocinio;
 import Model.Bean.Docente;
 import Model.DAO.Interface.TirocinanteDAO;
-import Model.DB;
+import Framework.data.DB;
+import Framework.data.DataLayerException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,8 +46,10 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
     private static final String GET_PATH_RESOCONTO="SELECT Resoconto.nome, Resoconto.directory, Resoconto.estensione, Resoconto.peso FROM Resoconto WHERE idResoconto=?";
     
     
+    
+    
     @Override
-    public List<Tirocinio> getInfoTirocinio(int idTirocinante) {
+    public List<Tirocinio> getInfoTirocinio(int idTirocinante) throws DataLayerException{
         DB db = new DB();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -64,9 +67,8 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
                 Annuncio annuncio = new Annuncio(aziendaAnnuncio, docenteAnnuncio);
                 infoTirocini.add(new Tirocinio(resocontoAnnuncio,annuncio, rset.getDate("Tirocinio.dataInizio").toLocalDate(),rset.getDate("Tirocinio.dataFine").toLocalDate()));
             }
-        } catch (NamingException | SQLException ex) {
-            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        } catch (SQLException ex) {
+            throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);        } finally {
             try {
                 rset.close();
                 ps.close();
@@ -79,7 +81,7 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
     }
 
     @Override
-    public void setValutazione(int valutazione,int idResoconto) {
+    public void setValutazione(int valutazione,int idResoconto) throws DataLayerException{
       
         DB db = new DB();
         PreparedStatement ps = null;
@@ -92,8 +94,8 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
             ps.setInt(2, idResoconto);
            
             int result = ps.executeUpdate();
-        } catch (SQLException | NamingException ex) {
-            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException  ex) {
+             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
         } finally {
             try {
                 ps.close();
@@ -106,7 +108,7 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
     }
 
     @Override
-    public Resoconto getPathResoconto(int idResoconto) {
+    public Resoconto getPathResoconto(int idResoconto) throws DataLayerException {
         DB db = new DB();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -122,8 +124,8 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
             if (rset.next()) {
                 resoconto = new Resoconto(rset.getString("nome"),rset.getString("directory"),rset.getString("estensione"),rset.getLong("peso"));
             }
-        } catch (SQLException | NamingException ex) {
-            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
         } finally {
             try {
                 rset.close();

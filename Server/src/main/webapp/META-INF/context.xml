@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context path="/InterShip">
-  <Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" maxActive="10" maxIdle="5" maxWait="10" name="jdbc/webdb" password="diq8tqlcfmg70ren" type="javax.sql.DataSource" url="jdbc:mysql://m60mxazb4g6sb4nn.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/vwda2oqf9fppbxps" username="dr4jzb24h852pb67"/>
+  <Resource 
+      auth="Container" 
+      driverClassName="com.mysql.jdbc.Driver" 
+      maxActive="10" maxIdle="5" maxWait="10" 
+      name="jdbc/webdb" 
+      password="diq8tqlcfmg70ren" 
+      type="javax.sql.DataSource" 
+      url="jdbc:mysql://m60mxazb4g6sb4nn.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/vwda2oqf9fppbxps" 
+      username="dr4jzb24h852pb67"
+      />
 </Context>

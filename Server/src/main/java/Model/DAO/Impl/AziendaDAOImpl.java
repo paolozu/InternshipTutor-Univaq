@@ -15,7 +15,8 @@ import Model.Bean.Tirocinio;
 import Model.Bean.Utente;
 import Model.DAO.Interface.AziendaDAO;
 import Model.DAO.Interface.UtenteDAO;
-import Model.DB;
+import Framework.data.DB;
+import Framework.data.DataLayerException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -69,7 +70,7 @@ public class AziendaDAOImpl implements AziendaDAO {
     private static final String UPDATE_STATO="UPDATE Azienda SET Stato=? WHERE idAzienda=?";
     
     @Override
-    public List<Studente> getRichieste(long id) {
+    public List<Studente> getRichieste(long id) throws DataLayerException{
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
@@ -82,8 +83,8 @@ public class AziendaDAOImpl implements AziendaDAO {
             while (rset.next()) {
                 richieste.add(new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email")));
             }
-        } catch (NamingException | SQLException ex) {
-            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
         } finally {
             try {
                 rset.close();
@@ -97,7 +98,7 @@ public class AziendaDAOImpl implements AziendaDAO {
     }
 
     @Override
-    public List<Azienda> getAziende() {
+    public List<Azienda> getAziende() throws DataLayerException{
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
@@ -109,8 +110,8 @@ public class AziendaDAOImpl implements AziendaDAO {
             while (rset.next()) {
                 aziende.add(new Azienda(rset.getInt("idAzienda"), rset.getString("ragSociale")));
             }
-        } catch (NamingException | SQLException ex) {
-            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch ( SQLException ex) {
+             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
         } finally {
             try {
                 rset.close();
@@ -124,7 +125,7 @@ public class AziendaDAOImpl implements AziendaDAO {
     }
 
     @Override
-    public List<Studente> getTirocinanti(long id) {
+    public List<Studente> getTirocinanti(long id) throws DataLayerException{
         DB db = new DB();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -138,8 +139,8 @@ public class AziendaDAOImpl implements AziendaDAO {
             while (rset.next()) {
                 tirocinanti.add(new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email")));
             }
-        } catch (NamingException | SQLException ex) {
-            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch ( SQLException ex) {
+             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
         } finally {
             try {
                 rset.close();
@@ -153,7 +154,7 @@ public class AziendaDAOImpl implements AziendaDAO {
     }
 
     @Override
-    public Convenzione getConvenzione(long id) {
+    public Convenzione getConvenzione(long id) throws DataLayerException{
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
@@ -168,8 +169,8 @@ public class AziendaDAOImpl implements AziendaDAO {
             if (rset.next()) {
                 convenzione = new Convenzione(rset.getString("nome"), rset.getString("directory"), rset.getString("estensione"), rset.getLong("peso"));
             }
-        } catch (SQLException | NamingException ex) {
-            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
         } finally {
             try {
                 rset.close();
@@ -183,7 +184,7 @@ public class AziendaDAOImpl implements AziendaDAO {
     }
 
     @Override
-    public Azienda getApprovazione(long id) {
+    public Azienda getApprovazione(long id) throws DataLayerException{
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
@@ -202,8 +203,8 @@ public class AziendaDAOImpl implements AziendaDAO {
                 azienda = new Azienda(rset.getLong("idAzienda"), rset.getString("nomeRap"), rset.getString("cognomeRap"), rset.getString("telResponsabile"), rset.getString("nomeResponsabile"), rset.getString("cognomeResponsabile"), rset.getString("emailResponsabile"), rset.getString("ragSociale"), rset.getString("indirizzoSede"), rset.getString("pIVA"), rset.getString("foro"), rset.getString("cap"), rset.getString("citta"), rset.getString("provincia"), convenzione);
             }
 
-        } catch (SQLException | NamingException ex) {
-            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException  ex) {
+             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
         } finally {
             try {
                 rset.close();
@@ -222,7 +223,7 @@ public class AziendaDAOImpl implements AziendaDAO {
      * @param tirocinio
      */
     @Override
-    public void setConcludiTirocinio(Tirocinio tirocinio) {
+    public void setConcludiTirocinio(Tirocinio tirocinio) throws DataLayerException{
         Connection connection = null;
         PreparedStatement ps = null;
 
@@ -248,8 +249,8 @@ public class AziendaDAOImpl implements AziendaDAO {
 
                 ps.executeUpdate();
             }
-        } catch (SQLException | NamingException ex) {
-            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
         } finally {
             try {
                 ps.close();
@@ -262,7 +263,7 @@ public class AziendaDAOImpl implements AziendaDAO {
     }
 
     @Override
-    public int setRegistrazioneAzienda(Azienda azienda) {
+    public int setRegistrazioneAzienda(Azienda azienda) throws DataLayerException{
         int result = 0;
         //Creazione Utente
         UtenteDAO u = new UtenteDAOImpl();
@@ -295,8 +296,8 @@ public class AziendaDAOImpl implements AziendaDAO {
 
                 result = ps.executeUpdate();
 
-            } catch (SQLException | NamingException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, "ERRORE CREAZIONE - AZIENDA", ex);
+            } catch (SQLException ex) {
+                 throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
             } finally {
                 //CHIUSURA CONNESSIONE
                 try {
@@ -314,7 +315,7 @@ public class AziendaDAOImpl implements AziendaDAO {
     }
 
     @Override
-    public int updateStato(Azienda azienda, String stato) {
+    public int updateStato(Azienda azienda, String stato) throws DataLayerException{
             int result = 0;
             Connection connection = null;
             PreparedStatement ps = null;
@@ -329,8 +330,8 @@ public class AziendaDAOImpl implements AziendaDAO {
                 
                  result = ps.executeUpdate();
 
-            } catch (SQLException | NamingException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, "ERRORE UPDATE STATO - AZIENDA", ex);
+            } catch (SQLException ex) {
+                 throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
             } finally {
                 //CHIUSURA CONNESSIONE
                 try {

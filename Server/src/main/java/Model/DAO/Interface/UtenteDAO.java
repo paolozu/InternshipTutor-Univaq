@@ -5,6 +5,7 @@
  */
 package Model.DAO.Interface;
 
+import Framework.data.DataLayerException;
 import Model.Bean.Utente;
 
 /**
@@ -13,6 +14,8 @@ import Model.Bean.Utente;
  */
 public interface UtenteDAO {
     
-    public Utente getCredenziali(String username, String password);
-    public Utente nuovoUtente(Utente utente);
+    public Utente getCredenziali(String username, String password) throws DataLayerException;
+    public Utente nuovoUtente(Utente utente) throws DataLayerException;
+    public boolean getEmailEsistente(String email) throws DataLayerException;
+    public boolean getUsernameEsistente(String username) throws DataLayerException;
 }

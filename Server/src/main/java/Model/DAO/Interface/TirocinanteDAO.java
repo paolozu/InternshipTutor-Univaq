@@ -5,6 +5,7 @@
  */
 package Model.DAO.Interface;
 
+import Framework.data.DataLayerException;
 import Model.Bean.Annuncio;
 import Model.Bean.Resoconto;
 import Model.Bean.Tirocinio;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public interface TirocinanteDAO {
     
-     public List<Tirocinio> getInfoTirocinio(int idTirocinante);
-     public void setValutazione(int valutazione, int idResoconto);
-     public Resoconto getPathResoconto(int idResoconto);
+     public List<Tirocinio> getInfoTirocinio(int idTirocinante) throws DataLayerException;
+     public void setValutazione(int valutazione, int idResoconto) throws DataLayerException;
+     public Resoconto getPathResoconto(int idResoconto) throws DataLayerException;
 }
