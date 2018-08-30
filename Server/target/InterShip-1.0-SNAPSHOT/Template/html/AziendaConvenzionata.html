@@ -138,27 +138,15 @@
 										</tr>
 									</thead>
 									<tbody>
+										<#list studenti as studente>
 										<tr>
-											<td>1</td>
-											<td>Col 1</td>
-											<td>Col 2</td>
-											<td>Col 3</td>
+											<td>$(student.id)</td>
+											<td>$(student.nome)</td>
+											<td>$(student.cognome)</td>
+											<td>$(student.email)</td>
 											<td><button type="button" class="btn btn-sm btn-default">Visualizza</button></td>
 										</tr>
-										<tr>
-											<td>2</td>
-											<td>Col 1</td>
-											<td>Col 2</td>
-											<td>Col 3</td>
-											<td><button type="button" class="btn btn-sm btn-default">Visualizza</button></td>
-										</tr>
-										<tr>
-											<td>3</td>
-											<td>Col 1</td>
-											<td>Col 2</td>
-											<td>Col 3</td>
-											<td><button type="button" class="btn btn-sm btn-default">Visualizza</button></td>
-										</tr>
+										</#list>
 									</tbody>
 								</table>
 							</div>
