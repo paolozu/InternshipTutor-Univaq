@@ -11,8 +11,12 @@ import Framework.result.TemplateResult;
 import Framework.security.SecurityLayer;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javafx.util.Pair;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +38,18 @@ public class HomePage extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    
+      private List getHeaderList(HttpServletRequest request) {
+        List<Pair> headers = new ArrayList();
+        Enumeration<String> names = request.getHeaderNames();
+        while (names.hasMoreElements()) {
+            String name = names.nextElement();
+            headers.add(new Pair<String, String>(name, (String) request.getHeader(name)));
+        }
+        return headers;
+    }
+      
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
         if (request.getAttribute("exception") != null) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
@@ -43,10 +59,29 @@ public class HomePage extends HttpServlet {
     }
 
     private void action_anonymous(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Map data = new HashMap();
+            Map data = new HashMap();
+            data.put("headers", getHeaderList(request));
+            data.put("page_title", "Homepage");
+        
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
         try {
             res.activate("index.ftl.html", data, response);
+
+        } catch (TemplateManagerException ex) {
+            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+        }
+        
+    }
+    
+        private void action_student(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
+      
+            data.put("headers", getHeaderList(request));
+            data.put("page_title", "Homepage - Studente");
+        
+        TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+        try {
+            res.activate("homeStudente.ftl.html", data, response);
+
         } catch (TemplateManagerException ex) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         }
@@ -60,7 +95,11 @@ public class HomePage extends HttpServlet {
             if (s == null) {
                 action_anonymous(request, response);
             } else {
-//                action_logged(request, response);
+                Map data = new HashMap();
+                data.put("utente_username",s.getAttribute("username"));
+                System.out.println(s.getAttribute("tipo"));
+                data.put("utente_tipo",s.getAttribute("tipo"));
+                action_student(data, request, response);
             }
         } catch (IOException ex) {
             request.setAttribute("exception", ex);

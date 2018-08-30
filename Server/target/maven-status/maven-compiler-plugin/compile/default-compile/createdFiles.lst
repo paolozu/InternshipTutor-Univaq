@@ -25,6 +25,7 @@ Model/DAO/Interface/TirocinanteDAO.class
 Model/Bean/Convenzione.class
 Framework/data/DataLayerMysqlImpl.class
 Model/DAO/Interface/AnnuncioDAO.class
+Controller/SignUp.class
 Model/DAO/Interface/StudenteDAO.class
 Model/Bean/Docente.class
 Model/Bean/Tirocinio.class
