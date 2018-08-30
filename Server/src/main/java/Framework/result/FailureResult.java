@@ -38,6 +38,7 @@ public class FailureResult {
 
     public void activate(Exception exception, HttpServletRequest request, HttpServletResponse response) {
         String message;
+        
         if (exception != null && exception.getMessage() != null) {
             message = exception.getMessage();
         } else if (exception != null) {
@@ -45,6 +46,8 @@ public class FailureResult {
         } else {
             message = "Unknown Error";
         }
+        
+        Logger.getLogger(FailureResult.class.getName()).log(Level.SEVERE, "*ERRORE*", exception);
         activate(message, request, response);
     }
 

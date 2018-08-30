@@ -5,10 +5,14 @@
  */
 package Controller;
 
+import Framework.data.DataLayerException;
 import Framework.result.FailureResult;
 import Framework.result.TemplateManagerException;
 import Framework.result.TemplateResult;
 import Framework.security.SecurityLayer;
+import Model.Bean.Azienda;
+import Model.DAO.Impl.AmministratoreDAOImpl;
+import Model.DAO.Interface.AmministratoreDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -16,6 +20,8 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.util.Pair;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -89,11 +95,20 @@ public class HomePage extends HttpServlet {
     
         private void action_admin(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
       
+           
+          try {
+              AmministratoreDAO queryAmm = new AmministratoreDAOImpl();
+              
+              System.out.println(queryAmm.daConvenzionare());
+              data.put("aziendeRichieste", queryAmm.daConvenzionare());
+              data.put("aziendeConvenzionate", queryAmm.convenzionate());
+              System.out.println("ok1");
+          } catch (DataLayerException ex) {
+              (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+          }
             
             
-            
-            data.put("headers", getHeaderList(request));
-            data.put("page_title", "Homepage - Studente");
+            data.put("page_title", "Homepage - Amministratore");
         
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
         try {
@@ -106,7 +121,6 @@ public class HomePage extends HttpServlet {
     
     private void action_studente(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
       
-            data.put("headers", getHeaderList(request));
             data.put("page_title", "Homepage - Studente");
         
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione

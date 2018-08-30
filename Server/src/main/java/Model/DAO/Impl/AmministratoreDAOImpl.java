@@ -26,14 +26,15 @@ import javax.naming.NamingException;
  */
 public class AmministratoreDAOImpl implements  AmministratoreDAO{
 
-    private static final String DA_CONVENZIONARE="SELECT * FROM Azienda WHERE Azienda.abilitata=0;";
-    private static final String CONVENZIONATE="SELECT * FROM Azienda WHERE Azienda.abilitata=1;";
+    private static final String DA_CONVENZIONARE="SELECT * FROM Azienda WHERE Azienda.stato='REGISTRATA';";
+    private static final String CONVENZIONATE="SELECT * FROM Azienda WHERE Azienda.stato='APPROVATA';";
         
-    private Connection connection = null;
-    private PreparedStatement ps = null;
+
     
     @Override
     public List<Azienda> daConvenzionare() throws DataLayerException{
+        Connection connection = null;
+        PreparedStatement ps = null;
         ResultSet rset = null;
 
         List<Azienda> daConvenzionare = new ArrayList();
@@ -46,6 +47,7 @@ public class AmministratoreDAOImpl implements  AmministratoreDAO{
                 daConvenzionare.add(new Azienda(rset.getInt("idAzienda"), rset.getString("ragSociale")));
             }
         } catch (SQLException ex) {
+            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, "DA CONVENZIONARE", ex);
             throw new DataLayerException("Error initializing data layer", ex);
         } finally {
             try {
@@ -61,7 +63,8 @@ public class AmministratoreDAOImpl implements  AmministratoreDAO{
 
     @Override
     public List<Azienda> convenzionate() throws DataLayerException{
-        
+        Connection connection = null;
+        PreparedStatement ps = null;
         ResultSet rset = null;
         List<Azienda> convenzionate = new ArrayList();
         try {

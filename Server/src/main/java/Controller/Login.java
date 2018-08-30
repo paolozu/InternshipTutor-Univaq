@@ -63,7 +63,6 @@ public class Login extends HttpServlet {
 
             UtenteDAO queryU = new UtenteDAOImpl();
             Utente utente = queryU.getCredenziali(username, password);
-
             if (utente != null) {
                 SecurityLayer.createSession(request, utente.getUsername(), utente.getId(), utente.getTipo());
                 

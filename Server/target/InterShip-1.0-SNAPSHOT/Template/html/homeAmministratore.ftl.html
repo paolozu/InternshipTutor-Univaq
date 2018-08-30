@@ -21,6 +21,7 @@
                     <div class="col-md-12">
                         <table class="table">
                             <thead>
+                                 <#list aziendeRichieste>
                                 <tr>
                                     <th>#</th>
                                     <th>Ragione Sociale</th>
@@ -28,21 +29,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Col 1</td>
+                               
+                                <#items as aziendaR>
+                                    <tr>
+                                    <td>${aziendaR?index}</td>
+                                    <td>${aziendaR.getRagioneSociale()}</td>
                                     <td><button type="button" class="btn btn-sm btn-default">Visualizza</button></td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Col 1</td>
-                                    <td><button type="button" class="btn btn-sm btn-default">Visualizza</button></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Col 1</td>
-                                    <td><button type="button" class="btn btn-sm btn-default">Visualizza</button></td>
-                                </tr>
+                                </#items>
+                                    <#else>
+                                    <tr>
+                                    <td>NESSUNA RICHIESTA</td>
+                                    <td></td>
+                                    <td></td>
+                                </#list>
                             </tbody>
                         </table>
                     </div>
