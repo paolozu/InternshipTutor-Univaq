@@ -89,6 +89,9 @@ public class HomePage extends HttpServlet {
     
         private void action_admin(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
       
+            
+            
+            
             data.put("headers", getHeaderList(request));
             data.put("page_title", "Homepage - Studente");
         
@@ -126,7 +129,6 @@ public class HomePage extends HttpServlet {
             } else {
                 Map data = new HashMap();
                 data.put("utente_username",s.getAttribute("username"));
-                System.out.println(s.getAttribute("tipo"));
                 data.put("utente_tipo",s.getAttribute("tipo"));
                 
                 switch((String)s.getAttribute("tipo")){
