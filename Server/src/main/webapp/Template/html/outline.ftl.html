@@ -39,23 +39,24 @@
                         ${utente_username}
                         <#else>
                         <a href="login"> Accedi</a>
-
-                        </#if> 
+                        </#if>
                     </div>
                     <div class="profile-usertitle-status"><span class="indicator label-danger"></span>
+                        <#if utente_tipo??>
                         <#switch utente_tipo>
-                        <#case "AM">
-                        ADMIN
-                        <#break>
-                        <#case "ST">
-                        STUDENTE
-                        <#break>
-                        <#case "AZ">
-                        AZIENDA
-                        <#break>
-                        <#default>
-                        OFFLINE
+                            <#case "AM">
+                                ADMIN
+                            <#break>
+                            <#case "ST">
+                                STUDENTE
+                            <#break>
+                            <#case "AZ">
+                                AZIENDA
+                            <#break>
                         </#switch>
+                        <#else>
+                        OFFLINE
+                        </#if>
                     </div>
                 </div>
                 <div class="clear"></div>
@@ -73,9 +74,12 @@
         <!--/.sidebar-->
 
         <#include content_tpl>
-
         <!--/.main--> 
 
+
+        <footer class="col-md-8 col-lg-8 col-lg-offset-3">
+            <p class="back-link">Università degli studi dell' Aquila</p>
+        </footer>
         <script src="Template/js/jquery-1.11.1.min.js"></script> 
         <script src="Template/js/bootstrap.min.js"></script> 
         <script src="Template/js/chart.min.js"></script> 

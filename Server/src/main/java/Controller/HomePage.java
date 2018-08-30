@@ -73,7 +73,7 @@ public class HomePage extends HttpServlet {
         
     }
     
-    private void action_student(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void action_azienda(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
       
             data.put("headers", getHeaderList(request));
             data.put("page_title", "Homepage - Studente");
@@ -86,6 +86,36 @@ public class HomePage extends HttpServlet {
         }
         
     }
+    
+        private void action_admin(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
+      
+            data.put("headers", getHeaderList(request));
+            data.put("page_title", "Homepage - Studente");
+        
+        TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+        try {
+            res.activate("homeAmministratore.ftl.html", data, response);
+        } catch (TemplateManagerException ex) {
+            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+        }
+        
+    }
+    
+    private void action_studente(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
+      
+            data.put("headers", getHeaderList(request));
+            data.put("page_title", "Homepage - Studente");
+        
+        TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+        try {
+            res.activate("homeStudente.ftl.html", data, response);
+        } catch (TemplateManagerException ex) {
+            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+        }
+        
+    }
+    
+    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -98,7 +128,20 @@ public class HomePage extends HttpServlet {
                 data.put("utente_username",s.getAttribute("username"));
                 System.out.println(s.getAttribute("tipo"));
                 data.put("utente_tipo",s.getAttribute("tipo"));
-                action_student(data, request, response);
+                
+                switch((String)s.getAttribute("tipo")){
+                
+                    case "AM":
+                        action_admin(data, request, response);
+                    break;
+                    case "ST":
+                        action_studente(data, request, response);
+                    break;
+                    case "AZ":
+                        action_azienda(data, request, response);
+                    
+                        
+                }
             }
         } catch (IOException ex) {
             request.setAttribute("exception", ex);
