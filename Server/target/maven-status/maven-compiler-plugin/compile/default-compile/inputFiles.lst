@@ -3,7 +3,6 @@ C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\mai
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Model\DAO\Impl\StudenteDAOImpl.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Controller\HomePage.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Model\Bean\AziendaConvenzionata.java
-C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Framework\data\DataLayer.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Model\DAO\Interface\AnnuncioDAO.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Controller\Error.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Model\Bean\Resoconto.java
@@ -26,7 +25,6 @@ C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\mai
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Model\Bean\Annuncio.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Model\Bean\Studente.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Model\DAO\Impl\AmministratoreDAOImpl.java
-C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Framework\data\DataLayerMysqlImpl.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Model\DAO\Interface\StudenteDAO.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Framework\result\FailureResult.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Controller\HomeStudente.java

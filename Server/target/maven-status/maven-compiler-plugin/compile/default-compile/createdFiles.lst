@@ -39,8 +39,6 @@ Model\DAO\Interface\UtenteDAO.class
 Model\DAO\Impl\AziendaDAOImpl.class
 Model\DAO\Interface\StudenteDAO.class
 Controller\AmministratoreSecurity.class
-Framework\data\DataLayer.class
 Model\Bean\Utente.class
-Framework\data\DataLayerMysqlImpl.class
 Model\Bean\Studente.class
 Model\DAO\Interface\AmministratoreDAO.class
