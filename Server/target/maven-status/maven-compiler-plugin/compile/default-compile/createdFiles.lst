@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 Model\DAO\Impl\AmministratoreDAOImpl.class
 Controller\HomeStudente.class
 Model\DAO\Impl\UtenteDAOImpl.class
@@ -44,4 +42,3 @@ Controller\AmministratoreSecurity.class
 Model\Bean\Utente.class
 Model\Bean\Studente.class
 Model\DAO\Interface\AmministratoreDAO.class
->>>>>>> 65a05f97f22d50b2235f166dd281c90fe9d8d0b9

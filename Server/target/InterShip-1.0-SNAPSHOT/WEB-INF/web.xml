@@ -45,6 +45,10 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>SignUp</servlet-name>
+        <url-pattern>/SignUp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>HomeStudente</servlet-name>
         <url-pattern>/HomeStudente</url-pattern>
     </servlet-mapping>
