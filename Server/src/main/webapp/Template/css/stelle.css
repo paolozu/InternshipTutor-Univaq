@@ -2,7 +2,6 @@
 
 .rating { 
   border: none;
-  float: left;
 }
 
 .rating > input { display: none; } 
@@ -14,14 +13,8 @@
   content: "\f005";
 }
 
-.rating > .half:before { 
-  content: "\f089";
-  position: absolute;
-}
-
 .rating > label { 
   color: #ddd; 
- float: right; 
 }
 
 /***** CSS Magic to Highlight Stars on Hover *****/

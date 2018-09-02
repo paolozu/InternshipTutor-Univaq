@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 Model\DAO\Impl\AmministratoreDAOImpl.class
 Controller\HomeStudente.class
 Model\DAO\Impl\UtenteDAOImpl.class
@@ -42,3 +44,4 @@ Controller\AmministratoreSecurity.class
 Model\Bean\Utente.class
 Model\Bean\Studente.class
 Model\DAO\Interface\AmministratoreDAO.class
+>>>>>>> c1ff58e6b6b211d2b32499edba829ac3338d6089
