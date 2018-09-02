@@ -11,8 +11,11 @@ import Framework.result.TemplateManagerException;
 import Framework.result.TemplateResult;
 import Framework.security.SecurityLayer;
 import Model.Bean.Azienda;
+import Model.Bean.Tirocinio;
 import Model.DAO.Impl.AmministratoreDAOImpl;
+import Model.DAO.Impl.TirocinanteDAOImpl;
 import Model.DAO.Interface.AmministratoreDAO;
+import Model.DAO.Interface.TirocinanteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -110,16 +113,35 @@ public class HomePage extends HttpServlet {
         
     }
     
-    private void action_studente(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
-      
-            data.put("page_title", "Homepage - Studente");
+    private void action_studente(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException{
+        try {
+           
+        TirocinanteDAO queryTirocini = new TirocinanteDAOImpl();
+            System.out.println(request.getAttribute("id"));
+        List<Tirocinio> tirocini = queryTirocini.getTirocini((long) request.getAttribute("id"));
         
+           
+        if(tirocini.isEmpty()){ // STUDENTE
+            data.put("page_title", "Homepage - Studente");
+            TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+            try {
+                res.activate("homeStudente.ftl.html", data, response);
+            } catch (TemplateManagerException ex) {
+                (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+            }
+        } else{ //TIROCINANTE
+        data.put("page_title", "Homepage - Tirocinante");
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
         try {
             res.activate("homeStudente.ftl.html", data, response);
         } catch (TemplateManagerException ex) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         }
+        }
+        
+        } catch (DataLayerException ex) {
+              (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+          }
         
     }
     
@@ -133,6 +155,10 @@ public class HomePage extends HttpServlet {
                 action_anonymous(request, response);
             } else {
                 Map data = new HashMap();
+                
+               
+                request.setAttribute("id", s.getAttribute("userid"));
+               
                 data.put("utente_username",s.getAttribute("username"));
                 data.put("utente_tipo",s.getAttribute("tipo"));
                 

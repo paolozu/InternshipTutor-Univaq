@@ -5,29 +5,40 @@
  */
 package Controller;
 
+import Framework.result.FailureResult;
 import Framework.security.SecurityLayer;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLEncoder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author lorenzo
  */
-public abstract class  InternshipBaseController extends HttpServlet {
+public class Logout extends HttpServlet {
+    
+    private void action_error(HttpServletRequest request, HttpServletResponse response) {
+        if (request.getAttribute("exception") != null) {
+            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+        } else {
+            (new FailureResult(getServletContext())).activate((String) request.getAttribute("message"), request, response);
+        }
+    }
 
-    protected void action_loginredirect(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        //ridirezione diretta verso la pagina di login
-        response.sendRedirect("login?referrer=" + URLEncoder.encode(request.getRequestURI(), "UTF-8"));
+    private void action_logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        SecurityLayer.disposeSession(request);
+        //se � stato trasmesso un URL di origine, torniamo a quell'indirizzo
+        //if an origin URL has been transmitted, return to it
+        if (request.getParameter("referrer") != null) {
+            response.sendRedirect(request.getParameter("referrer"));
+        } else {
+            response.sendRedirect("homepage");
+        }
     }
         
-    protected abstract void autenticazione(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException;
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,8 +48,16 @@ public abstract class  InternshipBaseController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected abstract void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
-
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try {
+            action_logout(request, response);
+        } catch (IOException ex) {
+            request.setAttribute("exception", ex);
+            action_error(request, response);
+        }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface TirocinanteDAO {
     
-     public List<Tirocinio> getInfoTirocinio(int idTirocinante) throws DataLayerException;
+     public List<Tirocinio> getTirocini(long idTirocinante) throws DataLayerException;
      public void setValutazione(int valutazione, int idResoconto) throws DataLayerException;
      public Resoconto getPathResoconto(int idResoconto) throws DataLayerException;
 }

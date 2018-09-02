@@ -32,11 +32,10 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
 
     private static final String GET_INFO_TIROCINIO="SELECT Tirocinio.dataInizio, Tirocinio.dataFine, Tirocinio.Resoconto_idResoconto, Azienda.ragSociale, "
             + "                                 Azienda.indirizzoSede, Azienda.citta, Azienda.nomeResponsabile, Azienda.cognomeResponsabile, "
-            + "                                 Azienda.emailResponsabile, Azienda.telResponsabile, Docente.nome, Docente.cognome,"
-            + "                                 Docente.email   "
+            + "                                 Azienda.emailResponsabile, Azienda.telResponsabile, Annuncio.nomeDocente, Annuncio.cognomeDocente,"
+            + "                                 Annuncio.emailDocente   "
             + "                                     FROM Tirocinio "
-            + "                                     JOIN Annuncio ON Tirocinio.idAnnuncio = Annuncio.idAnnuncio "
-            + "                                     JOIN Docente ON Annuncio.Docente_idDocente = Docente.idDocente "
+            + "                                     JOIN Annuncio ON Tirocinio.Annuncio_idAnnuncio = Annuncio.idAnnuncio "
             + "                                     JOIN Azienda ON Annuncio.Azienda_idAzienda = Azienda.idAzienda"
             + "                                     WHERE Tirocinio.Studente_idStudente=?";
             
@@ -49,26 +48,30 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
     
     
     @Override
-    public List<Tirocinio> getInfoTirocinio(int idTirocinante) throws DataLayerException{
-        DB db = new DB();
+    public List<Tirocinio> getTirocini(long idStudente) throws DataLayerException{
+
+        System.out.println("2)"+idStudente);
+
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
-        List<Tirocinio> infoTirocini = new ArrayList();
+        List<Tirocinio> tirocini = new ArrayList();
         try {
-            connection = db.getConnection();
+            connection = DB.getConnection();
             ps = connection.prepareStatement(GET_INFO_TIROCINIO);
-            ps.setInt(1, idTirocinante);
+            ps.setLong(1, idStudente);
             rset = ps.executeQuery();
             while (rset.next()) {
                 Resoconto resocontoAnnuncio = new Resoconto(rset.getInt("Tirocinio.Resoconto_idResoconto"));
-                Docente docenteAnnuncio = new Docente(rset.getString("Docente.nome"),rset.getString("Docente.cognome"), rset.getString("Docente.email"));
+                Docente docenteAnnuncio = new Docente(rset.getString("Annuncio.nomeDocente"),rset.getString("Annuncio.cognomeDocente"), rset.getString("Annuncio.emailDocente"));
                 Azienda aziendaAnnuncio = new Azienda(rset.getString("ragSociale"), rset.getString("indirizzoSede"),  rset.getString("citta"),rset.getString("nomeResponsabile"), rset.getString("cognomeResponsabile"), rset.getString("emailResponsabile"),rset.getString("telResponsabile"));
                 Annuncio annuncio = new Annuncio(aziendaAnnuncio, docenteAnnuncio);
-                infoTirocini.add(new Tirocinio(resocontoAnnuncio,annuncio, rset.getDate("Tirocinio.dataInizio").toLocalDate(),rset.getDate("Tirocinio.dataFine").toLocalDate()));
+                tirocini.add(new Tirocinio(resocontoAnnuncio,annuncio, rset.getDate("Tirocinio.dataInizio").toLocalDate(),rset.getDate("Tirocinio.dataFine").toLocalDate()));
             }
         } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);        } finally {
+            System.out.println(ex);
+            throw new DataLayerException("ERRORE INFO TIROCINIO UTENTE", ex);
+        } finally {
             try {
                 rset.close();
                 ps.close();
@@ -77,7 +80,8 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
                 Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return infoTirocini;
+         System.out.println("3)"+tirocini);
+        return tirocini;
     }
 
     @Override

@@ -15,7 +15,7 @@ public class Azienda extends Utente {
     
     private String cap,nomeRappresentante, cognomeRappresentante, ragioneSociale,
             indirizzoSede, partitaIva, foroCompetente, telResponsabile,nomeResponsabile,cognomeResponsabile,emailResponsabile, citta, provincia;
-    Convenzione convenzione;
+    
 
 
     public Azienda(){}
@@ -48,7 +48,6 @@ public class Azienda extends Utente {
         this.emailResponsabile = emailResponsabile;
         this.citta = citta;
         this.provincia = provincia;
-        this.convenzione = convenzione;
     }
 
     public Azienda(String ragioneSociale, String indirizzoSede, String citta, String nomeResponsabile, String cognomeResponsabile, String emailResponsabile, String telResponsabile) {
@@ -137,15 +136,6 @@ public class Azienda extends Utente {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    public Convenzione getConvenzione() {
-        return convenzione;
-    }
-
-    public void setConvenzione(Convenzione convenzione) {
-        this.convenzione = convenzione;
-    }
-
     
     public void setCitta(String citta) {
         this.citta = citta;

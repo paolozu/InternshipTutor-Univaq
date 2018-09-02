@@ -8,9 +8,11 @@ Framework/result/TemplateResult.class
 Framework/result/TemplateManagerException.class
 Model/DAO/Impl/TirocinanteDAOImpl.class
 Model/DAO/Interface/AmministratoreDAO.class
+Model/Bean/AziendaApprovata.class
 Model/Bean/Azienda.class
 Framework/data/DataLayer.class
 Model/Bean/Studente.class
+Controller/Logout.class
 Framework/result/StreamResult.class
 Model/DAO/Impl/StudenteDAOImpl.class
 Framework/result/SplitSlashesFmkExt.class

@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class AziendaConvenzionata extends Azienda {
     
+    private Convenzione convenzione;
+    
     private List richiesteStudenti;
     private List tirocinanti;
     
@@ -30,5 +32,13 @@ public class AziendaConvenzionata extends Azienda {
 
     public void setTirocinanti(List tirocinanti) {
         this.tirocinanti = tirocinanti;
+    }
+    
+        public Convenzione getConvenzione() {
+        return convenzione;
+    }
+
+    public void setConvenzione(Convenzione convenzione) {
+        this.convenzione = convenzione;
     }
 }
