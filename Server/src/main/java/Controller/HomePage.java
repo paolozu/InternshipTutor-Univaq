@@ -129,11 +129,12 @@ public class HomePage extends HttpServlet {
             } catch (TemplateManagerException ex) {
                 (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
             }
-        } else{ //TIROCINANTE
+        } else{
+            //TIROCINANTE
         data.put("page_title", "Homepage - Tirocinante");
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
         try {
-            res.activate("homeStudente.ftl.html", data, response);
+            res.activate("homeTirocinante.ftl.html", data, response);
         } catch (TemplateManagerException ex) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         }
@@ -141,7 +142,7 @@ public class HomePage extends HttpServlet {
         
         } catch (DataLayerException ex) {
               (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-          }
+         }
         
     }
     
