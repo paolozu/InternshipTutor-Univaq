@@ -126,6 +126,22 @@ public class SecurityLayer {
             throw new NumberFormatException("String argument is null");
         }
     }
+    
+    //Effettua il check e ne decrementa il valore
+    public static int checkNumericPage(String s) throws NumberFormatException {
+        //convertiamo la stringa in numero, ma assicuriamoci prima che sia valida
+        //convert the string to a number, ensuring its validity
+        
+        if (s != null) {
+            int page = Integer.parseInt(s);
+            
+            if(page<=0) return 0;
+           
+            return page;
+        } else {
+            return 0;
+        }
+    }
 
     //--------- CONNECTION SECURITY ------------
     //questa funzione verifica se il protocollo HTTPS è attivo

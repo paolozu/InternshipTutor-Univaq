@@ -13,6 +13,7 @@ public class Utente {
 
     protected long id;
     protected String username, password, email,tipo;
+    
 
     public Utente(){}
     
@@ -48,6 +49,7 @@ public class Utente {
     }
 
     public long getId() {
+        
         return id;
     }
 

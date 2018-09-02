@@ -29,6 +29,10 @@ public class Azienda extends Utente {
         super.id = id;
     }
 
+    public String getCap() {
+        return cap;
+    }
+
     
     
     public Azienda(long idAzienda, String nomeRappresentante, String cognomeRappresentante, String telResponsabile, String nomeResponsabile, String cognomeResponsabile, String emailResponsabile, String ragioneSociale, String indirizzoSede, String partitaIva, String foroCompetente, String cap, String citta, String provincia, Convenzione convenzione ) {

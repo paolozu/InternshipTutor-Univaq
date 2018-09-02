@@ -14,7 +14,6 @@ import java.util.List;
  * @author lorenzo
  */
 public interface AmministratoreDAO {
-    public List<Azienda> daConvenzionare() throws DataLayerException;
-    public List<Azienda> convenzionate()throws DataLayerException;
+    public List<Azienda> getListaAziende(String tipologia, int page) throws DataLayerException;
     
 }

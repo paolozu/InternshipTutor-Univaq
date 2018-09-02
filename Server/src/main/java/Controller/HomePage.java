@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.hashids.Hashids;
+
 
 /**
  *
@@ -45,17 +47,6 @@ public class HomePage extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     
-    
-      private List getHeaderList(HttpServletRequest request) {
-        List<Pair> headers = new ArrayList();
-        Enumeration<String> names = request.getHeaderNames();
-        while (names.hasMoreElements()) {
-            String name = names.nextElement();
-            headers.add(new Pair<String, String>(name, (String) request.getHeader(name)));
-        }
-        return headers;
-    }
-      
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
         if (request.getAttribute("exception") != null) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
@@ -66,7 +57,6 @@ public class HomePage extends HttpServlet {
 
     private void action_anonymous(HttpServletRequest request, HttpServletResponse response) throws IOException {
             Map data = new HashMap();
-            data.put("headers", getHeaderList(request));
             data.put("page_title", "Homepage");
         
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
@@ -81,7 +71,6 @@ public class HomePage extends HttpServlet {
     
     private void action_azienda(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
       
-            data.put("headers", getHeaderList(request));
             data.put("page_title", "Homepage - Studente");
         
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
@@ -94,15 +83,17 @@ public class HomePage extends HttpServlet {
     }
     
         private void action_admin(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
-      
            
+            int homepage = 0;
+            
           try {
               AmministratoreDAO queryAmm = new AmministratoreDAOImpl();
               
-              System.out.println(queryAmm.daConvenzionare());
-              data.put("aziendeRichieste", queryAmm.daConvenzionare());
-              data.put("aziendeConvenzionate", queryAmm.convenzionate());
-              System.out.println("ok1");
+              data.put("aziendeRegistrate", queryAmm.getListaAziende("REGISTRATA",homepage));
+              data.put("dim", queryAmm.getListaAziende("REGISTRATA",homepage).size());
+              data.put("aziendeApprovate", queryAmm.getListaAziende("APPROVATA",homepage));
+              data.put("aziendeConvenzionate", queryAmm.getListaAziende("CONVENZIONATA",homepage));
+              
           } catch (DataLayerException ex) {
               (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
           }

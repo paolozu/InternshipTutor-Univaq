@@ -26,29 +26,32 @@ import javax.naming.NamingException;
  */
 public class AmministratoreDAOImpl implements  AmministratoreDAO{
 
-    private static final String DA_CONVENZIONARE="SELECT * FROM Azienda WHERE Azienda.stato='REGISTRATA';";
-    private static final String CONVENZIONATE="SELECT * FROM Azienda WHERE Azienda.stato='APPROVATA';";
-        
-
+    private static final String AZIENDE="SELECT * FROM Azienda WHERE Azienda.stato=? LIMIT ?,?";
+    
+    private final int NUMBER_ELEMENT = 4;
+    
     
     @Override
-    public List<Azienda> daConvenzionare() throws DataLayerException{
+    public List<Azienda> getListaAziende(String tipologia, int page ) throws DataLayerException{
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
 
-        List<Azienda> daConvenzionare = new ArrayList();
+        List<Azienda> listaAziende = new ArrayList();
         
         try {
             connection = DB.getConnection();
-            ps = connection.prepareStatement(DA_CONVENZIONARE);
+            ps = connection.prepareStatement(AZIENDE);
+            ps.setString(1, tipologia);
+            ps.setInt(2, page*NUMBER_ELEMENT);
+            ps.setInt(3, NUMBER_ELEMENT);
             rset = ps.executeQuery();
             while (rset.next()) {
-                daConvenzionare.add(new Azienda(rset.getInt("idAzienda"), rset.getString("ragSociale")));
+                listaAziende.add(new Azienda(rset.getInt("idAzienda"), rset.getString("ragSociale")));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, "DA CONVENZIONARE", ex);
-            throw new DataLayerException("Error initializing data layer", ex);
+            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, "LISTA AZIENDE", ex);
+            throw new DataLayerException("Error getListaAziende", ex);
         } finally {
             try {
                 rset.close();
@@ -58,34 +61,7 @@ public class AmministratoreDAOImpl implements  AmministratoreDAO{
                  Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, "CLOSE CONNECTION", ex);
             }
         }
-        return daConvenzionare;
-    }
-
-    @Override
-    public List<Azienda> convenzionate() throws DataLayerException{
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rset = null;
-        List<Azienda> convenzionate = new ArrayList();
-        try {
-            connection = DB.getConnection();
-            ps = connection.prepareStatement(CONVENZIONATE);
-            rset = ps.executeQuery();
-            while (rset.next()) {
-                convenzionate.add(new Azienda(rset.getInt("idAzienda"), rset.getString("ragSociale")));
-            }
-        } catch (SQLException ex) {
-            throw new DataLayerException("Error initializing data layer", ex);
-        } finally {
-            try {
-                rset.close();
-                ps.close();
-                connection.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, "CLOSE CONNECTION", ex);
-            }
-        }
-        return convenzionate;
+        return listaAziende;
     }
     
     

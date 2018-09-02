@@ -24,6 +24,18 @@
         <servlet-name>SignUp</servlet-name>
         <servlet-class>Controller.SignUp</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>infoAzienda</servlet-name>
+        <servlet-class>Controller.infoAzienda</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InternshipBaseController</servlet-name>
+        <servlet-class>Controller.InternshipBaseController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AmministratoreSecurity</servlet-name>
+        <servlet-class>Controller.AmministratoreSecurity</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -47,6 +59,18 @@
     <servlet-mapping>
         <servlet-name>SignUp</servlet-name>
         <url-pattern>/signup</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>infoAzienda</servlet-name>
+        <url-pattern>/infoAzienda</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InternshipBaseController</servlet-name>
+        <url-pattern>/InternshipBaseController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AmministratoreSecurity</servlet-name>
+        <url-pattern>/AmministratoreSecurity</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

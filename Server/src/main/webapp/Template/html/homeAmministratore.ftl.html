@@ -13,15 +13,16 @@
             <h1 class="page-header">Dashboard</h1> 
         </div>
     </div><!--/.row-->
-    <div class="row mt-1">
+
+    <div class="row mt-1"><!--AZIENDE REGISTRATE -->
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Richieste aziende</div>
+                <div class="panel-heading">Aziende registrate</div>
                 <div class="panel-body btn-margins">
                     <div class="col-md-12">
+                        <#list aziendeRegistrate>
                         <table class="table">
                             <thead>
-                                 <#list aziendeRichieste>
                                 <tr>
                                     <th>#</th>
                                     <th>Ragione Sociale</th>
@@ -29,66 +30,117 @@
                                 </tr>
                             </thead>
                             <tbody>
-                               
-                                <#items as aziendaR>
-                                    <tr>
-                                    <td>${aziendaR?index}</td>
-                                    <td>${aziendaR.getRagioneSociale()}</td>
-                                    <td><button type="button" class="btn btn-sm btn-default">Visualizza</button></td>
+                                <#items as azienda>
+                                <tr>
+                                    <td>${azienda?index+1}</td>
+                                    <td>${azienda.getRagioneSociale()}</td>
+                                    <td><a type="button" class="btn btn-sm btn-default" href="infoAzienda?tipo=registrata">Apri</a></td>
                                 </tr>
                                 </#items>
-                                    <#else>
-                                    <tr>
-                                    <td>NESSUNA RICHIESTA</td>
-                                    <td></td>
-                                    <td></td>
-                                </#list>
                             </tbody>
                         </table>
-                    </div>
+                        <#if (aziendeRegistrate?size>3)>
+                        <div class="text-center">
+                            <a type="button" class="btn btn-sm btn-link" href="">Visualizza tutti</a>
+                        </div>
+                        </#if>
+                        <#else>
+                        <div class="text-center">
+                            <p>NESSUNA RICHIESTA</p>
+                        </div>
+                         </#list>
+                    </div>         
                 </div>
             </div><!-- /.panel-->
         </div>
-    </div><!--/.row-->
-
-    <div class="row mt-2">
+    </div><!--/AZIENDE REGISTRATE -->
+    
+    <div class="row mt-1"><!--AZIENDE REGISTRATE -->
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Aziende approvate</div>
+                <div class="panel-body btn-margins">
+                    <div class="col-md-12">
+                        <#list aziendeApprovate>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Ragione Sociale</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <#items as azienda>
+                                <tr>
+                                    <td>${azienda?index+1}</td>
+                                    <td>${azienda.getRagioneSociale()}</td>
+                                    <td><button type="button" class="btn btn-sm btn-default" value="${azienda.getId()}">Apri</button></td>
+                                </tr>
+                                </#items>
+                            </tbody>
+                        </table>
+                         <#if (aziendeApprovate?size>3)>
+                        <div class="text-center">
+                            <a type="button" class="btn btn-sm btn-link" href="">Visualizza tutti</a>
+                        </div>
+                         </#if>
+                        <#else>
+                        <div class="text-center">
+                            <p>NESSUNA AZIENDA DA CONVENZIONARE</p>
+                        </div>
+                         </#list>
+                    </div>         
+                </div>
+            </div><!-- /.panel-->
+        </div>
+    </div><!--/AZIENDE REGISTRATE -->
+    
+    <div class="row mt-1"><!--AZIENDE REGISTRATE -->
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Aziende convenzionate</div>
                 <div class="panel-body btn-margins">
                     <div class="col-md-12">
+                        <#list aziendeConvenzionate>
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th> Ragione Sociale</th>
-                                    <th class="text-center"><input type="text" placeholder="Cerca" class="search"></th>
-
+                                    <th>Ragione Sociale</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <#items as azienda>
                                 <tr>
-                                    <td>1</td>
-                                    <td>John</td>
-                                    <td class="text-center"><button type="button" class="btn btn-sm btn-default">Convenzione</button></td>
-
+                                    <td>${azienda?index+1}</td>
+                                    <td>${azienda.getRagioneSociale()}</td>
+                                    <td><button type="button" class="btn btn-sm btn-default" value="${azienda.getId()}">Apri</button></td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Peter</td>
-                                    <td class="text-center"><button type="button" class="btn btn-sm btn-default">Convenzione</button></td>
-
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>John</td>
-                                    <td class="text-center"><button type="button" class="btn btn-sm btn-default">Convenzione</button></td>
-                                </tr>
+                                </#items>
                             </tbody>
                         </table>
-                    </div>
+                        <#if (aziendeConvenzionate?size > 3)>
+                        
+                        <div class="text-center">
+                            <a type="button" class="btn btn-sm btn-link" href="">Visualizza tutti</a>
+                        </div>
+                        </#if>
+                        <#else>
+                        <div class="text-center">
+                             <p>NESSUNA AZIENDA CONVENZIONATA</p>
+                        </div>
+                         </#list>
+                    </div>         
                 </div>
             </div><!-- /.panel-->
         </div>
-    </div><!-- /.row -->
+    </div><!--/AZIENDE REGISTRATE -->
+    
+    
+    
+
+
+
 </div><!--/.main-->
