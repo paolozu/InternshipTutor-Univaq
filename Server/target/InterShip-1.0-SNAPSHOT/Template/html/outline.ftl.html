@@ -71,7 +71,10 @@
                 <li><a href=""><em class="fa fa-calendar">&nbsp;</em> Tirocini</a></li>
                 <li><a href=""><em class="fa fa-bar-chart">&nbsp;</em> Aziende</a></li>
                 <li><a href=""><em class="fa fa-hand-pointer-o">&nbsp;</em> Faq</a></li>
-                <li><a href="Logout"><em class="fa fa-sign-in">&nbsp;</em> Logout</a></li>
+                <li>
+                    <#if utente_username??>
+                        <a href="Logout"><em class="fa fa-sign-in">&nbsp;</em> Logout</a></li>
+                    </#if>
             </ul>
         </div><!--/.sidebar-->
 
