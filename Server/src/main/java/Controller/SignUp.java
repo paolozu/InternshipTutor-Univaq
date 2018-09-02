@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author lorenzo
+ * @author Paolo
  */
 public class SignUp extends HttpServlet {
 
