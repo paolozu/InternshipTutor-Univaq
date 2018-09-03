@@ -20,6 +20,10 @@ public class Resoconto {
         this.id=idResoconto;
     }
 
+    public Resoconto(long idResoconto,String directory) {
+        this.id=idResoconto;
+        this.directory=directory;
+    }
 
     public Resoconto(String nome, String directory, String estensione, long peso) {
         this.nome = nome;

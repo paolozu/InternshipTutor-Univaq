@@ -82,5 +82,12 @@ public class Tirocinio {
     public void setStudente(Studente studente) {
         this.studente = studente;
     }
+
+    @Override
+    public String toString() {
+        return "Tirocinio{" + "annuncio=" + annuncio + ", dataInizio=" + dataInizio + ", dataFine=" + dataFine + ", studente=" + studente + ", resoconto=" + resoconto + '}';
+    }
+    
+    
     
 }

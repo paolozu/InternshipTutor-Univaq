@@ -29,12 +29,6 @@ public class Azienda extends Utente {
         super.id = id;
     }
 
-    public String getCap() {
-        return cap;
-    }
-
-    
-    
     public Azienda(long idAzienda, String nomeRappresentante, String cognomeRappresentante, String telResponsabile, String nomeResponsabile, String cognomeResponsabile, String emailResponsabile, String ragioneSociale, String indirizzoSede, String partitaIva, String foroCompetente, String cap, String citta, String provincia, Convenzione convenzione ) {
         super.id = id;
         this.cap = cap;
@@ -88,6 +82,58 @@ public class Azienda extends Utente {
         this.citta = citta;
         this.provincia = pro;
     }
+    
+    public String getCap() {
+        return cap;
+    }
+
+    public String getNomeRappresentante() {
+        return nomeRappresentante;
+    }
+
+    public void setNomeRappresentante(String nomeRappresentante) {
+        this.nomeRappresentante = nomeRappresentante;
+    }
+
+    public String getCognomeRappresentante() {
+        return cognomeRappresentante;
+    }
+
+    public void setCognomeRappresentante(String cognomeRappresentante) {
+        this.cognomeRappresentante = cognomeRappresentante;
+    }
+
+    public String getRagioneSociale() {
+        return ragioneSociale;
+    }
+
+    public void setRagioneSociale(String ragioneSociale) {
+        this.ragioneSociale = ragioneSociale;
+    }
+
+    public String getIndirizzoSede() {
+        return indirizzoSede;
+    }
+
+    public void setIndirizzoSede(String indirizzoSede) {
+        this.indirizzoSede = indirizzoSede;
+    }
+
+    public String getPartitaIva() {
+        return partitaIva;
+    }
+
+    public void setPartitaIva(String partitaIva) {
+        this.partitaIva = partitaIva;
+    }
+
+    public String getForoCompetente() {
+        return foroCompetente;
+    }
+
+    public void setForoCompetente(String foroCompetente) {
+        this.foroCompetente = foroCompetente;
+    }
 
     public String getTelResponsabile() {
         return telResponsabile;
@@ -113,112 +159,35 @@ public class Azienda extends Utente {
         this.cognomeResponsabile = cognomeResponsabile;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
-    public void setCitta(String citta) {
-        this.citta = citta;
-    }
-
-    public void setProvincia(String provincia) {
-        this.provincia = provincia;
-    }
-
-    public String getCitta() {
-        return citta;
-    }
-
-    public String getProvincia() {
-        return provincia;
-    }
-
-    public String getCAP() {
-        return cap;
-    }
-
-
-    public String getNomeRappresentante() {
-        return nomeRappresentante;
-    }
-
-    public String getCognomeRappresentante() {
-        return cognomeRappresentante;
-    }
-
-    public String getRagioneSociale() {
-        return ragioneSociale;
-    }
-
-    public String getIndirizzoSede() {
-        return indirizzoSede;
-    }
-
-    public String getPartitaIva() {
-        return partitaIva;
-    }
-
-    public String getForoCompetente() {
-        return foroCompetente;
-    }
-
-
-    public void setCAP(String cap) {
-        this.cap = cap;
-    }
-
-
-    public void setNomeRappresentante(String nomeRappresentante) {
-        this.nomeRappresentante = nomeRappresentante;
-    }
-
-    public void setCognomeRappresentante(String cognomeRappresentante) {
-        this.cognomeRappresentante = cognomeRappresentante;
-    }
-
-    public void setRagioneSociale(String ragioneSociale) {
-        this.ragioneSociale = ragioneSociale;
-    }
-
-    public void setIndirizzoSede(String indirizzoSede) {
-        this.indirizzoSede = indirizzoSede;
-    }
-
-    public void setPartitaIva(String partitaIva) {
-        this.partitaIva = partitaIva;
-    }
-
-    public void setForoCompetente(String foroCompetente) {
-        this.foroCompetente = foroCompetente;
-    }
-
-
     public String getEmailResponsabile() {
         return emailResponsabile;
     }
 
     public void setEmailResponsabile(String emailResponsabile) {
         this.emailResponsabile = emailResponsabile;
+    }
+
+    public String getCitta() {
+        return citta;
+    }
+
+    public void setCitta(String citta) {
+        this.citta = citta;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+
+    
+    
+    @Override
+    public String toString() {
+        return "Azienda{" + "cap=" + cap + ", nomeRappresentante=" + nomeRappresentante + ", cognomeRappresentante=" + cognomeRappresentante + ", ragioneSociale=" + ragioneSociale + ", indirizzoSede=" + indirizzoSede + ", partitaIva=" + partitaIva + ", foroCompetente=" + foroCompetente + ", telResponsabile=" + telResponsabile + ", nomeResponsabile=" + nomeResponsabile + ", cognomeResponsabile=" + cognomeResponsabile + ", emailResponsabile=" + emailResponsabile + ", citta=" + citta + ", provincia=" + provincia + '}';
     }
 
 

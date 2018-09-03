@@ -66,13 +66,7 @@ public class Annuncio {
     this.docente=docenteAnnuncio;
     }
 
-    @Override
-    public String toString() {
-        return "Annuncio{" + "id=" + id + ", titolo=" + titolo + ", corpo=" + corpo + ", modalita=" + modalita + ", settore=" + settore + ", sussidio=" + sussidio + ", dataAvvio=" + dataAvvio + ", dataTermine=" + dataTermine + ", azienda=" + azienda + ", docente=" + docente + ", referente=" + referente + '}';
-    }
 
-    
-    
     public Annuncio(long id) {
         this.id=id;
     }
@@ -161,6 +155,11 @@ public class Annuncio {
 
     public void setReferente(Referente referente) {
         this.referente = referente;
+    }
+
+    @Override
+    public String toString() {
+        return "Annuncio{" + "id=" + id + ", titolo=" + titolo + ", corpo=" + corpo + ", modalita=" + modalita + ", settore=" + settore + ", sussidio=" + sussidio + ", dataAvvio=" + dataAvvio + ", dataTermine=" + dataTermine + ", azienda=" + azienda + ", docente=" + docente + ", referente=" + referente + '}';
     }
     
     

@@ -2,32 +2,35 @@
     <div class="row">
         <ol class="breadcrumb">
             <li><a href="#"> <em class="fa fa-home"></em> </a></li>
-            <li class="active">Dashboard</li>
+            <li class="active">Home</li>
         </ol>
     </div><!--/.row-->
+    <#list tirocini as tirocinio>
+    
     <div class="row">
         <div class="col-md-8 col-md-offset-2 mt-1">
             <div class="panel panel-primary ">
-                <div class="panel-heading "> Info tirocinio</div>
+                <div class="panel-heading ">Tirocinio presso ${tirocinio.getAnnuncio().getAzienda().getRagioneSociale()}</div>
                 <div class="panel-body timeline-container">
                     <div class="text-center">
-                        <p>Tutore: #nomeTutore</p>
-                        <p>Email: #emailTutore</p>
-                        <p>Azienda: #nomeAzienda</p>
-                        <p>Indirizzo: #indirizzoAzienda</p>
-                        <p>Contatti: #telefonoAzienda</p>
+                        <p>Email: ${tirocinio.getAnnuncio().getDocente().getEmail()}</p>
+                        <p>Indirizzo: ${tirocinio.getAnnuncio().getAzienda().getIndirizzoSede()}</p>
+                        <p>Contatti: +39 ${tirocinio.getAnnuncio().getAzienda().getTelResponsabile()} </p>
+                        <p>Tutore: ${tirocinio.getAnnuncio().getDocente().getCognome()} ${tirocinio.getAnnuncio().getDocente().getNome()} </p>
                     </div>							
                 </div>
             </div>
         </div>
     </div><!--/.row-->
+    
+    <#if (tirocinio.resoconto.directory)??>
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-primary ">
                 <div class="panel-body timeline-container">
                     <div class="text-center ">
                         <p>Valuta l'esperienza di tirocinio e scarica l'attestato:</p>
-                        <form>
+                        <form action="download">
                             <div class="rating">
                                 <input type="radio" id="star1" name="rating" value="5" /><label class = "full" for="star1" title="1 stars"></label>
                                 <input type="radio" id="star2" name="rating" value="4" /><label class = "full" for="star2" title="2 stars"></label>
@@ -35,8 +38,9 @@
                                 <input type="radio" id="star4" name="rating" value="2" /><label class = "full" for="star4" title="4 stars"></label>
                                 <input type="radio" id="star5" name="rating" value="1" /><label class = "full" for="star5" title="5 star"></label>
                             </div>
+                            <input hidden value="${tirocinio.resoconto.id}" name="id"/>
                             <div>
-                                <input type="submit" class="form-contol btn btn-success" name="download" value="DOWNLOAD"/>
+                                <input type="submit" class="form-contol btn btn-success" name="tirocinio" value="DOWNLOAD"/>
                             </div>
                         </form>							
                     </div>
@@ -44,4 +48,56 @@
             </div>
         </div>
     </div><!--/.row-->
+    </#if>
+    
+    <#else>
+    <div class="col-md-8 col-md-offset-2 mt-1">
+        <div class="panel panel-primary ">
+            <div class="panel-heading "> Info tirocinio</div>
+            <div class="panel-body timeline-container">
+                <ul class="timeline">
+                    <li>
+                        <div class="timeline-badge"><em class="fa fa-user"></em></div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4 class="timeline-title"><strong>REGISTRATI</strong></h4>
+                            </div>
+                            <div class="timeline-body">
+                                <p>Compila i campi inserendo le proprie credenziali. Completa inserendo:</p>
+                                <ul>
+                                    <li>Crediti richiesti</li>
+                                    <li>Email e nome del tutore</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="timeline-badge primary"><em class="fa fa-handshake-o"></em></div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4 class="timeline-title"><strong>CONTATTA L'AZIENDA</strong></h4>
+                            </div>
+                            <div class="timeline-body">
+                                <p>Scegli l'azienda adatta a te ed avvia il tirocinio</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="timeline-badge"><em class="fa fa-flag"></em></div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4 class="timeline-title"><strong>STAMPA I DOCUMENTI</strong></h4>
+                            </div>
+                            <div class="timeline-body">
+                                <p>Al termine del tirocinio avrai a disposizione tutta la documentazione da consegnare in segreteria studenti</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="panel-body text-center"><p>Cerca azienda convenzionata:<p><a class="btn btn-lg btn-primary" name="azienda" href="#" role="button">CERCA AZIENDA</a></div>
+            </div>
+        </div>
+    </div>
+    </#list>
  </div><!--/.main--> 

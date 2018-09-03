@@ -69,6 +69,8 @@ public class AziendaDAOImpl implements AziendaDAO {
 
     private static final String UPDATE_STATO="UPDATE Azienda SET Stato=? WHERE idAzienda=?";
     
+    private static final String GET_STATO="SELECT Azienda.Stato FROM Azienda WHERE idAzienda=?";
+    
     @Override
     public List<Studente> getRichieste(long id) throws DataLayerException{
         Connection connection = null;
@@ -283,7 +285,7 @@ public class AziendaDAOImpl implements AziendaDAO {
                 ps.setString(2, azienda.getIndirizzoSede());
                 ps.setString(3, azienda.getPartitaIva());
                 ps.setString(4, azienda.getForoCompetente());
-                ps.setString(5, azienda.getCAP());
+                ps.setString(5, azienda.getCap());
                 ps.setString(6, azienda.getCitta());
                 ps.setString(7, azienda.getProvincia());
                 ps.setString(8, azienda.getNomeRappresentante());
@@ -343,5 +345,38 @@ public class AziendaDAOImpl implements AziendaDAO {
             }
   
         return result;
+    }
+    
+    
+    public String getStato(long id) throws DataLayerException{
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rset = null;
+        Azienda azienda = null;
+        
+        String result = null;
+        try {
+            connection = DB.getConnection();
+            ps = connection.prepareStatement(GET_STATO);
+            ps.setLong(1, id);
+            rset = ps.executeQuery();
+
+            if (rset.next()) {
+                result = rset.getString("Stato");
+            }
+
+        } catch (SQLException  ex) {
+             throw new DataLayerException("ERRORE STATO UTENTE", ex);
+        } finally {
+            try {
+                rset.close();
+                ps.close();
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return result;
+        
     }
 }

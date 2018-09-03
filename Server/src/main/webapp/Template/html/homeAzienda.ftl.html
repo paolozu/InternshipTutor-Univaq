@@ -1,0 +1,125 @@
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="#"> <em class="fa fa-home"></em> </a></li>
+            <li class="active">Dashboard</li>
+        </ol>
+    </div><!--/.row-->
+
+    <#if (stato == 'REGISTRATA')>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading mt-1">Convenzione in fase di elaborazione</div>
+                <div class="panel-body">
+                    <p>Attendi che la convenzione sia approvata dall'amministratore.</p>  
+                </div>
+            </div>
+        </div>
+    </div><!--/.row-->
+    </#if>
+    <#if (stato == 'APPROVATA')>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading mt-1">Convenzione approvata!</div>
+                <div class="panel-body">
+                    <p>La convenzione è stata approvata.</p>
+                    <ul>
+                        <li>Scarica la convenzione</li>
+                        <li>Firma e timbra i documenti</li>
+                        <li>Consegna la documentazione tramite:</li>
+                        <ul>
+                            <li>PEC all'indirizzo: pec@univaq.it</li>
+                            <li>raccomandata all'indirizzo: L'Aquila Via indirizzo - 67100</li>
+                            <li>consegna in segreteria, L'Aquila Coppito 1 - 67100 </li>
+                        </ul>
+                    </ul>
+                    <p class="text-center mt-3">
+                        <a class="btn btn-lg btn-primary" href="#azienda" role="button">SCARICA CONVENZIONE</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div><!--/.row-->
+    </#if>
+    <#if (stato == 'CONVENZIONATA')>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 mt-1">
+            <div class="panel panel-default text-center">
+                <div class="panel-body">
+                    <div class="col-lg-4 col-lg-offset-4">
+                        <input type="button" class="form-control btn-primary" id="newAnnuncio" value="NUOVO ANNUNCIO"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/.row-->
+
+    
+    
+    
+    <div class="row mt-2">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default text-center">
+                <div class="panel-body">
+                    <div class="row">
+                        <p>Pannello Annunci</p>
+                        <div class="col-lg-4  mt-1">
+                            <input type="button" class="form-control btn-default" id="newAnnuncio" value="ANNUNCI ATTIVI"/>
+                        </div>
+                        <div class="col-lg-4  mt-1">
+                            <input type="button" class="form-control btn-default" id="newAnnuncio" value="ANNUNCI SOSPESI"/>
+                        </div>
+                        <div class="col-lg-4  mt-1">
+                            <input type="button" class="form-control btn-default" id="newAnnuncio" value="ANNUNCI DISATTIVATI"/>
+                        </div>
+                    </div><!--./row -->
+                </div>
+            </div>
+        </div>
+    </div><!--/.row-->
+    
+    <div class="row mt-1">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default text-center">
+                <div class="panel-body">
+                     <div class="row">
+                        <p>Pannello Tirocini</p>
+                        <div class="col-lg-6 mt-2">
+                            <input type="button" class="form-control btn-default" id="newAnnuncio" value="LISTA TIROCINANTI"/>
+                        </div>
+                        <div class="col-lg-6 mt-2">
+                            <input type="button" class="form-control btn-default" id="newAnnuncio" value="RICHIESTE"/>
+                        </div>
+                    </div><!--./row -->
+                </div>
+            </div>
+        </div>
+    </div><!--/.row-->
+        <div class="row mt-1">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default text-center">
+                <div class="panel-body">
+                     <div class="row">
+                        <p>Pannello Convenzione</p>
+                        <div class="col-lg-6 mt-2">
+                            <input type="button" class="form-control btn-default" id="newAnnuncio" value="INFO CONVENZIONE"/>
+                        </div>
+                        <div class="col-lg-6 mt-2">
+                            <input type="button" class="form-control btn-default" id="newAnnuncio" value="NUOVA CONVENZIONE"/>
+                        </div>
+                    </div><!--./row -->
+                </div>
+            </div>
+        </div>
+    </div><!--/.row-->
+    
+
+
+    </#if>
+
+
+
+</div>
+<!--/.main--> 

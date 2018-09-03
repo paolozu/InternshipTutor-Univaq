@@ -13,9 +13,13 @@ import Framework.security.SecurityLayer;
 import Model.Bean.Azienda;
 import Model.Bean.Tirocinio;
 import Model.DAO.Impl.AmministratoreDAOImpl;
+import Model.DAO.Impl.AziendaDAOImpl;
 import Model.DAO.Impl.TirocinanteDAOImpl;
+import Model.DAO.Impl.UtenteDAOImpl;
 import Model.DAO.Interface.AmministratoreDAO;
+import Model.DAO.Interface.AziendaDAO;
 import Model.DAO.Interface.TirocinanteDAO;
+import Model.DAO.Interface.UtenteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -33,7 +37,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.hashids.Hashids;
 
-
 /**
  *
  * @author lorenzo
@@ -49,7 +52,6 @@ public class HomePage extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
         if (request.getAttribute("exception") != null) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
@@ -59,9 +61,9 @@ public class HomePage extends HttpServlet {
     }
 
     private void action_anonymous(HttpServletRequest request, HttpServletResponse response) throws IOException {
-            Map data = new HashMap();
-            data.put("page_title", "Homepage");
-        
+        Map data = new HashMap();
+        data.put("page_title", "Homepage");
+
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
         try {
             res.activate("index.ftl.html", data, response);
@@ -69,84 +71,84 @@ public class HomePage extends HttpServlet {
         } catch (TemplateManagerException ex) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         }
-        
+
     }
     
+
+    
+
     private void action_azienda(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
-      
-            data.put("page_title", "Homepage - Studente");
+
+        AziendaDAO queryA = new AziendaDAOImpl();
+        
+        try {
+           String stato = queryA.getStato((long) request.getAttribute("id"));
+           
+           data.put("stato", stato);
+                
+        } catch (DataLayerException ex) {
+            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+       }
         
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
         try {
-            res.activate("homeStudente.ftl.html", data, response);
+            res.activate("homeAzienda.ftl.html", data, response);
         } catch (TemplateManagerException ex) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         }
-        
+
     }
-    
-        private void action_admin(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
-           
-            int homepage = 0;
-            
-          try {
-              AmministratoreDAO queryAmm = new AmministratoreDAOImpl();
-              
-              data.put("aziendeRegistrate", queryAmm.getListaAziende("REGISTRATA",homepage));
-              data.put("dim", queryAmm.getListaAziende("REGISTRATA",homepage).size());
-              data.put("aziendeApprovate", queryAmm.getListaAziende("APPROVATA",homepage));
-              data.put("aziendeConvenzionate", queryAmm.getListaAziende("CONVENZIONATA",homepage));
-              
-          } catch (DataLayerException ex) {
-              (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-          }
-            
-            
-            data.put("page_title", "Homepage - Amministratore");
-        
+
+    private void action_admin(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        int homepage = 0;
+
+        try {
+            AmministratoreDAO queryAmm = new AmministratoreDAOImpl();
+
+            data.put("aziendeRegistrate", queryAmm.getListaAziende("REGISTRATA", homepage));
+            data.put("dim", queryAmm.getListaAziende("REGISTRATA", homepage).size());
+            data.put("aziendeApprovate", queryAmm.getListaAziende("APPROVATA", homepage));
+            data.put("aziendeConvenzionate", queryAmm.getListaAziende("CONVENZIONATA", homepage));
+
+        } catch (DataLayerException ex) {
+            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+        }
+
+        data.put("page_title", "Homepage - Amministratore");
+
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
         try {
             res.activate("homeAmministratore.ftl.html", data, response);
         } catch (TemplateManagerException ex) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         }
-        
+
     }
-    
-    private void action_studente(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException{
+
+    private void action_studente(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-           
-        TirocinanteDAO queryTirocini = new TirocinanteDAOImpl();
-            System.out.println(request.getAttribute("id"));
-        List<Tirocinio> tirocini = queryTirocini.getTirocini((long) request.getAttribute("id"));
-        
-           
-        if(tirocini.isEmpty()){ // STUDENTE
-            data.put("page_title", "Homepage - Studente");
-            TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-            try {
-                res.activate("homeStudente.ftl.html", data, response);
-            } catch (TemplateManagerException ex) {
-                (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+
+            TirocinanteDAO queryTirocini = new TirocinanteDAOImpl();
+            List<Tirocinio> tirocini = queryTirocini.getTirocini((long) request.getAttribute("id"));
+
+                
+                //Tirocinante
+                data.put("tirocini", tirocini);
+                
+                TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+                try {
+                    res.activate("homeTirocinante.ftl.html", data, response);
+                } catch (TemplateManagerException ex) {
+                    (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+                
             }
-        } else{
-            //TIROCINANTE
-        data.put("page_title", "Homepage - Tirocinante");
-        TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-        try {
-            res.activate("homeTirocinante.ftl.html", data, response);
-        } catch (TemplateManagerException ex) {
+
+        } catch (DataLayerException ex) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         }
-        }
-        
-        } catch (DataLayerException ex) {
-              (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-         }
-        
+
     }
-    
-    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -156,25 +158,23 @@ public class HomePage extends HttpServlet {
                 action_anonymous(request, response);
             } else {
                 Map data = new HashMap();
-                
-               
+
                 request.setAttribute("id", s.getAttribute("userid"));
-               
-                data.put("utente_username",s.getAttribute("username"));
-                data.put("utente_tipo",s.getAttribute("tipo"));
-                
-                switch((String)s.getAttribute("tipo")){
-                
+
+                data.put("utente_username", s.getAttribute("username"));
+                data.put("utente_tipo", s.getAttribute("tipo"));
+
+                switch ((String) s.getAttribute("tipo")) {
+
                     case "AM":
                         action_admin(data, request, response);
-                    break;
+                        break;
                     case "ST":
                         action_studente(data, request, response);
-                    break;
+                        break;
                     case "AZ":
                         action_azienda(data, request, response);
-                    
-                        
+
                 }
             }
         } catch (IOException ex) {

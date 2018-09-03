@@ -33,9 +33,10 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
     private static final String GET_INFO_TIROCINIO="SELECT Tirocinio.dataInizio, Tirocinio.dataFine, Tirocinio.Resoconto_idResoconto, Azienda.ragSociale, "
             + "                                 Azienda.indirizzoSede, Azienda.citta, Azienda.nomeResponsabile, Azienda.cognomeResponsabile, "
             + "                                 Azienda.emailResponsabile, Azienda.telResponsabile, Annuncio.nomeDocente, Annuncio.cognomeDocente,"
-            + "                                 Annuncio.emailDocente   "
+            + "                                 Annuncio.emailDocente, Resoconto.directory   "
             + "                                     FROM Tirocinio "
             + "                                     JOIN Annuncio ON Tirocinio.Annuncio_idAnnuncio = Annuncio.idAnnuncio "
+            + "                                     LEFT JOIN Resoconto ON Tirocinio.Resoconto_idResoconto = Resoconto.idResoconto "
             + "                                     JOIN Azienda ON Annuncio.Azienda_idAzienda = Azienda.idAzienda"
             + "                                     WHERE Tirocinio.Studente_idStudente=?";
             
@@ -50,8 +51,8 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
     @Override
     public List<Tirocinio> getTirocini(long idStudente) throws DataLayerException{
 
-        System.out.println("2)"+idStudente);
-
+        System.out.println("id-"+idStudente);
+        
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
@@ -62,7 +63,7 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
             ps.setLong(1, idStudente);
             rset = ps.executeQuery();
             while (rset.next()) {
-                Resoconto resocontoAnnuncio = new Resoconto(rset.getInt("Tirocinio.Resoconto_idResoconto"));
+                Resoconto resocontoAnnuncio = new Resoconto(rset.getInt("Tirocinio.Resoconto_idResoconto"),rset.getString("Resoconto.directory"));
                 Docente docenteAnnuncio = new Docente(rset.getString("Annuncio.nomeDocente"),rset.getString("Annuncio.cognomeDocente"), rset.getString("Annuncio.emailDocente"));
                 Azienda aziendaAnnuncio = new Azienda(rset.getString("ragSociale"), rset.getString("indirizzoSede"),  rset.getString("citta"),rset.getString("nomeResponsabile"), rset.getString("cognomeResponsabile"), rset.getString("emailResponsabile"),rset.getString("telResponsabile"));
                 Annuncio annuncio = new Annuncio(aziendaAnnuncio, docenteAnnuncio);
@@ -80,7 +81,7 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
                 Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-         System.out.println("3)"+tirocini);
+         System.out.println("tiro: "+tirocini);
         return tirocini;
     }
 
