@@ -40,6 +40,18 @@
         <servlet-name>Logout</servlet-name>
         <servlet-class>Controller.Logout</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AnnunciAzienda</servlet-name>
+        <servlet-class>Controller.AnnunciAzienda</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AziendaSecurity</servlet-name>
+        <servlet-class>Controller.AziendaSecurity</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TirociniAzienda</servlet-name>
+        <servlet-class>Controller.TirociniAzienda</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -83,6 +95,18 @@
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AnnunciAzienda</servlet-name>
+        <url-pattern>/AnnunciAzienda</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AziendaSecurity</servlet-name>
+        <url-pattern>/AziendaSecurity</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TirociniAzienda</servlet-name>
+        <url-pattern>/TirociniAzienda</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -1,8 +1,8 @@
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="#"> <em class="fa fa-home"></em> </a></li>
-            <li class="active">Dashboard</li>
+            <li><a> <em class="fa fa-home"></em> </a></li>
+            <li class="active">Home</li>
         </ol>
     </div><!--/.row-->
 
@@ -36,7 +36,7 @@
                         </ul>
                     </ul>
                     <p class="text-center mt-3">
-                        <a class="btn btn-lg btn-primary" href="#azienda" role="button">SCARICA CONVENZIONE</a>
+                        <a class="btn btn-lg btn-success" href="#azienda" role="button"><i class="fa fa-download" aria-hidden="true"></i> download</a>
                     </p>
                 </div>
             </div>
@@ -55,10 +55,6 @@
             </div>
         </div>
     </div><!--/.row-->
-
-    
-    
-    
     <div class="row mt-2">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default text-center">
@@ -66,60 +62,52 @@
                     <div class="row">
                         <p>Pannello Annunci</p>
                         <div class="col-lg-4  mt-1">
-                            <input type="button" class="form-control btn-default" id="newAnnuncio" value="ANNUNCI ATTIVI"/>
+                            <a class="btn btn-lg btn-default btn-control" href="AnnunciAzienda?page=annunciAttivi">annunci attivi</a>
                         </div>
                         <div class="col-lg-4  mt-1">
-                            <input type="button" class="form-control btn-default" id="newAnnuncio" value="ANNUNCI SOSPESI"/>
+                            <a class="btn btn-lg btn-default btn-control" href="AnnunciAzienda?page=annunciSospesi">annunci sospesi</a>
                         </div>
                         <div class="col-lg-4  mt-1">
-                            <input type="button" class="form-control btn-default" id="newAnnuncio" value="ANNUNCI DISATTIVATI"/>
+                            <a class="btn btn-lg btn-default btn-control" href="AnnunciAzienda?page=annunciDisattivati">annunci disattivati</a>
                         </div>
                     </div><!--./row -->
                 </div>
             </div>
         </div>
     </div><!--/.row-->
-    
     <div class="row mt-1">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default text-center">
                 <div class="panel-body">
-                     <div class="row">
+                    <div class="row">
                         <p>Pannello Tirocini</p>
                         <div class="col-lg-6 mt-2">
-                            <input type="button" class="form-control btn-default" id="newAnnuncio" value="LISTA TIROCINANTI"/>
-                        </div>
+                            <a class="btn btn-lg btn-default btn-control" href="TirociniAzienda?page=listaTirocinanti">lista tirocinanti</a>                        </div>
                         <div class="col-lg-6 mt-2">
-                            <input type="button" class="form-control btn-default" id="newAnnuncio" value="RICHIESTE"/>
+                            <a class="btn btn-lg btn-default btn-control" href="TirociniAzienda?page=richieste">richieste</a>  
                         </div>
                     </div><!--./row -->
                 </div>
             </div>
         </div>
     </div><!--/.row-->
-        <div class="row mt-1">
+    <div class="row mt-1">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default text-center">
                 <div class="panel-body">
-                     <div class="row">
+                    <div class="row">
                         <p>Pannello Convenzione</p>
                         <div class="col-lg-6 mt-2">
-                            <input type="button" class="form-control btn-default" id="newAnnuncio" value="INFO CONVENZIONE"/>
+                            <a class="btn btn-lg btn-default btn-control" href="ConvenzioneAzienda?page=info">richieste</a>  
                         </div>
                         <div class="col-lg-6 mt-2">
-                            <input type="button" class="form-control btn-default" id="newAnnuncio" value="NUOVA CONVENZIONE"/>
+                            <a class="btn btn-lg btn-default btn-control" href="ConvenzioneAzienda?page=aggiornaConvenzione">richieste</a>  
                         </div>
                     </div><!--./row -->
                 </div>
             </div>
         </div>
     </div><!--/.row-->
-    
-
-
     </#if>
+</div><!--/.main--> 
 
-
-
-</div>
-<!--/.main--> 

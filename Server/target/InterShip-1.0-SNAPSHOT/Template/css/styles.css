@@ -108,6 +108,20 @@ h3, h4 {
 .fa-xl {
   font-size: 2em; }
 
+.btn-control{
+  text-transform: uppercase;
+  border: 1px solid #ddd;
+  box-shadow: none;
+  height: 46px;
+  width: 100%;}
+
+a.form-control{
+  text-transform: uppercase;
+  border: 1px solid #ddd;
+  box-shadow: none;
+  height: 46px;
+  width: 100%;}
+
 input.form-control {
   border: 1px solid #ddd;
   box-shadow: none;

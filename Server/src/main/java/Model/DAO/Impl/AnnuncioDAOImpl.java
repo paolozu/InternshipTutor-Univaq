@@ -33,8 +33,8 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
             + "                                     ON annuncio.Azienda_idAzienda=azienda.idAzienda  "
             + "                                     WHERE annuncio.idAnnuncio = ?";
 
-    private static final String GET_ANNUNCI = "SELECT * FROM annuncio JOIN azienda "
-            + "                                     ON annuncio.Azienda_idAzienda=azienda.idAzienda LIMIT ?,4";
+    private static final String GET_ANNUNCI_STATO = "SELECT * FROM annuncio JOIN azienda "
+            + "                                     ON annuncio.Azienda_idAzienda=azienda.idAzienda WHERE annuncio.Azienda_idAzienda=? AND annuncio.stato=? LIMIT ?,4";
 
     private static final String SET_ANNUNCIO = "INSERT INTO annuncio (titolo, corpo, dataAvvio, dataTermine, modalita, sussidio, settore, Azienda_idAzienda,nomeDocente,cognomeDocente,emailDocente,nomeReferente,cognomeReferente,emailReferente,telefonoReferente)\n"
             + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -73,15 +73,17 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
     }
 
     @Override
-    public List<Annuncio> getAnnunci(int valuePage) throws DataLayerException {
+    public List<Annuncio> getAnnunci(long idAzienda, int valuePage, String stato) throws DataLayerException {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
         List<Annuncio> annunci = new ArrayList();
         try {
             connection = DB.getConnection();
-            ps = connection.prepareStatement(GET_ANNUNCI);
-            ps.setInt(1, valuePage);
+            ps = connection.prepareStatement(GET_ANNUNCI_STATO);
+            ps.setLong(1, idAzienda);
+            ps.setString(2, stato);
+            ps.setInt(3, valuePage);
             rset = ps.executeQuery();
             while (rset.next()) {
                 annunci.add(new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio").toLocalDate(), rset.getDate("dataTermine").toLocalDate(), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), new Azienda(rset.getInt("idAzienda"))));
