@@ -40,6 +40,15 @@ public class Tirocinio {
         this.annuncio=an;
         this.resoconto=r;
     }
+    
+        public Tirocinio(Studente s, Annuncio an) {
+        this.studente=s;
+        this.annuncio=an;
+    }
+
+    public Tirocinio() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     
 

@@ -17,6 +17,7 @@ import Model.DAO.Interface.AziendaDAO;
 import Model.DAO.Interface.UtenteDAO;
 import Framework.data.DB;
 import Framework.data.DataLayerException;
+import Framework.result.FailureResult;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,18 +36,18 @@ import javax.naming.NamingException;
  */
 public class AziendaDAOImpl implements AziendaDAO {
 
-    private static final String GET_RICHIESTE = "SELECT Studente.idStudente,Studente.nome,Studente.cognome,Utente.email "
-            + "                                  FROM Azienda JOIN Richiesta  ON Azienda.idAzienda=Richiesta.Azienda_idAzienda "
+    private static final String GET_RICHIESTE = "SELECT Studente.idStudente,Studente.nome,Studente.cognome,Utente.email, "
+            + "                                  Studente.codFiscale, Studente.Telefono FROM Azienda JOIN Richiesta  ON Azienda.idAzienda=Richiesta.Azienda_idAzienda "
             + "                                  JOIN Studente ON Richiesta.Studente_idStudente = Studente.idStudente "
             + "                                  JOIN Utente ON Utente.idUtente = Studente.idStudente "
             + "                                  WHERE Azienda.idAzienda = ?";
 
     private static final String GET_AZIENDE = "SELECT azienda.idAzienda,azienda.ragSociale FROM azienda";
 
-    private static final String GET_TIROCINANTI = "SELECT Studente.idStudente, Studente.nome, Studente.cognome, Utente.email "
-            + "                                    FROM Studente "
+    private static final String GET_TIROCINANTI = "SELECT Studente.idStudente, Studente.nome, Studente.cognome, Utente.email, "
+            + "                                    Studente.codFiscale, Studente.Telefono, Tirocinio.Annuncio_idAnnuncio FROM Studente "
             + "                                     JOIN Tirocinio ON Studente.idStudente = Tirocinio.Studente_idStudente "
-            + "                                     JOIN Annuncio ON Tirocinio.idAnnuncio = Annuncio.idAnnuncio "
+            + "                                     JOIN Annuncio ON Tirocinio.Annuncio_idAnnuncio = Annuncio.idAnnuncio "
             + "                                     JOIN Azienda ON Azienda.idAzienda = Annuncio.Azienda_idAzienda "
             + "                                  JOIN Utente ON Utente.idUtente = Studente.idStudente "
             + "                                         WHERE idAzienda = ? AND Tirocinio.Resoconto_idResoconto IS NULL";
@@ -60,6 +61,7 @@ public class AziendaDAOImpl implements AziendaDAO {
             + "                                         JOIN Convenzione ON Azienda.idConvenzione = Convenzione.idConvenzione "
             + "                                             WHERE Azienda.idAzienda=?";
 
+    
     private static final String SET_CONCLUDI_TIROCINIO = "INSERT INTO `resoconto` (oreSvolte, attivitaSvolta, risConseguito) VALUES (?,?,?);";
 
     private static final String UPDATE_ID_RESOCONTO_TIROCINIO = "UPDATE Tirocinio SET Resoconto_idResoconto=? WHERE Annuncio_idAnnuncio=? AND Studente_idStudente=?";
@@ -85,7 +87,7 @@ public class AziendaDAOImpl implements AziendaDAO {
             ps.setLong(1, id);
             rset = ps.executeQuery();
             while (rset.next()) {
-                richieste.add(new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email")));
+                richieste.add(new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email"), rset.getString("codFiscale"), rset.getString("telefono")));
             }
         } catch (SQLException ex) {
             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
@@ -129,22 +131,26 @@ public class AziendaDAOImpl implements AziendaDAO {
     }
 
     @Override
-    public List<Studente> getTirocinanti(long id) throws DataLayerException {
-        DB db = new DB();
+    public List<Tirocinio> getTirocini(long id) throws DataLayerException {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
-        List<Studente> tirocinanti = new ArrayList();
+        List<Tirocinio> tirocini = new ArrayList();
         try {
-            connection = db.getConnection();
+            connection = DB.getConnection();
             ps = connection.prepareStatement(GET_TIROCINANTI);
             ps.setLong(1, id);
             rset = ps.executeQuery();
             while (rset.next()) {
-                tirocinanti.add(new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email")));
+                
+                Annuncio ann = new Annuncio(rset.getLong("Tirocinio.Annuncio_idAnnuncio"));
+                Studente stu= new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email"), rset.getString("codFiscale"), rset.getString("telefono"));
+            
+                tirocini.add(new Tirocinio(stu,ann));
+            
             }
         } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
+            throw new DataLayerException("ERRORE TIROCINANTI", ex);
         } finally {
             try {
                 rset.close();
@@ -154,7 +160,7 @@ public class AziendaDAOImpl implements AziendaDAO {
                 Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return tirocinanti;
+        return tirocini;
     }
 
     @Override
@@ -242,8 +248,9 @@ public class AziendaDAOImpl implements AziendaDAO {
             int result = ps.executeUpdate();
 
             ResultSet generatedKeys = ps.getGeneratedKeys();
-
             if (generatedKeys.next() && result != 0) {
+                
+                System.out.println("3");
                 long idResoconto = generatedKeys.getLong(1);
 
                 ps = connection.prepareStatement(UPDATE_ID_RESOCONTO_TIROCINIO);
@@ -251,7 +258,11 @@ public class AziendaDAOImpl implements AziendaDAO {
                 ps.setLong(2, tirocinio.getAnnuncio().getId());
                 ps.setLong(3, tirocinio.getStudente().getId());
 
-                ps.executeUpdate();
+                int result2 = ps.executeUpdate();
+                if ( result2 != 0) {
+                }else{
+                    throw new DataLayerException("ERRORE UPDATE UTENTE");
+                }
             }
         } catch (SQLException ex) {
             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);

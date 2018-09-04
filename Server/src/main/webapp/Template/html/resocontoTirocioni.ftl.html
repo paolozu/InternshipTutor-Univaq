@@ -1,0 +1,36 @@
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li class="active"><a href="homepage"> <em class="fa fa-home"></em></a></li> 
+            <li class="active">Lista tirocini</li> 
+            <li class="active">${titolo}</li> 
+        </ol>
+    </div><!--/.row-->
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading mt-1">${titolo}</div>
+            <div class="panel-body">
+                <form >
+                    <div class="mt-1">
+                        <h5>Ore svolte:</h5>
+                        <input type="number" class="form-control" required name="ore" placeholder="Inserisci valore...">
+                    </div>
+                    <div class="mt-1">
+                        <h5>Elenca le attività svolta dal tirocinante:</h5>
+                        <textarea class="form-control" id="message" name="attivita" maxlength="255" required placeholder="Inserisci testo..." rows="5"></textarea>
+                    </div>
+                    <div class="mt-4">
+                        <h5>Risultato conseguito :</h5>
+                        <textarea class="form-control" id="message" name="risultato" maxlength="255" required placeholder="Inserisci testo..." rows="5"></textarea>
+                    </div>
+                    <div class="col-md-4 col-lg-offset-4 mt-4 text-center">
+                        <input  type="hidden" name="idA" value="${idAnnuncio}" />
+                        <input  type="hidden" name="idT" value="${idTirocinante}" />
+                        <button type="submit" class="btn btn-md btn-success" name="action" value="concludi">Concludi</button>
+                        <button type="submit" class="btn btn-md btn-link" name="action" value="elimina" >Elimina</button>
+                    </div>
+                </form>
+            </div>
+        </div><!--/.panel--> 
+    </div><!--/.row--> 
+</div><!--/.main--> 

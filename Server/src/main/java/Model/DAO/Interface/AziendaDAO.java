@@ -20,7 +20,7 @@ public interface AziendaDAO {
     
       public List<Azienda> getAziende() throws DataLayerException;
       public List<Studente> getRichieste(long id) throws DataLayerException;
-      public List<Studente> getTirocinanti(long id) throws DataLayerException;
+      public List<Tirocinio> getTirocini(long id) throws DataLayerException;
       public Convenzione getConvenzione(long id) throws DataLayerException;
       public boolean isConvenzionata(long id) throws DataLayerException;
       public String getStato(long id) throws DataLayerException;

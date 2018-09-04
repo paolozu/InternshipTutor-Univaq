@@ -21,7 +21,7 @@ public class Studente extends Utente {
 
     public Studente() {
     }
-
+    
     public Studente(String username, String password, String email, String tipo,String nome, String cognome, String codFiscale, String telefono, String indirizzoResidenza, String corsoLaurea, String diploma, String laurea, String dottorato, String capNascita, String capResidenza, String cittaResidenza, String provinciaResidenza, String cittaNascita, String provinciaNascita, int crediti, LocalDate dataNascita, boolean handicap) {
         this.username=username;
         this.password=password;
@@ -49,10 +49,12 @@ public class Studente extends Utente {
     
     
         
-    public Studente(long id,String nome, String cognome,String email) {
+    public Studente(long id,String nome, String cognome,String email, String codFiscale, String telefono) {
         super.id=id;
         this.nome = nome;
         this.cognome = cognome;
+        this.telefono = telefono;
+        this.codFiscale = codFiscale;
         super.email = email;
     }
 
@@ -203,8 +205,13 @@ public class Studente extends Utente {
     public int getCrediti() {
         return crediti;
     }
-    
 
+    @Override
+    public String toString() {
+        return "Studente{" + "nome=" + nome + ", cognome=" + cognome + ", codFiscale=" + codFiscale + ", telefono=" + telefono + ", indirizzoResidenza=" + indirizzoResidenza + ", corsoLaurea=" + corsoLaurea + ", diploma=" + diploma + ", laurea=" + laurea + ", dottorato=" + dottorato + ", capNascita=" + capNascita + ", capResidenza=" + capResidenza + ", cittaResidenza=" + cittaResidenza + ", provinciaResidenza=" + provinciaResidenza + ", cittaNascita=" + cittaNascita + ", provinciaNascita=" + provinciaNascita + ", crediti=" + crediti + ", dataNascita=" + dataNascita + ", handicap=" + handicap + '}';
+    }
+    
+    
 
     
   

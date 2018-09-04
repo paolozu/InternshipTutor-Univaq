@@ -71,6 +71,10 @@ public class Annuncio {
         this.id=id;
     }
     
+    public Annuncio(Azienda azienda) {
+        this.azienda=azienda;
+    }
+    
     
     public long getId() {
         return id;

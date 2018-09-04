@@ -25,7 +25,7 @@ public class Azienda extends Utente {
         this.ragioneSociale = ragioneSociale;
     }
     
-    public Azienda(int id) {
+    public Azienda(long id) {
         super.id = id;
     }
 

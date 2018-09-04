@@ -23,6 +23,7 @@
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Model/DAO/Impl/StudenteDAOImpl.java
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Model/DAO/Interface/StudenteDAO.java
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Controller/InternshipBaseController.java
+/Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Controller/TirociniAzienda.java
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Controller/Login.java
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Controller/Logout.java
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Model/DAO/Impl/AziendaDAOImpl.java

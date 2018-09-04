@@ -2,6 +2,7 @@ package Framework.security;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.IllegalFormatException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -124,6 +125,18 @@ public class SecurityLayer {
             return Integer.parseInt(s);
         } else {
             throw new NumberFormatException("String argument is null");
+        }
+    }
+    
+    public static boolean checkString(String s) throws IllegalArgumentException {
+        //convertiamo la stringa in numero, ma assicuriamoci prima che sia valida
+        //convert the string to a number, ensuring its validity
+        if (s != null) {
+            //se la conversione fallisce, viene generata un'eccezione
+            //if the conversion fails, an exception is raised
+            return true;
+        } else {
+            throw new IllegalArgumentException("String argument is null");
         }
     }
     
