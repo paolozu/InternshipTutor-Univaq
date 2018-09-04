@@ -61,7 +61,6 @@ public class AziendaDAOImpl implements AziendaDAO {
             + "                                         JOIN Convenzione ON Azienda.idConvenzione = Convenzione.idConvenzione "
             + "                                             WHERE Azienda.idAzienda=?";
 
-    
     private static final String SET_CONCLUDI_TIROCINIO = "INSERT INTO `resoconto` (oreSvolte, attivitaSvolta, risConseguito) VALUES (?,?,?);";
 
     private static final String UPDATE_ID_RESOCONTO_TIROCINIO = "UPDATE Tirocinio SET Resoconto_idResoconto=? WHERE Annuncio_idAnnuncio=? AND Studente_idStudente=?";
@@ -72,8 +71,10 @@ public class AziendaDAOImpl implements AziendaDAO {
     private static final String UPDATE_STATO = "UPDATE Azienda SET Stato=? WHERE idAzienda=?";
 
     private static final String GET_STATO = "SELECT Azienda.Stato FROM Azienda WHERE idAzienda=?";
- 
+
     private static final String IS_CONVENZIONATA = "SELECT Azienda.Stato FROM Azienda WHERE idAzienda=? AND Stato='CONVENZIONATA'";
+
+    private static final String DELETE_TIROCINIO = "DELETE FROM Tirocinio WHERE Tirocinio.Annuncio_idAnnuncio=? AND Studente_idStudente=?";
 
     @Override
     public List<Studente> getRichieste(long id) throws DataLayerException {
@@ -90,14 +91,14 @@ public class AziendaDAOImpl implements AziendaDAO {
                 richieste.add(new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email"), rset.getString("codFiscale"), rset.getString("telefono")));
             }
         } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
+            throw new DataLayerException("ERRORE GET RICHIESTE", ex);
         } finally {
             try {
                 rset.close();
                 ps.close();
                 connection.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
             }
         }
         return richieste;
@@ -117,14 +118,14 @@ public class AziendaDAOImpl implements AziendaDAO {
                 aziende.add(new Azienda(rset.getInt("idAzienda"), rset.getString("ragSociale")));
             }
         } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
+            throw new DataLayerException("ERRORE GET AZIENDE", ex);
         } finally {
             try {
                 rset.close();
                 ps.close();
                 connection.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
             }
         }
         return aziende;
@@ -142,22 +143,22 @@ public class AziendaDAOImpl implements AziendaDAO {
             ps.setLong(1, id);
             rset = ps.executeQuery();
             while (rset.next()) {
-                
+
                 Annuncio ann = new Annuncio(rset.getLong("Tirocinio.Annuncio_idAnnuncio"));
-                Studente stu= new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email"), rset.getString("codFiscale"), rset.getString("telefono"));
-            
-                tirocini.add(new Tirocinio(stu,ann));
-            
+                Studente stu = new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email"), rset.getString("codFiscale"), rset.getString("telefono"));
+
+                tirocini.add(new Tirocinio(stu, ann));
+
             }
         } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE TIROCINANTI", ex);
+            throw new DataLayerException("ERRORE GET TIROCINI", ex);
         } finally {
             try {
                 rset.close();
                 ps.close();
                 connection.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
             }
         }
         return tirocini;
@@ -180,14 +181,14 @@ public class AziendaDAOImpl implements AziendaDAO {
                 convenzione = new Convenzione(rset.getString("nome"), rset.getString("directory"), rset.getString("estensione"), rset.getLong("peso"));
             }
         } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
+            throw new DataLayerException("ERRORE GET CONVEZIONE", ex);
         } finally {
             try {
                 rset.close();
                 ps.close();
                 connection.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
             }
         }
         return convenzione;
@@ -214,14 +215,14 @@ public class AziendaDAOImpl implements AziendaDAO {
             }
 
         } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
+            throw new DataLayerException("ERRORE APPROVAZIONE AZIENDA", ex);
         } finally {
             try {
                 rset.close();
                 ps.close();
                 connection.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
             }
         }
         return azienda;
@@ -249,8 +250,7 @@ public class AziendaDAOImpl implements AziendaDAO {
 
             ResultSet generatedKeys = ps.getGeneratedKeys();
             if (generatedKeys.next() && result != 0) {
-                
-                System.out.println("3");
+
                 long idResoconto = generatedKeys.getLong(1);
 
                 ps = connection.prepareStatement(UPDATE_ID_RESOCONTO_TIROCINIO);
@@ -259,19 +259,19 @@ public class AziendaDAOImpl implements AziendaDAO {
                 ps.setLong(3, tirocinio.getStudente().getId());
 
                 int result2 = ps.executeUpdate();
-                if ( result2 != 0) {
-                }else{
-                    throw new DataLayerException("ERRORE UPDATE UTENTE");
+                if (result2 != 0) {
+                } else {
+                    throw new DataLayerException("ERRORE UPDATE TIROCINIO");
                 }
             }
         } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
+            throw new DataLayerException("ERRORE CONCLUDI TIROCINIO", ex);
         } finally {
             try {
                 ps.close();
                 connection.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
             }
         }
 
@@ -319,12 +319,11 @@ public class AziendaDAOImpl implements AziendaDAO {
                     ps.close();
                     connection.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
                 }
             }
         } else {//NUOVO UTENTE - ERRORE
-            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, "ERRORE CREAZIONE - UTENTE");
-            //Verificare presenza utenti
+            throw new DataLayerException("ERRORE CREAZIONE - UTENTE");
         }
         return result;
     }
@@ -346,14 +345,14 @@ public class AziendaDAOImpl implements AziendaDAO {
             result = ps.executeUpdate();
 
         } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
+            throw new DataLayerException("ERRORE UPDATE STATO AZIENDA", ex);
         } finally {
             //CHIUSURA CONNESSIONE
             try {
                 ps.close();
                 connection.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, "ERRORE CHIUSURA CONNESSIONE ", ex);
+                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
             }
         }
 
@@ -364,7 +363,6 @@ public class AziendaDAOImpl implements AziendaDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
-        
 
         String result = null;
         try {
@@ -379,15 +377,15 @@ public class AziendaDAOImpl implements AziendaDAO {
                 }
             }
         } catch (SQLException ex) {
-             Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-            throw new DataLayerException("ERRORE STATO UTENTE", ex);
+            Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DataLayerException("ERRORE QUERY CONVENZIONE", ex);
         } finally {
             try {
                 rset.close();
                 ps.close();
                 connection.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
             }
         }
         return false;
@@ -411,17 +409,52 @@ public class AziendaDAOImpl implements AziendaDAO {
             }
 
         } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
+            throw new DataLayerException("ERRORE QUERY STATO AZIENDA", ex);
         } finally {
             try {
                 rset.close();
                 ps.close();
                 connection.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
             }
         }
         return result;
+
+    }
+
+    /**
+     * Rimnuovi il tirocinio sostenuto dallo studente presso l'azienda
+     *
+     * @param tirocinio
+     */
+    @Override
+    public void removeTirocinio(Tirocinio tirocinio) throws DataLayerException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        try {
+            connection = DB.getConnection();
+            ps = connection.prepareStatement(DELETE_TIROCINIO);
+            ps.setLong(1, tirocinio.getAnnuncio().getId());
+            ps.setLong(2, tirocinio.getStudente().getId());
+
+            int result = ps.executeUpdate();
+            if (result != 0) {
+            } else {
+                throw new DataLayerException("ERRORE DELTETE TIROCINIO");
+            }
+
+        } catch (SQLException ex) {
+            throw new DataLayerException("ERRORE QUERY RIMOZIONE TIROCINIO", ex);
+        } finally {
+            try {
+                ps.close();
+                connection.close();
+            } catch (SQLException ex) {
+                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
+            }
+        }
 
     }
 }

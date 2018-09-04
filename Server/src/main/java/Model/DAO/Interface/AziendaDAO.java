@@ -28,5 +28,6 @@ public interface AziendaDAO {
       public void setConcludiTirocinio(Tirocinio tirocinio) throws DataLayerException;
       public int setRegistrazioneAzienda(Azienda azienda) throws DataLayerException;
       public int updateStato(Azienda azienda,String stato) throws DataLayerException;
+       public void removeTirocinio(Tirocinio tirocinio) throws DataLayerException;
     
 }

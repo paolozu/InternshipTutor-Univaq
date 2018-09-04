@@ -113,7 +113,4 @@ public class Resoconto {
     public String toString() {
         return "Resoconto{" + "id=" + id + ", nome=" + nome + ", directory=" + directory + ", estensione=" + estensione + ", peso=" + peso + '}';
     }
-    
-    
-    
 }

@@ -54,15 +54,16 @@ public class TirociniAzienda extends AziendaSecurity {
                     data.put("idAnnuncio", request.getParameter("idA"));
 
                     TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-                    res.activate("resocontoTirocioni.ftl.html", data, response);
+                    res.activate("resocontoTirocinio.ftl.html", data, response);
 
                 } catch (TemplateManagerException ex) {
                     (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
                 }
                 break;
             case "concludi":
-                if (request.getParameter("attivita") != null && request.getParameter("risultato") != null && request.getParameter("ore") != null) {
-
+                    SecurityLayer.checkString(request.getParameter("attivita"));
+                    SecurityLayer.checkString(request.getParameter("risultato"));
+                    SecurityLayer.checkString(request.getParameter("ore"));
                     
                     
                     AziendaDAO queryA = new AziendaDAOImpl();
@@ -77,7 +78,7 @@ public class TirociniAzienda extends AziendaSecurity {
                     } catch (DataLayerException ex) {
                         (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
                     }
-                }
+                
 
                 //Notifica aggiornamento tirocinio
                 data.put("alert","Tirocinio concluso");
@@ -85,6 +86,19 @@ public class TirociniAzienda extends AziendaSecurity {
                 
                 break;
             case "elimina":
+                Studente studente = new Studente(SecurityLayer.checkNumeric(request.getParameter("idT")));
+                Annuncio annuncio = new Annuncio(SecurityLayer.checkNumeric(request.getParameter("idA")));
+                
+                AziendaDAO queryB = new AziendaDAOImpl();
+                
+                 try {
+                    queryB.removeTirocinio(new Tirocinio(studente,annuncio));
+                    } catch (DataLayerException ex) {
+                        (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+                    }
+                
+                //Notifica aggiornamento tirocinio
+                data.put("alert","Tirocinio rimosso");
                 action_listaTirocinanti(data, request, response);
                 break;
             default:
