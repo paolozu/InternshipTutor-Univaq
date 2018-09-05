@@ -31,18 +31,16 @@ public class UtenteDAOImpl implements UtenteDAO {
 
     @Override
     public Utente getCredenziali(String username, String password) throws DataLayerException{
-        Connection connection = null;
+        Connection connection = DB.getConnection();
         PreparedStatement ps = null;
         ResultSet rset = null;
         Utente utente = null;
 
         try {
-            connection = DB.getConnection();
             ps = connection.prepareStatement(GET_CREDENZIALI);
             ps.setString(1, username);
             ps.setString(2, password);
             rset = ps.executeQuery();
-
             if (rset.next()) {
                 utente = new Utente(rset.getLong("idUtente"),rset.getString("username"),rset.getString("email"), rset.getString("tipologia"));
             }
@@ -54,7 +52,7 @@ public class UtenteDAOImpl implements UtenteDAO {
                 ps.close();
                 connection.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                throw new DataLayerException("ERRORE CREDENZIALI 1 TIROCINIO");
             }
         }
 

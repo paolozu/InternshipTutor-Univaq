@@ -27,16 +27,15 @@ public class DB {
             InitialContext ctx = new InitialContext();
             ds = (DataSource) ctx.lookup("java:comp/env/jdbc/webdb");
         } catch (NamingException ex) {
-                Logger.getLogger(DB.class.getName()).log(Level.SEVERE, "Error initializing", ex);
+          Logger.getLogger(DB.class.getName()).log(Level.SEVERE, "ERRORE INIZIALIZZAZIONE DATABASE", ex);
         }
-            
     }
     
-    public static Connection getConnection() throws DataLayerException{
+    public static Connection getConnection() throws DataLayerException {
         try {
             return ds.getConnection();
         } catch (SQLException ex) {
-            throw new DataLayerException("Error initializing data layer", ex);
+            throw new DataLayerException("ERRORE CONNESSIONE DATABASE", ex);
         }
     }
 }

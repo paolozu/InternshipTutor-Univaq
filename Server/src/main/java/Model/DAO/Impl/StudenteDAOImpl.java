@@ -14,6 +14,8 @@ import Model.DAO.Interface.StudenteDAO;
 import Model.DAO.Interface.UtenteDAO;
 import Framework.data.DB;
 import Framework.data.DataLayerException;
+import Model.Bean.Convenzione;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
@@ -28,6 +30,8 @@ public class StudenteDAOImpl implements StudenteDAO {
             +                                          " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     private static final String INVIA_RICHIESTA="";
+    
+    private static final String GET_STUDENTE="SELECT * FROM Studente WHERE Studente.idStudente=?";
     
     
     
@@ -90,6 +94,34 @@ public class StudenteDAOImpl implements StudenteDAO {
         return result;
     }
     
+    public Studente getStudente(long id) throws DataLayerException{
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rset = null;
+        Studente studente = null;
+
+        try {
+            connection = DB.getConnection();
+            ps = connection.prepareStatement(GET_STUDENTE);
+            ps.setLong(1, id);
+            rset = ps.executeQuery();
+
+            if (rset.next()) {
+                studente = new Studente(rset.getLong("idStudente"),rset.getString("nome"), rset.getString("cognome"), rset.getString("codFiscale"), rset.getString("telefono"),rset.getString("indirizzoResidenza"),rset.getString("corsoLaurea"),rset.getString("cap_Residenza"),rset.getString("citta_Residenza"),rset.getString("provincia_Residenza"), rset.getInt("crediti"),rset.getBoolean("handicap"),rset.getDate("dataNascita").toLocalDate());
+            }
+        } catch (SQLException ex) {
+            throw new DataLayerException("ERRORE GET STUDENTE", ex);
+        } finally {
+            try {
+                rset.close();
+                ps.close();
+                connection.close();
+            } catch (SQLException ex) {
+                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
+            }
+        }
+        return studente;
+    }
     
 
 }

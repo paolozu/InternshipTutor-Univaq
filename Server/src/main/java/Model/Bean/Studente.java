@@ -47,6 +47,22 @@ public class Studente extends Utente {
         this.handicap = handicap;
     }
     
+        public Studente(long id,String nome, String cognome, String codFiscale, String telefono,String indirizzoResidenza, String corsoLaurea, String capResidenza, String cittaResidenza, String provinciaResidenza, int crediti, boolean handicap, LocalDate dataNascita) {
+        this.id=id;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.codFiscale = codFiscale;
+        this.telefono = telefono;
+        this.indirizzoResidenza = indirizzoResidenza;
+        this.corsoLaurea = corsoLaurea;
+        this.capResidenza = capResidenza;
+        this.cittaResidenza = cittaResidenza;
+        this.provinciaResidenza = provinciaResidenza;
+        this.crediti = crediti;
+        this.handicap = handicap;
+        this.dataNascita = dataNascita;
+    }
+    
     
         
     public Studente(long id,String nome, String cognome,String email, String codFiscale, String telefono) {

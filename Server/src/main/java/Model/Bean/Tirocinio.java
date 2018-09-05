@@ -45,9 +45,15 @@ public class Tirocinio {
         this.studente=s;
         this.annuncio=an;
     }
+        
+    public Tirocinio(Studente s, Annuncio an, LocalDate dataInizio, LocalDate dataFine) {
+         this.dataInizio = dataInizio;
+        this.dataFine = dataFine;
+        this.studente=s;
+        this.annuncio=an;
+    }
 
     public Tirocinio() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     

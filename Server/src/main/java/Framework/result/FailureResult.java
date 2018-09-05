@@ -46,8 +46,6 @@ public class FailureResult {
         } else {
             message = "Unknown Error";
         }
-        
-        Logger.getLogger(FailureResult.class.getName()).log(Level.SEVERE, "*ERRORE*", exception);
         activate(message, request, response);
     }
 

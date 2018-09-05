@@ -49,10 +49,7 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
     
     
     @Override
-    public List<Tirocinio> getTirocini(long idStudente) throws DataLayerException{
-
-        System.out.println("id-"+idStudente);
-        
+    public List<Tirocinio> getTirocini(long idStudente) throws DataLayerException{     
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
@@ -70,7 +67,6 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
                 tirocini.add(new Tirocinio(resocontoAnnuncio,annuncio, rset.getDate("Tirocinio.dataInizio").toLocalDate(),rset.getDate("Tirocinio.dataFine").toLocalDate()));
             }
         } catch (SQLException ex) {
-            System.out.println(ex);
             throw new DataLayerException("ERRORE INFO TIROCINIO UTENTE", ex);
         } finally {
             try {
@@ -81,7 +77,6 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
                 Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-         System.out.println("tiro: "+tirocini);
         return tirocini;
     }
 

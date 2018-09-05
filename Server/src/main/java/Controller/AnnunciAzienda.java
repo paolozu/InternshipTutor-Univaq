@@ -75,7 +75,6 @@ public class AnnunciAzienda extends AziendaSecurity {
                 switch (request.getParameter("page")) {
                     case "annunciAttivi":
                         data.put("titolo","Annunci attivi");
-                        System.out.println(queryAnn.getAnnunci((long) s.getAttribute("userid"), 0, "ATTIVO").toString());
                         data.put("annunci", queryAnn.getAnnunci((long) s.getAttribute("userid"), 0, "ATTIVO"));
                         break;
                     case "annunciSospesi":

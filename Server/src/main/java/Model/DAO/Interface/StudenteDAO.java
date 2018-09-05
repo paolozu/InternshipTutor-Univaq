@@ -16,5 +16,6 @@ import Model.Bean.Studente;
 public interface StudenteDAO {
     
     public int setRegistrazioneStudente(Studente studente) throws DataLayerException;
+     public Studente getStudente(long id) throws DataLayerException;
     
 }

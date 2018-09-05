@@ -18,6 +18,7 @@ import Model.DAO.Interface.UtenteDAO;
 import Framework.data.DB;
 import Framework.data.DataLayerException;
 import Framework.result.FailureResult;
+import Model.Bean.Richiesta;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,11 +37,15 @@ import javax.naming.NamingException;
  */
 public class AziendaDAOImpl implements AziendaDAO {
 
-    private static final String GET_RICHIESTE = "SELECT Studente.idStudente,Studente.nome,Studente.cognome,Utente.email, "
-            + "                                  Studente.codFiscale, Studente.Telefono FROM Azienda JOIN Richiesta  ON Azienda.idAzienda=Richiesta.Azienda_idAzienda "
-            + "                                  JOIN Studente ON Richiesta.Studente_idStudente = Studente.idStudente "
-            + "                                  JOIN Utente ON Utente.idUtente = Studente.idStudente "
-            + "                                  WHERE Azienda.idAzienda = ?";
+    private static final String GET_RICHIESTE = "SELECT Studente.idStudente,Studente.nome,Studente.cognome,Utente.email, Studente.codFiscale, Studente.Telefono, Annuncio.idAnnuncio "
+            + "                                           FROM Richiesta  \n"
+            + "                                                           JOIN Annuncio  ON Annuncio.idAnnuncio=Richiesta.Annuncio_idAnnuncio \n"
+            + "                                                           JOIN Azienda ON Annuncio.Azienda_idAzienda = Azienda.idAzienda \n"
+            + "                                                           JOIN Studente ON Richiesta.Studente_idStudente = Studente.idStudente  \n"
+            + "                                                           JOIN Utente ON Utente.idUtente = Studente.idStudente  \n"
+            + "                                                               WHERE Azienda.idAzienda = ?";
+
+    private static final String GET_RICHIESTA_STUDENTE = "SELECT * FROM Richiesta JOIN STUDENTE ON Richiesta.Studente_idStudente=Studente.idStudente WHERE Studente.idStudente=? AND Richiesta.Annuncio_idAnnuncio=?";
 
     private static final String GET_AZIENDE = "SELECT azienda.idAzienda,azienda.ragSociale FROM azienda";
 
@@ -76,19 +81,27 @@ public class AziendaDAOImpl implements AziendaDAO {
 
     private static final String DELETE_TIROCINIO = "DELETE FROM Tirocinio WHERE Tirocinio.Annuncio_idAnnuncio=? AND Studente_idStudente=?";
 
+    private static final String DELETE_RICHIESTA = "DELETE FROM Richiesta WHERE Richiesta.Annuncio_idAnnuncio=? AND Richiesta.Studente_idStudente=?";
+
+    private static final String SET_NUOVO_TIROCINIO = "INSERT INTO Tirocinio (Annuncio_idAnnuncio, Studente_idStudente, dataInizio, dataFine)\n"
+            + "VALUES (?,?,?,?)";
+
     @Override
-    public List<Studente> getRichieste(long id) throws DataLayerException {
+    public List<Richiesta> getRichieste(long idAzienda) throws DataLayerException {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
-        List<Studente> richieste = new ArrayList();
+        List<Richiesta> richieste = new ArrayList();
         try {
             connection = DB.getConnection();
             ps = connection.prepareStatement(GET_RICHIESTE);
-            ps.setLong(1, id);
+            ps.setLong(1, idAzienda);
             rset = ps.executeQuery();
             while (rset.next()) {
-                richieste.add(new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email"), rset.getString("codFiscale"), rset.getString("telefono")));
+
+                Studente s = new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email"), rset.getString("codFiscale"), rset.getString("telefono"));
+                Annuncio a = new Annuncio(rset.getLong("idAnnuncio"));
+                richieste.add(new Richiesta(a, s));
             }
         } catch (SQLException ex) {
             throw new DataLayerException("ERRORE GET RICHIESTE", ex);
@@ -102,6 +115,38 @@ public class AziendaDAOImpl implements AziendaDAO {
             }
         }
         return richieste;
+    }
+
+    @Override
+    public Richiesta getRichiestaStudente(Richiesta richiesta) throws DataLayerException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rset = null;
+
+        try {
+            connection = DB.getConnection();
+            ps = connection.prepareStatement(GET_RICHIESTA_STUDENTE);
+            ps.setLong(1, richiesta.getStudente().getId());
+            ps.setLong(2, richiesta.getAnnuncio().getId());
+            rset = ps.executeQuery();
+
+            if (rset.next()) {
+                Studente s = new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("codFiscale"), rset.getString("telefono"), rset.getString("indirizzoResidenza"), rset.getString("corsoLaurea"), rset.getString("cap_Residenza"), rset.getString("citta_Residenza"), rset.getString("provincia_Residenza"), rset.getInt("crediti"), rset.getBoolean("handicap"), rset.getDate("dataNascita").toLocalDate());
+                Annuncio a = new Annuncio(rset.getLong("Richiesta.Annuncio_idAnnuncio"));
+                richiesta = new Richiesta(a, s);
+            }
+        } catch (SQLException ex) {
+            throw new DataLayerException("ERRORE GET CONVEZIONE", ex);
+        } finally {
+            try {
+                rset.close();
+                ps.close();
+                connection.close();
+            } catch (SQLException ex) {
+                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
+            }
+        }
+        return richiesta;
     }
 
     @Override
@@ -442,7 +487,7 @@ public class AziendaDAOImpl implements AziendaDAO {
             int result = ps.executeUpdate();
             if (result != 0) {
             } else {
-                throw new DataLayerException("ERRORE DELTETE TIROCINIO");
+                throw new DataLayerException("ERRORE DELETE TIROCINIO");
             }
 
         } catch (SQLException ex) {
@@ -456,5 +501,79 @@ public class AziendaDAOImpl implements AziendaDAO {
             }
         }
 
+    }
+
+    /**
+     * Rimnuovi il tirocinio sostenuto dallo studente presso l'azienda
+     *
+     * @param tirocinio
+     */
+    @Override
+    public void removeRichiesta(Richiesta richiesta) throws DataLayerException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        try {
+            connection = DB.getConnection();
+            ps = connection.prepareStatement(DELETE_RICHIESTA);
+            ps.setLong(1, richiesta.getAnnuncio().getId());
+            ps.setLong(2, richiesta.getStudente().getId());
+
+            int result = ps.executeUpdate();
+
+            if (result != 0) {
+            } else {
+                throw new DataLayerException("ERRORE DELETE RICHIESTA");
+            }
+
+        } catch (SQLException ex) {
+            throw new DataLayerException("ERRORE QUERY RIMOZIONE TIROCINIO", ex);
+        } finally {
+            try {
+                ps.close();
+                connection.close();
+            } catch (SQLException ex) {
+                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
+            }
+        }
+
+    }
+
+    /**
+     * Rimnuovi il tirocinio sostenuto dallo studente presso l'azienda
+     *
+     * @param tirocinio
+     */
+    @Override
+    public int setNuovoTirocinio(Tirocinio tirocinio) throws DataLayerException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        int result = 0;
+        try {
+            connection = DB.getConnection();
+            ps = connection.prepareStatement(SET_NUOVO_TIROCINIO);
+            ps.setLong(1, tirocinio.getAnnuncio().getId());
+            ps.setLong(2, tirocinio.getStudente().getId());
+            ps.setDate(3, java.sql.Date.valueOf(tirocinio.getDataInizio()));
+            ps.setDate(4, java.sql.Date.valueOf(tirocinio.getDataFine()));
+
+            result = ps.executeUpdate();
+
+            if (result != 0) {
+            } else {
+                throw new DataLayerException("ERRORE NUOVO TIROCINIO");
+            }
+
+        } catch (SQLException ex) {
+            throw new DataLayerException("ERRORE QUERY NUOVO TIROCINIO", ex);
+        } finally {
+            try {
+                ps.close();
+                connection.close();
+            } catch (SQLException ex) {
+                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
+            }
+        }
+        return result;
     }
 }

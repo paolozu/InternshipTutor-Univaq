@@ -52,6 +52,10 @@
         <servlet-name>TirociniAzienda</servlet-name>
         <servlet-class>Controller.TirociniAzienda</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RichiesteAzienda</servlet-name>
+        <servlet-class>Controller.RichiesteAzienda</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -108,6 +112,10 @@
         <servlet-name>TirociniAzienda</servlet-name>
         <url-pattern>/TirociniAzienda</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RichiesteAzienda</servlet-name>
+        <url-pattern>/RichiesteAzienda</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -127,7 +135,7 @@
     </context-param>
     <context-param>
         <param-name>view.error_template</param-name>
-        <param-value>500.html</param-value>
+        <param-value>view.error.ftl.html</param-value>
     </context-param>
     <resource-ref>
         <res-ref-name>jdbc/webdb</res-ref-name>
@@ -140,6 +148,10 @@
     </welcome-file-list>
     <error-page>
         <error-code>404</error-code>
-        <location>/Template/html/500.html</location>
+        <location>/Template/html/view_error_404.html</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/Template/html/view_error_500.html</location>
     </error-page>
 </web-app>

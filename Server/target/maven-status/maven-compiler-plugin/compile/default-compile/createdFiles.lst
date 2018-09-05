@@ -1,3 +1,5 @@
 Controller/TirociniAzienda.class
+Model/Bean/Richiesta.class
 Controller/AnnunciAzienda.class
 Controller/AziendaSecurity.class
+Controller/RichiesteAzienda.class
