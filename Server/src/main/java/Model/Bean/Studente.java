@@ -22,11 +22,10 @@ public class Studente extends Utente {
     public Studente() {
     }
     
-    public Studente(String username, String password, String email, String tipo,String nome, String cognome, String codFiscale, String telefono, String indirizzoResidenza, String corsoLaurea, String diploma, String laurea, String dottorato, String capNascita, String capResidenza, String cittaResidenza, String provinciaResidenza, String cittaNascita, String provinciaNascita, int crediti, LocalDate dataNascita, boolean handicap) {
+    public Studente(String username, String password, String email,String nome, String cognome, String codFiscale, String telefono, String indirizzoResidenza, String corsoLaurea, String diploma, String laurea, String dottorato, String capNascita, String capResidenza, String cittaResidenza, String provinciaResidenza, String cittaNascita, String provinciaNascita, int crediti, LocalDate dataNascita, boolean handicap) {
         this.username=username;
         this.password=password;
         this.email=email;
-        this.tipo=tipo;
         this.nome = nome;
         this.cognome = cognome;
         this.codFiscale = codFiscale;

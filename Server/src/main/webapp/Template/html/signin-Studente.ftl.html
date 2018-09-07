@@ -28,96 +28,103 @@
 								<label class="">Dati di accesso</label>
 								<div class="row">
 									<div class="col-lg-6 mt-1">
-									  <input class="form-control" placeholder="Username" id="usernameStudente" type="text" autofocus required>
+									  <input class="form-control" placeholder="Username" name="usernameStudente" type="text" autofocus required>
 									</div>
 									<div class="col-lg-6 mt-1">
-									  <input class="form-control" placeholder="Email" id="emailDatiDiAccesso" type="email" required>
+									  <input class="form-control" placeholder="Email" name="emailDatiDiAccesso" type="email" required>
 									</div>
 								</div><!--./row -->
 								<div class="row">
 									<div class="col-lg-6 mt-1">
-									  <input class="form-control" placeholder="Password" id="password" type="password" required>
+									  <input class="form-control" placeholder="Password" name="password" type="password" required>
 									</div>
 								</div><!--./row -->
 								<hr>
 								<label class="">Informazioni personali</label>
 								<div class="row">
 								  <div class="col-lg-6 mt-1">
-										<input class="form-control" placeholder="Nome" id="nomeStudente" type="text" required>
+										<input class="form-control" placeholder="Nome" name="nomeStudente" type="text" required>
 									</div>
 								  <div class="col-lg-6 mt-1">
-										<input class="form-control" placeholder="Cognome" id="cognomeStudente" type="text" required>
+										<input class="form-control" placeholder="Cognome" name="cognomeStudente" type="text" required>
 									</div>
 								</div><!--./row -->
 								<div class="row">
 									<div class="col-lg-6 mt-1">
-										<input placeholder="Data di Nascita gg/mm/aaaa" class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date">
+										<input placeholder="Data di Nascita gg/mm/aaaa" class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="date">
 									</div>
 									<div class="col-lg-6 mt-1">
-												<input class="form-control" placeholder="Codice Fiscale" id="CFStudente" type="text" required>
+												<input class="form-control" placeholder="Codice Fiscale" name="CFStudente" type="text" required>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-lg-6 mt-1">
-										<input class="form-control" placeholder="Luogo di Nascita" id="luogoNascita" type="text" required>
+										<input class="form-control" placeholder="Luogo di Nascita" name="luogoNascita" type="text" required>
 									</div>
 									<div class="col-lg-6 mt-1">
-									  <input class="form-control" placeholder="CAP Luogo di Nascita" id="capNascita" type="number" required>
+									  <input class="form-control" placeholder="CAP Luogo di Nascita" name="capNascita" type="number" required>
 									</div>
 								</div><!--./row -->
 								<div class="row">
 									<div class="col-lg-6 mt-1">
-										<input class="form-control" placeholder="Provincia di Nascita" id="provinciaNascita" type="text" required>
+										<input class="form-control" placeholder="Provincia di Nascita" name="provinciaNascita" type="text" required>
+									</div>
+									<div class="col-lg-6 mt-1">
+										<input class="form-control" placeholder="Telefono" name="telefono" type="text" required>
 									</div>
 								</div><!--./row -->
-								<div class="row  ">
-									<div class="col-lg-12 mt-1">
-										<label class="checkbox-inline" id="handicap"><input type="checkbox" value="">Portatore di handicap</label>
+								<div class="row ">
+									<div class="col-lg-6 mt-1">
+										<select class="form-control">
+											<option id="labelHandicap" value="" disabled selected>Portatore di handicap</option>
+											<option name="hadicap" value="true">Si</option>
+											<option name="hadicap" value="false">No</option>
+										</select>
 									</div>
 								</div>
 								<hr>
 								<div class="row">
 									<div class="col-lg-6 mt-1">
-										<input class="form-control" placeholder="Città di residenza" id="residenzaStudente" type="text" required>
+										<input class="form-control" placeholder="Citt&aacute; di residenza" name="cittaResidenzaStudente" type="text" required>
 									</div>
 									<div class="col-lg-6 mt-1">
-										<input class="form-control" placeholder="CAP di residenza" id="capResidenza" type="number" required>
+										<input class="form-control" placeholder="CAP di residenza" name="capResidenza" type="number" required>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-lg-6 mt-1">
-										<input class="form-control" placeholder="Indirizzo Residenza" id="indirizzoResidenza" type="number" required>
+										<input class="form-control" placeholder="Indirizzo Residenza" name="indirizzoResidenza" type="text" required>
 									</div>
 									<div class="col-lg-6 mt-1">
-										<input class="form-control" placeholder="Provincia di Residenza" id="provinciaResidenza" type="text" required>
+										<input class="form-control" placeholder="Provincia di Residenza" name="provinciaResidenza" type="text" required>
 									</div>
 								</div>
 								<hr>
 								<label class="">Informazioni sugli studi</label>
 								<div class="row">
 									<div class="col-lg-6 mt-1">
-										<input class="form-control" placeholder="Diplomato in" id="diploma" type="text" required>
+										<input class="form-control" placeholder="Diplomato in" name="diploma" type="text" required>
 									</div>
 									<div class="col-lg-6 mt-1">
-										<input class="form-control" placeholder="Laureato in" id="laurea" type="text" required>
-									</div>
-								</div><!--./row -->
-								<div class="row">
-									<div class="col-lg-6 mt-1">
-										<input class="form-control" placeholder="Dottorato" id="dottorato" type="text" required>
-									</div>
-									<div class="col-lg-6 mt-1">
-											<input class="form-control" placeholder="Corso di laurea in corso" id="dottorato" type="text" required>
+										<input class="form-control" placeholder="Laureato in" name="laureato" type="text" required>
 									</div>
 								</div><!--./row -->
 								<div class="row">
 									<div class="col-lg-6 mt-1">
-												<input class="form-control" placeholder="Crediti richiesti" id="crediti" type="number" required>
+										<input class="form-control" placeholder="Dottorato" name="dottorato" type="text" required>
+									</div>
+									<div class="col-lg-6 mt-1">
+											<input class="form-control" placeholder="Corso di laurea in corso" name="corso" type="text" required>
+									</div>
+								</div><!--./row -->
+								<div class="row">
+									<div class="col-lg-6 mt-1">
+												<input class="form-control" placeholder="Crediti richiesti" name="crediti" type="number" required>
 									</div>
 								</div>
 								<div class="row mt-5">
 									<div class="text-center col-lg-6 col-lg-offset-3">
-										<a href="" class="btn btn-lg btn-primary">Iscriviti</a>
+										<a href="SignUp?signup=ST" class="btn btn-lg btn-primary">Iscriviti</a>
 									</div>
 								</div>
 							</fieldset>

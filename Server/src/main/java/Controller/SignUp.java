@@ -5,9 +5,14 @@
  */
 package Controller;
 
+import Framework.data.DataLayerException;
 import Framework.result.FailureResult;
 import Framework.result.TemplateManagerException;
 import Framework.result.TemplateResult;
+import Framework.security.SecurityLayer;
+import Model.Bean.Studente;
+import Model.DAO.Impl.StudenteDAOImpl;
+import Model.DAO.Interface.StudenteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -41,7 +46,7 @@ public class SignUp extends HttpServlet {
         }
     }
     
-    private void action_signinStudente (HttpServletRequest request, HttpServletResponse response) {
+    private void action_showStudente (HttpServletRequest request, HttpServletResponse response) {
         Map data = new HashMap();
         data.put("outline_tpl", "");//rimozione outline
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
@@ -50,9 +55,10 @@ public class SignUp extends HttpServlet {
         } catch (TemplateManagerException ex) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         }
+        
     }
     
-    private void action_signinAzienda (HttpServletRequest request, HttpServletResponse response) {
+    private void action_showAzienda (HttpServletRequest request, HttpServletResponse response) {
           Map data = new HashMap();
         data.put("outline_tpl", "");//rimozione outline
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
@@ -64,16 +70,67 @@ public class SignUp extends HttpServlet {
     }
     
     
+    private void action_signinStudente (HttpServletRequest request, HttpServletResponse response) {
+        try {
+            Studente studente = new Studente(
+              request.getParameter("usernameStudente"),
+              request.getParameter("password"),
+              request.getParameter("email"),
+              request.getParameter("password"),
+              request.getParameter("nomeStudente"),
+              request.getParameter("cognomeStudente"),
+              request.getParameter("password"),
+              request.getParameter("CFStudemte"), 
+              request.getParameter("telefono"),
+              request.getParameter("indirizzoResidenza"),
+              request.getParameter("corso"),
+              request.getParameter("diploma"),
+              request.getParameter("dottorato"),
+              request.getParameter("capNascita"),
+              request.getParameter("capResidenza"),
+              request.getParameter("cittaResidenzaStudente"),
+              request.getParameter("provinciaResidenza"),
+              request.getParameter("provinciaNascita"),
+              SecurityLayer.checkNumeric(request.getParameter("crediti")),
+              SecurityLayer.checkDate(request.getParameter("dataNascita")),
+              Boolean.valueOf(request.getParameter("handicap"))
+            );
+            
+              StudenteDAO queryInsert = new StudenteDAOImpl();
+              queryInsert.setRegistrazioneStudente(studente);
+              
+              action_showStudente(request,response);
+              
+        } catch (DataLayerException | IllegalArgumentException e) {
+        }
+    }
+    
+    
+    private void action_signinAzienda (HttpServletRequest request, HttpServletResponse response) {
+        
+    }
+    
+    
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            if(request.getParameter("signup") == null) {
               if ("ST".equals(request.getParameter("registra"))) {
-                action_signinStudente(request, response);
+                action_showStudente(request, response);
               } else {
-                action_signinAzienda(request, response);
-              }
+                action_showAzienda(request, response);
+              } 
+            } else {
+                if (request.getParameter("signup").equals("ST")) {
+                   action_signinStudente(request, response);
+                } else {
+                   action_signinAzienda(request, response);
+                }
+               
+            }
+            
         } catch (IOException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);
