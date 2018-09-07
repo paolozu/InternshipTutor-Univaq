@@ -7,6 +7,8 @@ package Model.DAO.Interface;
 
 import Framework.data.DataLayerException;
 import Model.Bean.Azienda;
+import Model.Bean.Convenzione;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -15,5 +17,5 @@ import java.util.List;
  */
 public interface AmministratoreDAO {
     public List<Azienda> getListaAziende(String tipologia, int page) throws DataLayerException;
-    
+    public int setConvenzione(Convenzione convenzione, Azienda azienda) throws DataLayerException;
 }

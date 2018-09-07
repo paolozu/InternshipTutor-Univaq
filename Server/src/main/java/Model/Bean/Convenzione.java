@@ -7,6 +7,7 @@ package Model.Bean;
 
 import java.time.LocalDate;
 import java.util.Date;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -16,13 +17,14 @@ public class Convenzione {
     private long id;
     private int durataConvezione;
     private long peso;
-    private String nome,directory,estensione;
+    private String nome,estensione;
+    Part file;
     private LocalDate dataConvezione;
 
-    public Convenzione(String nome, String directory, String estensione, long peso) {
+    public Convenzione(String nome, Part file, String estensione, long peso) {
         this.peso = peso;
         this.nome = nome;
-        this.directory = directory;
+        this.file=file;
         this.estensione = estensione;
     }
 
@@ -45,12 +47,12 @@ public class Convenzione {
         this.nome = nome;
     }
 
-    public String getDirectory() {
-        return directory;
+    public Part getFile() {
+        return file;
     }
 
-    public void setDirectory(String directory) {
-        this.directory = directory;
+    public void setFile(Part file) {
+        this.file = file;
     }
 
     public String getEstensione() {

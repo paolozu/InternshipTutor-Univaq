@@ -19,6 +19,8 @@ import Framework.data.DB;
 import Framework.data.DataLayerException;
 import Framework.result.FailureResult;
 import Model.Bean.Richiesta;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,6 +32,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -49,6 +52,8 @@ public class AziendaDAOImpl implements AziendaDAO {
 
     private static final String GET_AZIENDE = "SELECT azienda.idAzienda,azienda.ragSociale FROM azienda";
 
+    private static final String GET_AZIENDA = "SELECT * FROM Azienda WHERE Azienda.idAzienda=?";
+
     private static final String GET_TIROCINANTI = "SELECT Studente.idStudente, Studente.nome, Studente.cognome, Utente.email, "
             + "                                    Studente.codFiscale, Studente.Telefono, Tirocinio.Annuncio_idAnnuncio FROM Studente "
             + "                                     JOIN Tirocinio ON Studente.idStudente = Tirocinio.Studente_idStudente "
@@ -57,10 +62,10 @@ public class AziendaDAOImpl implements AziendaDAO {
             + "                                  JOIN Utente ON Utente.idUtente = Studente.idStudente "
             + "                                         WHERE idAzienda = ? AND Tirocinio.Resoconto_idResoconto IS NULL";
 
-    private static final String GET_CONVENZIONE = "SELECT Convenzione.nome, Convenzione.directory, Convenzione.estensione, Convenzione.peso "
+    private static final String GET_CONVENZIONE = "SELECT Convenzione.nome, Convenzione.file, Convenzione.estensione, Convenzione.peso "
             + "                                     FROM Azienda "
             + "                                      JOIN Convenzione ON Azienda.idConvenzione = Convenzione.idConvenzione "
-            + "                                         WHERE idAzienda = ?";
+            + "                                         WHERE Azienda.idAzienda = ?";
 
     private static final String GET_APPROVAZIONE = "SELECT * FROM Azienda "
             + "                                         JOIN Convenzione ON Azienda.idConvenzione = Convenzione.idConvenzione "
@@ -85,6 +90,11 @@ public class AziendaDAOImpl implements AziendaDAO {
 
     private static final String SET_NUOVO_TIROCINIO = "INSERT INTO Tirocinio (Annuncio_idAnnuncio, Studente_idStudente, dataInizio, dataFine)\n"
             + "VALUES (?,?,?,?)";
+
+    private static final String GET_AZIENDE_CONVENZIONATE = "SELECT azienda.ragSociale FROM azienda WHERE Stato='CONVENZIONATA'";
+
+    private static final String REMOVE_AZIENDA = "DELETE FROM AZIENDA WHERE idAzienda=?";
+    
 
     @Override
     public List<Richiesta> getRichieste(long idAzienda) throws DataLayerException {
@@ -223,7 +233,7 @@ public class AziendaDAOImpl implements AziendaDAO {
             rset = ps.executeQuery();
 
             if (rset.next()) {
-                convenzione = new Convenzione(rset.getString("nome"), rset.getString("directory"), rset.getString("estensione"), rset.getLong("peso"));
+                convenzione = new Convenzione(rset.getString("nome"), (Part) rset.getBlob("file"), rset.getString("estensione"), rset.getLong("peso"));
             }
         } catch (SQLException ex) {
             throw new DataLayerException("ERRORE GET CONVEZIONE", ex);
@@ -576,4 +586,98 @@ public class AziendaDAOImpl implements AziendaDAO {
         }
         return result;
     }
+
+    @Override
+    public List<Azienda> getAllAziendeConvenzionate() throws DataLayerException {
+        Connection connection = DB.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rset = null;
+        List<Azienda> aziende = new ArrayList();
+        try {
+            ps = connection.prepareStatement(GET_AZIENDE_CONVENZIONATE);
+            rset = ps.executeQuery();
+            while (rset.next()) {
+                aziende.add(new Azienda(rset.getString("ragSociale")));
+            }
+        } catch (SQLException ex) {
+            throw new DataLayerException("ERRORE GET AZIENDE CONVENZIONATE", ex);
+        } finally {
+            try {
+                rset.close();
+                ps.close();
+                connection.close();
+            } catch (SQLException ex) {
+                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
+            }
+        }
+        return aziende;
+    }
+
+    @Override
+    public Azienda getAzienda(Azienda azienda) throws DataLayerException {
+
+        PreparedStatement ps;
+        ResultSet rset;
+
+        try (Connection connection = DB.getConnection()) {
+            ps = connection.prepareStatement(GET_AZIENDA);
+            ps.setLong(1, azienda.getId());
+            rset = ps.executeQuery();
+
+            if (rset.next()) {
+
+                azienda = new Azienda(rset.getLong("Azienda.idAzienda"), rset.getString("nomeRap"), rset.getString("cognomeRap"), rset.getString("telResponsabile"), rset.getString("nomeResponsabile"), rset.getString("cognomeResponsabile"), rset.getString("emailResponsabile"), rset.getString("ragSociale"), rset.getString("indirizzoSede"), rset.getString("pIVA"), rset.getString("foro"), rset.getString("cap"), rset.getString("citta"), rset.getString("provincia"));
+            }
+
+            ps.close();
+            connection.close();
+        } catch (SQLException ex) {
+            throw new DataLayerException("Error get company", ex);
+        }
+        return azienda;
+    }
+
+    @Override
+    public int removeAzienda(Azienda azienda) throws DataLayerException {
+
+        PreparedStatement ps;
+        int result = 0;
+        try (Connection connection = DB.getConnection()) {
+            ps = connection.prepareStatement(REMOVE_AZIENDA);
+            ps.setLong(1, azienda.getId());
+            
+            result = ps.executeUpdate();
+
+            ps.close();
+            connection.close();
+        } catch (SQLException ex) {
+            throw new DataLayerException("Error remove company", ex);
+        }
+        return result;
+    }
+    
+    	
+	public InputStream getConvenzione(Azienda azienda) throws DataLayerException {
+	PreparedStatement ps;
+        InputStream stream = null;
+                
+        try (Connection connection = DB.getConnection()) {
+            ps = connection.prepareStatement(GET_CONVENZIONE);
+            ps.setLong(1, azienda.getId());
+
+            ResultSet resultSet = ps.executeQuery();
+            
+            if(resultSet.next()) {
+            	stream = resultSet.getBlob("convenzione_doc").getBinaryStream();
+            }
+            
+            ps.close();
+            connection.close();
+
+        } catch (SQLException e) {
+        	throw new DataLayerException("Unable to get pdf convention", e);
+        }
+        
+        return stream;
+        }
 }

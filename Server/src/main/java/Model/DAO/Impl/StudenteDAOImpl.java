@@ -29,10 +29,9 @@ public class StudenteDAOImpl implements StudenteDAO {
     private static final String REGISTRAZIONE_STUDENTE="INSERT INTO Studente (idStudente, nome, cognome, codFiscale, telefono, crediti, handicap, dataNascita, indirizzoResidenza, corsoLaurea, diploma, laurea, dottorato, cap_nascita, citta_nascita, provincia_nascita, cap_residenza, citta_residenza, provincia_residenza)"
             +                                          " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-    private static final String INVIA_RICHIESTA="";
-    
     private static final String GET_STUDENTE="SELECT * FROM Studente WHERE Studente.idStudente=?";
     
+    private static final String DOWNLOAD_RESOCONTO="SELECT * FROM Resoconto WHERE idResoconto=?";
     
     
     @Override

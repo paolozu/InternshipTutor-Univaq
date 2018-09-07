@@ -74,7 +74,7 @@ public class Login extends HttpServlet {
                 }
             } else {
                 //notifica errore credenziali
-                request.setAttribute("message", "Errore credenziali");
+                request.setAttribute("message", "USER NOT FOUD");
                 action_error(request, response);
             }
 

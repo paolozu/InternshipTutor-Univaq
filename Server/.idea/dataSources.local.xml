@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="vwda2oqf9fppbxps@m60mxazb4g6sb4nn.chr7pe7iynqr.eu-west-1.rds.amazonaws.com" uuid="ad02ac51-de3f-403c-bab6-3ca8356530e7">
+      <database-info product="MySQL" version="5.7.19-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.46 ( Revision: 9cc87a48e75c2d2e87c1a293b2862ce651cb256e )" family="MYSQL" exact-version="5.7.19">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>dr4jzb24h852pb67</user-name>
+      <introspection-schemas>*:vwda2oqf9fppbxps</introspection-schemas>
+    </data-source>
+  </component>
+</project>

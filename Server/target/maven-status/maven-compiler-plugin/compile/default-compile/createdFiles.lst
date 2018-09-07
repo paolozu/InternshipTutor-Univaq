@@ -1,3 +1,6 @@
+Controller/Upload.class
+Controller/Download.class
+Controller/Aziende.class
 Controller/TirociniAzienda.class
 Model/Bean/Richiesta.class
 Controller/AnnunciAzienda.class

@@ -56,6 +56,27 @@
         <servlet-name>RichiesteAzienda</servlet-name>
         <servlet-class>Controller.RichiesteAzienda</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Aziende</servlet-name>
+        <servlet-class>Controller.Aziende</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Upload</servlet-name>
+        <servlet-class>Controller.Upload</servlet-class>
+        <multipart-config>
+            <!--
+            <location>/tmp</location> temporary files location (DEF: "") -->
+            <max-file-size>20848820</max-file-size>
+            <!-- max size of accepted uploadd (DEF: unlimited!) -->
+            <max-request-size>418018841</max-request-size>
+            <!-- max size of multipart requests (may contain more files or data) (DEF: ulimited!) -->
+            <!-- <file-size-threshold>1048576</file-size-threshold> max size of files to hold in memory (without writing to temporary disk file) (DEF: 0) -->
+        </multipart-config>
+    </servlet>
+    <servlet>
+        <servlet-name>Download</servlet-name>
+        <servlet-class>Controller.Download</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -115,6 +136,18 @@
     <servlet-mapping>
         <servlet-name>RichiesteAzienda</servlet-name>
         <url-pattern>/RichiesteAzienda</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Aziende</servlet-name>
+        <url-pattern>/aziende</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Upload</servlet-name>
+        <url-pattern>/Upload</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Download</servlet-name>
+        <url-pattern>/Download</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

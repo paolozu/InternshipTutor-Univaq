@@ -20,6 +20,12 @@ import java.util.List;
 public interface AziendaDAO {
 
     public List<Azienda> getAziende() throws DataLayerException;
+    
+    public int removeAzienda(Azienda azienda) throws DataLayerException;
+    
+    public Azienda getAzienda(Azienda azienda) throws DataLayerException;
+    
+    public List<Azienda> getAllAziendeConvenzionate() throws DataLayerException;
 
     public List<Richiesta> getRichieste(long id) throws DataLayerException;
     

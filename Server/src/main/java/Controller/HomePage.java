@@ -80,11 +80,17 @@ public class HomePage extends HttpServlet {
     private void action_azienda(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         AziendaDAO queryA = new AziendaDAOImpl();
-        
+        String stato;
         try {
-           String stato = queryA.getStato((long) request.getAttribute("id"));
+           stato = queryA.getStato((long) request.getAttribute("id"));
+           
+           if(stato==null){
+               //azienda rimossa dal db
+               response.sendRedirect("Logout");
+           }
            
            data.put("stato", stato);
+           
                 
         } catch (DataLayerException ex) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
@@ -115,8 +121,9 @@ public class HomePage extends HttpServlet {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         }
 
-        data.put("page_title", "Homepage - Amministratore");
-
+        if(request.getParameter("message")!=null){
+            data.put("alert", request.getParameter("message"));
+        }
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
         try {
             res.activate("homeAmministratore.ftl.html", data, response);

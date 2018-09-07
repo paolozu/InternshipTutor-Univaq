@@ -20,6 +20,10 @@ public class Azienda extends Utente {
 
     public Azienda(){}
     
+    public Azienda(String ragioneSociale) {
+        this.ragioneSociale = ragioneSociale;
+    }
+        
     public Azienda(long id, String ragioneSociale) {
         super.id = id;
         this.ragioneSociale = ragioneSociale;
@@ -27,6 +31,23 @@ public class Azienda extends Utente {
     
     public Azienda(long id) {
         super.id = id;
+    }
+    
+    public Azienda(long idAzienda, String nomeRappresentante, String cognomeRappresentante, String telResponsabile, String nomeResponsabile, String cognomeResponsabile, String emailResponsabile, String ragioneSociale, String indirizzoSede, String partitaIva, String foroCompetente, String cap, String citta, String provincia ) {
+        super.id = idAzienda;
+        this.cap = cap;
+        this.nomeResponsabile=nomeResponsabile;
+        this.cognomeResponsabile=cognomeResponsabile;
+        this.nomeRappresentante = nomeRappresentante;
+        this.cognomeRappresentante = cognomeRappresentante;
+        this.ragioneSociale = ragioneSociale;
+        this.indirizzoSede = indirizzoSede;
+        this.partitaIva = partitaIva;
+        this.foroCompetente = foroCompetente;
+        this.telResponsabile = telResponsabile;
+        this.emailResponsabile = emailResponsabile;
+        this.citta = citta;
+        this.provincia = provincia;
     }
 
     public Azienda(long idAzienda, String nomeRappresentante, String cognomeRappresentante, String telResponsabile, String nomeResponsabile, String cognomeResponsabile, String emailResponsabile, String ragioneSociale, String indirizzoSede, String partitaIva, String foroCompetente, String cap, String citta, String provincia, Convenzione convenzione ) {

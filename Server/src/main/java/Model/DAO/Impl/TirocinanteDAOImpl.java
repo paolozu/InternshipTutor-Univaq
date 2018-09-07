@@ -30,10 +30,10 @@ import javax.naming.NamingException;
  */
 public class TirocinanteDAOImpl implements TirocinanteDAO {
 
-    private static final String GET_INFO_TIROCINIO="SELECT Tirocinio.dataInizio, Tirocinio.dataFine, Tirocinio.Resoconto_idResoconto, Azienda.ragSociale, "
+    private static final String GET_INFO_TIROCINIO="SELECT Tirocinio.dataInizio, Tirocinio.dataFine, Tirocinio.Resoconto_idResoconto,Resoconto.nome,Resoconto.valutazione,Azienda.ragSociale, "
             + "                                 Azienda.indirizzoSede, Azienda.citta, Azienda.nomeResponsabile, Azienda.cognomeResponsabile, "
             + "                                 Azienda.emailResponsabile, Azienda.telResponsabile, Annuncio.nomeDocente, Annuncio.cognomeDocente,"
-            + "                                 Annuncio.emailDocente, Resoconto.directory   "
+            + "                                 Annuncio.emailDocente "
             + "                                     FROM Tirocinio "
             + "                                     JOIN Annuncio ON Tirocinio.Annuncio_idAnnuncio = Annuncio.idAnnuncio "
             + "                                     LEFT JOIN Resoconto ON Tirocinio.Resoconto_idResoconto = Resoconto.idResoconto "
@@ -60,7 +60,7 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
             ps.setLong(1, idStudente);
             rset = ps.executeQuery();
             while (rset.next()) {
-                Resoconto resocontoAnnuncio = new Resoconto(rset.getInt("Tirocinio.Resoconto_idResoconto"),rset.getString("Resoconto.directory"));
+                Resoconto resocontoAnnuncio = new Resoconto(rset.getInt("Tirocinio.Resoconto_idResoconto"),rset.getString("Resoconto.nome"),rset.getInt("Resoconto.valutazione"));
                 Docente docenteAnnuncio = new Docente(rset.getString("Annuncio.nomeDocente"),rset.getString("Annuncio.cognomeDocente"), rset.getString("Annuncio.emailDocente"));
                 Azienda aziendaAnnuncio = new Azienda(rset.getString("ragSociale"), rset.getString("indirizzoSede"),  rset.getString("citta"),rset.getString("nomeResponsabile"), rset.getString("cognomeResponsabile"), rset.getString("emailResponsabile"),rset.getString("telResponsabile"));
                 Annuncio annuncio = new Annuncio(aziendaAnnuncio, docenteAnnuncio);
