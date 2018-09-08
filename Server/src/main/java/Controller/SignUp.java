@@ -15,8 +15,11 @@ import Model.DAO.Impl.StudenteDAOImpl;
 import Model.DAO.Interface.StudenteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -46,20 +49,47 @@ public class SignUp extends HttpServlet {
         }
     }
     
-    private void action_showStudente (HttpServletRequest request, HttpServletResponse response) {
-        Map data = new HashMap();
-        data.put("outline_tpl", "");//rimozione outline
-        TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-        try {
-            res.activate("signin-Studente.ftl.html", data, response);
-        } catch (TemplateManagerException ex) {
-            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-        }
-        
+    private void action_default (HttpServletRequest request, HttpServletResponse response) {
+        if ("ST".equals(request.getParameter("registra"))) {
+            Map data = new HashMap();
+            data.put("outline_tpl", "");//rimozione outline
+            TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+            try {
+                res.activate("signin-Studente.ftl.html", data, response);
+            } catch (TemplateManagerException ex) {
+                (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+            }
+        } else {
+            Map data = new HashMap();
+            data.put("outline_tpl", "");//rimozione outline
+            TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+            try {
+                res.activate("signin-Azienda.ftl.html", data, response);
+            } catch (TemplateManagerException ex) {
+                (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+            }
+        }  
     }
     
-    private void action_showAzienda (HttpServletRequest request, HttpServletResponse response) {
-          Map data = new HashMap();
+    
+  /*  private void action_showStudente (HttpServletRequest request, HttpServletResponse response) {
+        if ("ST".equals(request.getParameter("signup"))) {
+            action_signupStudente(request, response);
+        } else {
+            Map data = new HashMap();
+            data.put("outline_tpl", "");//rimozione outline
+            TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+            try {
+                res.activate("signin-Studente.ftl.html", data, response);
+            } catch (TemplateManagerException ex) {
+                (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+            }
+        }
+       
+    } */
+    
+ /*   private void action_showAzienda (HttpServletRequest request, HttpServletResponse response) {
+        Map data = new HashMap();
         data.put("outline_tpl", "");//rimozione outline
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
         try {
@@ -67,71 +97,65 @@ public class SignUp extends HttpServlet {
         } catch (TemplateManagerException ex) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         }
-    }
+    } */
     
     
-    private void action_signinStudente (HttpServletRequest request, HttpServletResponse response) {
+    private void action_signupStudente (HttpServletRequest request, HttpServletResponse response) throws DataLayerException {
         try {
-            Studente studente = new Studente(
-              request.getParameter("usernameStudente"),
-              request.getParameter("password"),
-              request.getParameter("email"),
-              request.getParameter("password"),
-              request.getParameter("nomeStudente"),
-              request.getParameter("cognomeStudente"),
-              request.getParameter("password"),
-              request.getParameter("CFStudemte"), 
-              request.getParameter("telefono"),
-              request.getParameter("indirizzoResidenza"),
-              request.getParameter("corso"),
-              request.getParameter("diploma"),
-              request.getParameter("dottorato"),
-              request.getParameter("capNascita"),
-              request.getParameter("capResidenza"),
-              request.getParameter("cittaResidenzaStudente"),
-              request.getParameter("provinciaResidenza"),
-              request.getParameter("provinciaNascita"),
-              SecurityLayer.checkNumeric(request.getParameter("crediti")),
-              SecurityLayer.checkDate(request.getParameter("dataNascita")),
-              Boolean.valueOf(request.getParameter("handicap"))
-            );
+            Studente studente = new Studente();
             
-              StudenteDAO queryInsert = new StudenteDAOImpl();
-              queryInsert.setRegistrazioneStudente(studente);
+            studente.setTipo("ST");
+            studente.setNome(request.getParameter("nomeStudente"));
+            studente.setEmail(request.getParameter("emailDatiDiAccesso"));
+            studente.setUsername(request.getParameter("usernameStudente"));
+            studente.setPassword(request.getParameter("password"));
+            studente.setNome(request.getParameter("nomeStudente"));
+            studente.setCognome(request.getParameter("cognomeStudente"));
+            studente.setCodFiscale(request.getParameter("CFStudemte"));
+            studente.setTelefono(request.getParameter("telefono")); 
+            studente.setIndirizzoResidenza(request.getParameter("indirizzoResidenza"));
+            studente.setCorsoLaurea(request.getParameter(request.getParameter("corso")));
+            studente.setDiploma(request.getParameter("diploma"));
+            studente.setDottorato(request.getParameter("dottorato"));
+            studente.setCapNascita(request.getParameter("capNascita"));
+            studente.setCapResidenza(request.getParameter("capResidenza"));
+            studente.setCittaResidenza(request.getParameter("cittaResidenzaStudente"));
+            studente.setProvinciaResidenza(request.getParameter("provinciaResidenza"));
+            studente.setProvinciaNascita(request.getParameter("provinciaNascita"));
+            studente.setCrediti(SecurityLayer.checkNumeric(request.getParameter("crediti")));
+            // ERROR studente.setDataNascita(SecurityLayer.checkDate(request.getParameter("dataNascita")));
+            studente.setHandicap(Boolean.valueOf(request.getParameter("handicap")));
+            
+            System.out.println("Fine setters \n TEST GET: \n");
+            System.out.println("date: "+ studente.getDataNascita());
+            
+            new StudenteDAOImpl().setRegistrazioneStudente(studente);
+           // action_showStudente(request,response);
               
-              action_showStudente(request,response);
-              
-        } catch (DataLayerException | IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
         }
     }
     
     
-    private void action_signinAzienda (HttpServletRequest request, HttpServletResponse response) {
+    private void action_signupAzienda (HttpServletRequest request, HttpServletResponse response) {
         
     }
     
     
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            if(request.getParameter("signup") == null) {
-              if ("ST".equals(request.getParameter("registra"))) {
-                action_showStudente(request, response);
-              } else {
-                action_showAzienda(request, response);
-              } 
+            throws ServletException, DataLayerException {
+        try {
+            if (request.getParameter("signup") == null) {
+                action_default(request, response);
             } else {
-                if (request.getParameter("signup").equals("ST")) {
-                   action_signinStudente(request, response);
+                if(request.getParameter("signup").equals("ST")){
+                    action_signupStudente(request, response);
                 } else {
-                   action_signinAzienda(request, response);
+                    action_signupAzienda(request, response);
                 }
-               
             }
-            
-        } catch (IOException ex) {
+        } catch (DataLayerException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);
         }
@@ -149,7 +173,11 @@ public class SignUp extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (DataLayerException ex) {
+            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -163,7 +191,11 @@ public class SignUp extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (DataLayerException ex) {
+            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -173,7 +205,7 @@ public class SignUp extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Registrazione Tirocinio";
     }// </editor-fold>
 
 }
