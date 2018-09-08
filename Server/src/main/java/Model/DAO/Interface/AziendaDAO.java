@@ -11,6 +11,7 @@ import Model.Bean.Convenzione;
 import Model.Bean.Richiesta;
 import Model.Bean.Studente;
 import Model.Bean.Tirocinio;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public interface AziendaDAO {
 
     public List<Tirocinio> getTirocini(long id) throws DataLayerException;
 
-    public Convenzione getConvenzione(long id) throws DataLayerException;
+    public InputStream getConvenzione(Azienda azienda) throws DataLayerException;
 
     public boolean isConvenzionata(long id) throws DataLayerException;
 

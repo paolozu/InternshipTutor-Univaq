@@ -11,9 +11,11 @@ import Framework.result.TemplateManagerException;
 import Framework.result.TemplateResult;
 import Framework.security.SecurityLayer;
 import Model.Bean.Azienda;
+import Model.Bean.Studente;
 import Model.Bean.Tirocinio;
 import Model.DAO.Impl.AmministratoreDAOImpl;
 import Model.DAO.Impl.AziendaDAOImpl;
+import Model.DAO.Impl.StudenteDAOImpl;
 import Model.DAO.Impl.TirocinanteDAOImpl;
 import Model.DAO.Impl.UtenteDAOImpl;
 import Model.DAO.Interface.AmministratoreDAO;
@@ -22,6 +24,7 @@ import Model.DAO.Interface.TirocinanteDAO;
 import Model.DAO.Interface.UtenteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -160,6 +163,7 @@ public class HomePage extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            
             HttpSession s = SecurityLayer.checkSession(request);
             if (s == null) {
                 action_anonymous(request, response);

@@ -64,7 +64,7 @@ public class AziendaDAOImpl implements AziendaDAO {
 
     private static final String GET_CONVENZIONE = "SELECT Convenzione.nome, Convenzione.file, Convenzione.estensione, Convenzione.peso "
             + "                                     FROM Azienda "
-            + "                                      JOIN Convenzione ON Azienda.idConvenzione = Convenzione.idConvenzione "
+            + "                                      JOIN Convenzione ON Azienda.Convenzione_idConvenzione = Convenzione.idConvenzione "
             + "                                         WHERE Azienda.idAzienda = ?";
 
     private static final String GET_APPROVAZIONE = "SELECT * FROM Azienda "
@@ -219,35 +219,6 @@ public class AziendaDAOImpl implements AziendaDAO {
         return tirocini;
     }
 
-    @Override
-    public Convenzione getConvenzione(long id) throws DataLayerException {
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rset = null;
-        Convenzione convenzione = null;
-
-        try {
-            connection = DB.getConnection();
-            ps = connection.prepareStatement(GET_CONVENZIONE);
-            ps.setLong(1, id);
-            rset = ps.executeQuery();
-
-            if (rset.next()) {
-                convenzione = new Convenzione(rset.getString("nome"), (Part) rset.getBlob("file"), rset.getString("estensione"), rset.getLong("peso"));
-            }
-        } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE GET CONVEZIONE", ex);
-        } finally {
-            try {
-                rset.close();
-                ps.close();
-                connection.close();
-            } catch (SQLException ex) {
-                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
-            }
-        }
-        return convenzione;
-    }
 
     @Override
     public Azienda getApprovazione(long id) throws DataLayerException {
@@ -337,7 +308,7 @@ public class AziendaDAOImpl implements AziendaDAO {
         int result = 0;
         //Creazione Utente
         UtenteDAO u = new UtenteDAOImpl();
-        Utente nuovoUtente = u.nuovoUtente(new Utente(azienda.getUsername(), azienda.getPassword(), azienda.getEmail(), azienda.getTipo()));
+        Utente nuovoUtente = u.nuovoUtente(new Utente(azienda.getUsername(), azienda.getPassword(), azienda.getEmail(), "AZ"));
 
         if (nuovoUtente != null) {//NUOVO UTENTE - OK
 
@@ -656,28 +627,29 @@ public class AziendaDAOImpl implements AziendaDAO {
         return result;
     }
     
-    	
+ @Override
 	public InputStream getConvenzione(Azienda azienda) throws DataLayerException {
 	PreparedStatement ps;
-        InputStream stream = null;
+        InputStream inputStream = null;
                 
         try (Connection connection = DB.getConnection()) {
             ps = connection.prepareStatement(GET_CONVENZIONE);
             ps.setLong(1, azienda.getId());
 
-            ResultSet resultSet = ps.executeQuery();
+            ResultSet rset = ps.executeQuery();
             
-            if(resultSet.next()) {
-            	stream = resultSet.getBlob("convenzione_doc").getBinaryStream();
+            if(rset.next()) {
+                Blob blob = rset.getBlob("file");
+                inputStream = blob.getBinaryStream();
             }
             
             ps.close();
             connection.close();
 
         } catch (SQLException e) {
-        	throw new DataLayerException("Unable to get pdf convention", e);
+        	throw new DataLayerException("GET CONVENZIONE", e);
         }
         
-        return stream;
+        return inputStream;
         }
 }

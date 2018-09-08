@@ -39,6 +39,9 @@ public class AmministratoreDAOImpl implements  AmministratoreDAO{
     private final int NUMBER_ELEMENT = 4;
     
     
+    
+    
+    
         @Override
 	public int setConvenzione(Convenzione convenzione, Azienda azienda) throws DataLayerException {
 		PreparedStatement ps;
@@ -49,7 +52,7 @@ public class AmministratoreDAOImpl implements  AmministratoreDAO{
 		ps = connection.prepareStatement(UPLOAD_CONVENZIONE,Statement.RETURN_GENERATED_KEYS);
 		
                 ps.setString(1, convenzione.getNome());
-		ps.setBlob(2, convenzione.getFile().getInputStream());
+		ps.setBlob(2, convenzione.getFile());
 		ps.setString(3, convenzione.getEstensione());
                 ps.setLong(4, convenzione.getPeso());
 		
@@ -69,7 +72,7 @@ public class AmministratoreDAOImpl implements  AmministratoreDAO{
                 
                 ps.close();
 		connection.close();
-		} catch (IOException|SQLException e) {
+		} catch (SQLException e) {
 			throw new DataLayerException("ERRORE UPLOAD", e);
 		}
 		

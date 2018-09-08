@@ -5,6 +5,7 @@
  */
 package Model.Bean;
 
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Date;
 import javax.servlet.http.Part;
@@ -18,10 +19,10 @@ public class Convenzione {
     private int durataConvezione;
     private long peso;
     private String nome,estensione;
-    Part file;
+    InputStream file;
     private LocalDate dataConvezione;
 
-    public Convenzione(String nome, Part file, String estensione, long peso) {
+    public Convenzione(String nome, InputStream file, String estensione, long peso) {
         this.peso = peso;
         this.nome = nome;
         this.file=file;
@@ -47,11 +48,11 @@ public class Convenzione {
         this.nome = nome;
     }
 
-    public Part getFile() {
+    public InputStream getFile() {
         return file;
     }
 
-    public void setFile(Part file) {
+    public void setFile(InputStream file) {
         this.file = file;
     }
 

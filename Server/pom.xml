@@ -13,7 +13,6 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    
     <dependencies>
         <dependency>
             <groupId>jstl</groupId>
@@ -24,12 +23,6 @@
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>2.3.28</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>org.hashids</groupId>
-            <artifactId>hashids</artifactId>
-            <version>1.0.3</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -54,9 +47,7 @@
             <version>3.0.1</version>
             <scope>provided</scope>
         </dependency>
-       
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
