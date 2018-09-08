@@ -1,9 +1,7 @@
 Controller/Upload.class
-Controller/SetField.class
 Controller/Download.class
 Controller/Aziende.class
 Controller/TirociniAzienda.class
-Controller/ReplaceText.class
 Model/Bean/Richiesta.class
 Controller/AnnunciAzienda.class
 Controller/AziendaSecurity.class

@@ -38,7 +38,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.hashids.Hashids;
 
 /**
  *
@@ -110,6 +109,8 @@ public class HomePage extends HttpServlet {
 
     private void action_admin(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        HttpSession s = request.getSession();
+        System.out.println("qui"+s.getAttribute("message"));
         int homepage = 0;
 
         try {
@@ -124,8 +125,9 @@ public class HomePage extends HttpServlet {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         }
 
-        if(request.getParameter("message")!=null){
-            data.put("alert", request.getParameter("message"));
+        if(s.getAttribute("message")!=null){
+            data.put("alert", s.getAttribute("message"));
+            s.removeAttribute("message");
         }
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
         try {

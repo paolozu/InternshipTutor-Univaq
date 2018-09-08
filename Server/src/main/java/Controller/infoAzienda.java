@@ -66,9 +66,15 @@ public class infoAzienda extends AmministratoreSecurity {
         Azienda azienda = new Azienda(idAzienda);
 
         if (request.getParameter("approva") != null) {
-            //Action azienda approvata
-            
-            
+            try {
+                //Action azienda approvata
+                aziendaDAO.updateStato(new Azienda(idAzienda), "APPROVATA");
+            } catch (DataLayerException ex) {
+                request.setAttribute("exception", ex);
+                action_error(request, response);
+            }
+            s.setAttribute("message", "Azienda approvata correttamente");
+            response.sendRedirect("homepage");
             
         } else if (request.getParameter("rifiuta") != null) {
             //Action azienda rifiutata
@@ -78,7 +84,8 @@ public class infoAzienda extends AmministratoreSecurity {
                 request.setAttribute("exception", ex);
                 action_error(request, response);
             }
-            response.sendRedirect("homepage?message=Azienda rimossa correttamente");
+            s.setAttribute("message", "Azienda rimossa correttamente");
+            response.sendRedirect("homepage");
         }else{
             //Action default
             try {

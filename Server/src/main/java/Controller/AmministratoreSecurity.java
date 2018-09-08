@@ -20,9 +20,11 @@ import javax.servlet.http.HttpSession;
  */
 public abstract class AmministratoreSecurity extends InternshipBaseController {
     
+    protected HttpSession s;
+    
     @Override
     protected void autenticazione(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        HttpSession s = SecurityLayer.checkSession(request);
+         s = SecurityLayer.checkSession(request);
             if (s == null || !(s.getAttribute("tipo").equals("AM"))) {
                 action_loginredirect(request,response);
             }else {

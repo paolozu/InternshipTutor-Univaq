@@ -25,84 +25,57 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
-import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
-import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 
 /**
  *
  * @author lorenzo
  */
 public class Download extends HttpServlet {
-    
+
     private AziendaDAO aziendaDAO;
-    public Download(){
-        aziendaDAO= new AziendaDAOImpl();
+
+    public Download() {
+        aziendaDAO = new AziendaDAOImpl();
     }
 
-    
-        private void action_error(HttpServletRequest request, HttpServletResponse response) {
+    private void action_error(HttpServletRequest request, HttpServletResponse response) {
         if (request.getAttribute("exception") != null) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         } else {
             (new FailureResult(getServletContext())).activate((String) request.getAttribute("message"), request, response);
         }
     }
-    
-    private void action_download_convenzione(HttpServletRequest request, HttpServletResponse response, long idAzienda) throws IOException{
-    		
+
+    private void action_download_convenzione(HttpServletRequest request, HttpServletResponse response, long idAzienda) throws IOException {
+
         Azienda azienda = new Azienda(idAzienda);
         int fileLength;
-        try {			
-			InputStream fileInputStream = aziendaDAO.getConvenzione(azienda);
-                       
-                        response.setContentType("application/pdf");
-			response.addHeader("Content-Disposition", "attachment; filename=convenzione.pdf");
-                        fileLength = fileInputStream.available();
-                        response.setContentLength(fileLength);
-                        
-                        
-                        OutputStream responseOutputStream = response.getOutputStream();
-                      
-			int bytes;
-			while ((bytes = fileInputStream.read()) != -1) {
-				responseOutputStream.write(bytes);
-			}
-			fileInputStream.close();
-		}
-		catch(DataLayerException e) {
-			request.setAttribute("message", "Data access exception: " + e.getMessage());
+        try {
+            InputStream fileInputStream = aziendaDAO.getConvenzione(azienda);
+
+            response.setContentType("application/pdf");
+            response.addHeader("Content-Disposition", "attachment; filename=convenzione.pdf");
+            fileLength = fileInputStream.available();
+            response.setContentLength(fileLength);
+
+            OutputStream responseOutputStream = response.getOutputStream();
+
+            int bytes;
+            while ((bytes = fileInputStream.read()) != -1) {
+                responseOutputStream.write(bytes);
+            }
+            fileInputStream.close();
+        } catch (DataLayerException e) {
+            request.setAttribute("message", "Data access exception: " + e.getMessage());
             action_error(request, response);
-		}
+        }
     }
-    
+
     private void action_download_generic(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        InputStream fileInputStream= null;
-        try {
-             fileInputStream = aziendaDAO.getConvenzione(new Azienda(101));
-        } catch (DataLayerException ex) {
-            Logger.getLogger(Download.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        PDDocument myDocument = PDDocument.load(fileInputStream);
-            
-        myDocument=ReplaceText._ReplaceText(myDocument,"Residente in","Non ci credo mai");
-           
-        
-        myDocument.save(output);
-        myDocument.close();
-
-        response.setContentType("application/pdf");
-
-        //response.addHeader("Content-Type", "application/force-download"); //--< Use this if you want the file to download rather than display
-        response.addHeader("Content-Disposition", "inline; filename=\"yourFile.pdf\"");
-        response.getOutputStream().write(output.toByteArray());
+        //TODO
     }
-    
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -114,17 +87,17 @@ public class Download extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        if(request.getParameter("download")!=null){
-            if(request.getParameter("refA")!=null){
+
+        if (request.getParameter("download") != null) {
+            if (request.getParameter("refA") != null) {
                 long idAzienda = SecurityLayer.checkNumeric(request.getParameter("refA"));
-                action_download_convenzione(request, response,idAzienda);
-            }else{
-            request.setAttribute("message", "Riferimento azienda non valido");
-            action_error(request, response);
+                action_download_convenzione(request, response, idAzienda);
+            } else {
+                request.setAttribute("message", "Riferimento azienda non valido");
+                action_error(request, response);
             }
-        }else{
-        action_download_generic(request, response);
+        } else {
+            action_download_generic(request, response);
         }
 
     }

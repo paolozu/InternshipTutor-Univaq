@@ -27,6 +27,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 
@@ -36,7 +37,7 @@ import javax.servlet.http.Part;
  *
  * @author lorenzo
  */
-public class Upload extends HttpServlet {
+public class Upload extends AmministratoreSecurity {
 
     private AmministratoreDAO ammDAO;
 
@@ -54,52 +55,26 @@ public class Upload extends HttpServlet {
     }
 
     private void action_upload_convenzione(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, NamingException, NoSuchAlgorithmException, Exception {
+        
         //Convenzione
         Part file = request.getPart("filetoupload");
-
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-
-        InputStream in = new AziendaDAOImpl().getConvenzione(new Azienda(101));
         
-      
-        
-        try (PDDocument pdfDocument = PDDocument.load(in))
-        {
-            // get the document catalog
-            PDAcroForm acroForm = pdfDocument.getDocumentCatalog().getAcroForm();
-            
-            
-            List<PDField> fields = acroForm.getFields();
-        for (PDField field : fields)
-        {
-            System.out.println(field.getMappingName());
-        }
-            
-      
-            
-            pdfDocument.save(output);
-        }
-                
-           
-        
-
-        InputStream inStream = new ByteArrayInputStream(output.toByteArray());
-
         String nome = file.getSubmittedFileName();
         long peso = file.getSize();
         String estensione = file.getContentType();
-
-        Convenzione c = new Convenzione(nome, inStream, estensione, peso);
+        InputStream filePDF = file.getInputStream();
+        
+        
+        Convenzione convenzione = new Convenzione(nome, filePDF, estensione, peso);
 
         //Azienda
         long idAzienda = SecurityLayer.checkNumeric(request.getParameter("refA"));
-        Azienda a = new Azienda(idAzienda);
+        Azienda azienda = new Azienda(idAzienda);
 
         //Update convenzione
-        ammDAO.setConvenzione(c, a);
-
-        response.sendRedirect("homepage?message=Azienda approvata");
-
+        ammDAO.setConvenzione(convenzione, azienda);
+        s.setAttribute("message", "Convenzione inserita correttametne");
+        response.sendRedirect("homepage");
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -146,44 +121,5 @@ public class Upload extends HttpServlet {
             action_error(request, response);
         }
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }
