@@ -10,7 +10,9 @@ import Framework.result.FailureResult;
 import Framework.result.TemplateManagerException;
 import Framework.result.TemplateResult;
 import Framework.security.SecurityLayer;
+import Model.Bean.Azienda;
 import Model.Bean.Studente;
+import Model.DAO.Impl.AziendaDAOImpl;
 import Model.DAO.Impl.StudenteDAOImpl;
 import Model.DAO.Interface.StudenteDAO;
 import java.io.IOException;
@@ -126,7 +128,6 @@ public class SignUp extends HttpServlet {
             // ERROR studente.setDataNascita(SecurityLayer.checkDate(request.getParameter("dataNascita")));
             studente.setHandicap(Boolean.valueOf(request.getParameter("handicap")));
             
-            System.out.println("Fine setters \n TEST GET: \n");
             System.out.println("date: "+ studente.getDataNascita());
             
             new StudenteDAOImpl().setRegistrazioneStudente(studente);
@@ -137,10 +138,39 @@ public class SignUp extends HttpServlet {
     }
     
     
-    private void action_signupAzienda (HttpServletRequest request, HttpServletResponse response) {
-        
+    private void action_signupAzienda (HttpServletRequest request, HttpServletResponse response) throws DataLayerException {
+        try {
+            Azienda azienda = new Azienda();
+            
+            azienda.setTipo("AZ");
+            azienda.setRagioneSociale(request.getParameter("ragioneSociale"));
+            azienda.setIndirizzoSede(request.getParameter("indirizzo"));
+            azienda.setCitta(request.getParameter("citta"));
+            azienda.setProvincia(request.getParameter("provincia"));
+            azienda.setCap(request.getParameter("CAP"));
+            azienda.setPartitaIva(request.getParameter("CF_PIva"));
+            azienda.setTelSede(request.getParameter("telSede"));
+            azienda.setForoCompetente(request.getParameter("foro")); 
+            azienda.setDurataConvenzione(request.getParameter("durataConvenzione"));
+            azienda.setNomeRappresentante(request.getParameter(request.getParameter("nomeRappresentante")));
+            azienda.setCognomeRappresentante(request.getParameter("cognomeRappresentante"));
+            azienda.setEmail(request.getParameter("emailRappresentante"));
+            azienda.setTelRappresentante(request.getParameter("telRappresentante"));
+            azienda.setNomeResponsabile(request.getParameter("nomeResponsabile"));
+            azienda.setCognomeResponsabile(request.getParameter("cognomeResponsabile"));
+            azienda.setEmailResponsabile(request.getParameter("emailResponsabile"));
+            azienda.setTelResponsabile(request.getParameter("telefonoResponsabile"));
+            azienda.setUsername(request.getParameter("usernameAzienda"));
+            azienda.setEmail(request.getParameter("email"));
+            azienda.setPassword(request.getParameter("password"));
+            
+
+            new AziendaDAOImpl().setRegistrazioneAzienda(azienda);
+ 
+              
+        } catch (IllegalArgumentException e) {
+        }
     }
-    
     
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
