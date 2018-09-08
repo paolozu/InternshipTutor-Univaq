@@ -225,7 +225,6 @@ public class AziendaDAOImpl implements AziendaDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
-        Convenzione convenzione = null;
         Azienda azienda = null;
 
         try {
@@ -235,9 +234,7 @@ public class AziendaDAOImpl implements AziendaDAO {
             rset = ps.executeQuery();
 
             if (rset.next()) {
-
-                convenzione = new Convenzione(rset.getInt("durataConvenzione"), rset.getDate("dataConvenzione").toLocalDate());
-                azienda = new Azienda(rset.getLong("idAzienda"), rset.getString("nomeRap"), rset.getString("cognomeRap"), rset.getString("telResponsabile"), rset.getString("nomeResponsabile"), rset.getString("cognomeResponsabile"), rset.getString("emailResponsabile"), rset.getString("ragSociale"), rset.getString("indirizzoSede"), rset.getString("pIVA"), rset.getString("foro"), rset.getString("cap"), rset.getString("citta"), rset.getString("provincia"), convenzione);
+                azienda = new Azienda(rset.getLong("idAzienda"), rset.getString("nomeRap"), rset.getString("cognomeRap"), rset.getString("telResponsabile"), rset.getString("nomeResponsabile"), rset.getString("cognomeResponsabile"), rset.getString("emailResponsabile"), rset.getString("ragSociale"), rset.getString("indirizzoSede"), rset.getString("pIVA"), rset.getString("foro"), rset.getString("cap"), rset.getString("citta"), rset.getString("provincia"));
             }
 
         } catch (SQLException ex) {
@@ -597,7 +594,23 @@ public class AziendaDAOImpl implements AziendaDAO {
 
             if (rset.next()) {
 
-                azienda = new Azienda(rset.getLong("Azienda.idAzienda"), rset.getString("nomeRap"), rset.getString("cognomeRap"), rset.getString("telResponsabile"), rset.getString("nomeResponsabile"), rset.getString("cognomeResponsabile"), rset.getString("emailResponsabile"), rset.getString("ragSociale"), rset.getString("indirizzoSede"), rset.getString("pIVA"), rset.getString("foro"), rset.getString("cap"), rset.getString("citta"), rset.getString("provincia"));
+                azienda.setNomeRappresentante(rset.getString("nomeRap"));
+                azienda.setCognomeRappresentante(rset.getString("nomeRap"));
+                azienda.setTelResponsabile(rset.getString("telResponsabile"));
+                azienda.setNomeResponsabile(rset.getString("nomeResponsabile"));
+                azienda.setCognomeResponsabile(rset.getString("cognomeResponsabile"));
+                azienda.setEmailResponsabile(rset.getString("emailResponsabile"));
+                azienda.setRagioneSociale(rset.getString("ragSociale"));
+                azienda.setIndirizzoSede(rset.getString("indirizzoSede"));
+                azienda.setPartitaIva(rset.getString("pIVA"));
+                azienda.setForoCompetente(rset.getString("foro"));
+                azienda.setCap(rset.getString("cap"));
+                azienda.setCitta(rset.getString("citta"));
+                azienda.setProvincia(rset.getString("provincia"));
+                azienda.setDataIscrione(rset.getDate("dataIscrizione").toLocalDate());
+                azienda.setDataTermine(rset.getDate("dataTermine").toLocalDate());
+                
+                
             }
 
             ps.close();

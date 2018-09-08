@@ -5,6 +5,7 @@
  */
 package Model.Bean;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -15,9 +16,8 @@ public class Azienda extends Utente {
     
     private String cap,nomeRappresentante, cognomeRappresentante, ragioneSociale,
             indirizzoSede, partitaIva, foroCompetente, telResponsabile,nomeResponsabile,cognomeResponsabile,emailResponsabile, citta, provincia;
+    LocalDate dataIscrione, dataTermine;
     
-
-
     public Azienda(){}
     
     public Azienda(String ragioneSociale) {
@@ -38,21 +38,6 @@ public class Azienda extends Utente {
         this.cap = cap;
         this.nomeResponsabile=nomeResponsabile;
         this.cognomeResponsabile=cognomeResponsabile;
-        this.nomeRappresentante = nomeRappresentante;
-        this.cognomeRappresentante = cognomeRappresentante;
-        this.ragioneSociale = ragioneSociale;
-        this.indirizzoSede = indirizzoSede;
-        this.partitaIva = partitaIva;
-        this.foroCompetente = foroCompetente;
-        this.telResponsabile = telResponsabile;
-        this.emailResponsabile = emailResponsabile;
-        this.citta = citta;
-        this.provincia = provincia;
-    }
-
-    public Azienda(long idAzienda, String nomeRappresentante, String cognomeRappresentante, String telResponsabile, String nomeResponsabile, String cognomeResponsabile, String emailResponsabile, String ragioneSociale, String indirizzoSede, String partitaIva, String foroCompetente, String cap, String citta, String provincia, Convenzione convenzione ) {
-        super.id = id;
-        this.cap = cap;
         this.nomeRappresentante = nomeRappresentante;
         this.cognomeRappresentante = cognomeRappresentante;
         this.ragioneSociale = ragioneSociale;
@@ -102,6 +87,28 @@ public class Azienda extends Utente {
         this.cognomeResponsabile = cognResp;
         this.citta = citta;
         this.provincia = pro;
+    }
+
+    public LocalDate getDataIscrione() {
+        return dataIscrione;
+    }
+
+    public void setDataIscrione(LocalDate dataIscrione) {
+        this.dataIscrione = dataIscrione;
+    }
+
+    public LocalDate getDataTermine() {
+        return dataTermine;
+    }
+
+    public void setDataTermine(LocalDate dataTermine) {
+        this.dataTermine = dataTermine;
+    }
+    
+    
+    
+    public void setCap(String cap) {
+        this.cap=cap;
     }
     
     public String getCap() {
@@ -204,8 +211,6 @@ public class Azienda extends Utente {
         this.provincia = provincia;
     }
 
-    
-    
     @Override
     public String toString() {
         return "Azienda{" + "cap=" + cap + ", nomeRappresentante=" + nomeRappresentante + ", cognomeRappresentante=" + cognomeRappresentante + ", ragioneSociale=" + ragioneSociale + ", indirizzoSede=" + indirizzoSede + ", partitaIva=" + partitaIva + ", foroCompetente=" + foroCompetente + ", telResponsabile=" + telResponsabile + ", nomeResponsabile=" + nomeResponsabile + ", cognomeResponsabile=" + cognomeResponsabile + ", emailResponsabile=" + emailResponsabile + ", citta=" + citta + ", provincia=" + provincia + '}';

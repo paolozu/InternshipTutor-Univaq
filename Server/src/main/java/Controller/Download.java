@@ -7,6 +7,8 @@ package Controller;
 
 import Framework.data.DataLayerException;
 import Framework.result.FailureResult;
+import Framework.result.TemplateManagerException;
+import Framework.result.TemplateResult;
 import Framework.security.SecurityLayer;
 import Model.Bean.Azienda;
 import Model.DAO.Impl.AziendaDAOImpl;
@@ -18,13 +20,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -46,29 +51,21 @@ public class Download extends HttpServlet {
         }
     }
 
-    private void action_download_convenzione(HttpServletRequest request, HttpServletResponse response, long idAzienda) throws IOException {
+    private void action_download_convenzione(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException, DataLayerException {
+
+        HttpSession s = SecurityLayer.checkSession(request);
+        long idAzienda = (long) s.getAttribute("userid");
+        Map data = new HashMap();
 
         Azienda azienda = new Azienda(idAzienda);
-        int fileLength;
-        try {
-            InputStream fileInputStream = aziendaDAO.getConvenzione(azienda);
+        azienda = aziendaDAO.getAzienda(azienda);
+        
+        //TEMPLATE
+        data.put("azienda", azienda);
+        data.put("outline_tpl", "");//rimozione outline
+        TemplateResult res = new TemplateResult(getServletContext());
+        res.activate("downloadConvenzione.ftl.html", data, response);
 
-            response.setContentType("application/pdf");
-            response.addHeader("Content-Disposition", "attachment; filename=convenzione.pdf");
-            fileLength = fileInputStream.available();
-            response.setContentLength(fileLength);
-
-            OutputStream responseOutputStream = response.getOutputStream();
-
-            int bytes;
-            while ((bytes = fileInputStream.read()) != -1) {
-                responseOutputStream.write(bytes);
-            }
-            fileInputStream.close();
-        } catch (DataLayerException e) {
-            request.setAttribute("message", "Data access exception: " + e.getMessage());
-            action_error(request, response);
-        }
     }
 
     private void action_download_generic(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -87,19 +84,21 @@ public class Download extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try {
+            
+            if (request.getParameter("convenzione") != null) {
 
-        if (request.getParameter("download") != null) {
-            if (request.getParameter("refA") != null) {
-                long idAzienda = SecurityLayer.checkNumeric(request.getParameter("refA"));
-                action_download_convenzione(request, response, idAzienda);
+                action_download_convenzione(request, response);
+
             } else {
-                request.setAttribute("message", "Riferimento azienda non valido");
+                request.setAttribute("message", "Riferiemto non valido");
                 action_error(request, response);
             }
-        } else {
-            action_download_generic(request, response);
-        }
 
+        } catch (DataLayerException | TemplateManagerException ex) {
+            request.setAttribute("exception", "ex");
+            action_error(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
