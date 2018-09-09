@@ -14,88 +14,11 @@ import java.util.List;
  */
 public class Azienda extends Utente {
     
-<<<<<<< HEAD
+
     private String cap,nomeRappresentante, cognomeRappresentante, ragioneSociale,
             indirizzoSede, partitaIva, foroCompetente, telResponsabile,nomeResponsabile,cognomeResponsabile,emailResponsabile, citta, provincia;
     LocalDate dataIscrione, dataTermine;
-=======
-    private String cap, nomeRappresentante, cognomeRappresentante, ragioneSociale,
-            indirizzoSede, partitaIva, foroCompetente, telResponsabile,nomeResponsabile,
-            cognomeResponsabile,emailResponsabile, citta, provincia,
-            telSede, telRappresentante, durataConvenzione, emailRappresentante;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public String getDurataConvenzione() {
-        return durataConvenzione;
-    }
-
-    public void setDurataConvenzione(String durataConvenzione) {
-        this.durataConvenzione = durataConvenzione;
-    }
-
-    public String getEmailRappresentante() {
-        return emailRappresentante;
-    }
-
-    public void setEmailRappresentante(String emailRappresentante) {
-        this.emailRappresentante = emailRappresentante;
-    }
-
-    public String getTelRappresentante() {
-        return telRappresentante;
-    }
-
-    public void setTelRappresentante(String telRappresentante) {
-        this.telRappresentante = telRappresentante;
-    }
-
-    public String getTelSede() {
-        return telSede;
-    }
-
-    public void setTelSede(String telSede) {
-        this.telSede = telSede;
-    }
->>>>>>> 9ff2d2a39d75b00ca2e0a5e9d5e8e006cbc7a682
     
     public Azienda(){}
     
@@ -193,10 +116,7 @@ public class Azienda extends Utente {
     public String getCap() {
         return cap;
     }
-    
-    public void setCap(String cap) {
-        this.cap = cap;
-    }
+ 
 
     public String getNomeRappresentante() {
         return nomeRappresentante;
