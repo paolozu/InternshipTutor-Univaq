@@ -17,7 +17,6 @@ import Model.DAO.Impl.StudenteDAOImpl;
 import Model.DAO.Interface.StudenteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -72,40 +71,14 @@ public class SignUp extends HttpServlet {
             }
         }  
     }
-    
-    
-  /*  private void action_showStudente (HttpServletRequest request, HttpServletResponse response) {
-        if ("ST".equals(request.getParameter("signup"))) {
-            action_signupStudente(request, response);
-        } else {
-            Map data = new HashMap();
-            data.put("outline_tpl", "");//rimozione outline
-            TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-            try {
-                res.activate("signin-Studente.ftl.html", data, response);
-            } catch (TemplateManagerException ex) {
-                (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-            }
-        }
-       
-    } */
-    
- /*   private void action_showAzienda (HttpServletRequest request, HttpServletResponse response) {
-        Map data = new HashMap();
-        data.put("outline_tpl", "");//rimozione outline
-        TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-        try {
-            res.activate("signin-Azienda.ftl.html", data, response);
-        } catch (TemplateManagerException ex) {
-            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-        }
-    } */
+   
     
     
     private void action_signupStudente (HttpServletRequest request, HttpServletResponse response) throws DataLayerException {
         try {
+            
             Studente studente = new Studente();
-            System.out.println("dentro");
+
             studente.setTipo("ST");
             studente.setNome(request.getParameter("nomeStudente"));
             studente.setEmail(request.getParameter("emailDatiDiAccesso"));
@@ -126,7 +99,6 @@ public class SignUp extends HttpServlet {
             studente.setCittaResidenza(request.getParameter("cittaResidenzaStudente"));
             studente.setProvinciaResidenza(request.getParameter("provinciaResidenza"));
             studente.setProvinciaNascita(request.getParameter("provinciaNascita"));
-            studente.setCrediti(SecurityLayer.checkNumeric(request.getParameter("crediti")));
             studente.setDataNascita(SecurityLayer.checkDate(request.getParameter("dataNascita")));
             studente.setHandicap(Boolean.valueOf(request.getParameter("handicap")));
             
@@ -150,20 +122,22 @@ public class SignUp extends HttpServlet {
             azienda.setIndirizzoSede(request.getParameter("indirizzo"));
             azienda.setCitta(request.getParameter("citta"));
             azienda.setProvincia(request.getParameter("provincia"));
-            azienda.setCap(request.getParameter("CAP"));
+            azienda.setCap(request.getParameter("cap"));
             azienda.setPartitaIva(request.getParameter("CF_PIva"));
-            azienda.setForoCompetente(request.getParameter("foro")); 
-            azienda.setNomeRappresentante(request.getParameter(request.getParameter("nomeRappresentante")));
+            azienda.setForoCompetente(request.getParameter("foro"));
+            azienda.setDataIscrione(SecurityLayer.checkDate(request.getParameter("inizioConvenzione")));
+            azienda.setDataTermine(SecurityLayer.checkDate(request.getParameter("fineConvenzione")));
+            azienda.setNomeRappresentante((request.getParameter("nomeRappresentante")));
             azienda.setCognomeRappresentante(request.getParameter("cognomeRappresentante"));
-            azienda.setEmail(request.getParameter("emailRappresentante"));
             azienda.setNomeResponsabile(request.getParameter("nomeResponsabile"));
             azienda.setCognomeResponsabile(request.getParameter("cognomeResponsabile"));
             azienda.setEmailResponsabile(request.getParameter("emailResponsabile"));
             azienda.setTelResponsabile(request.getParameter("telefonoResponsabile"));
             azienda.setUsername(request.getParameter("usernameAzienda"));
-            azienda.setEmail(request.getParameter("email"));
+            azienda.setEmail(request.getParameter("emailAccessoAzienda"));
             azienda.setPassword(request.getParameter("password"));
             
+             System.out.println(azienda);
 
             new AziendaDAOImpl().setRegistrazioneAzienda(azienda);
  
