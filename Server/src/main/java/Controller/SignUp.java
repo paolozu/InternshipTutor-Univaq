@@ -12,8 +12,10 @@ import Framework.result.TemplateResult;
 import Framework.security.SecurityLayer;
 import Model.Bean.Azienda;
 import Model.Bean.Studente;
+import Model.Bean.Utente;
 import Model.DAO.Impl.AziendaDAOImpl;
 import Model.DAO.Impl.StudenteDAOImpl;
+import Model.DAO.Impl.UtenteDAOImpl;
 import Model.DAO.Interface.StudenteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -41,6 +43,25 @@ public class SignUp extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    
+    private boolean verificaCredenziali(HttpServletRequest request, HttpServletResponse response, Utente utente) throws DataLayerException {
+        
+        boolean credenziali_in_uso = false;
+        
+            if( new UtenteDAOImpl().getUsernameEsistente(utente.getUsername()) ){
+                credenziali_in_uso = true;
+                request.setAttribute("username_in_uso", true);
+            } else {
+                if ( new UtenteDAOImpl().getEmailEsistente(utente.getEmail()) ) {
+                    credenziali_in_uso = false;
+                    request.setAttribute("email_in_uso", true);      
+                }
+            }
+            
+            return credenziali_in_uso;
+        }
+ 
     
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
         if (request.getAttribute("exception") != null) {
@@ -102,11 +123,14 @@ public class SignUp extends HttpServlet {
             studente.setDataNascita(SecurityLayer.checkDate(request.getParameter("dataNascita")));
             studente.setHandicap(Boolean.valueOf(request.getParameter("handicap")));
             
+            boolean credenziali_in_uso = verificaCredenziali(request, response, studente);
             
-            System.out.println(studente);
-            
-            new StudenteDAOImpl().setRegistrazioneStudente(studente);
-           // action_showStudente(request,response);
+            if (!credenziali_in_uso) {
+                new StudenteDAOImpl().setRegistrazioneStudente(studente);
+            } else {
+                // redirect
+            }
+         
               
         } catch (IllegalArgumentException e) {
         }
@@ -137,7 +161,7 @@ public class SignUp extends HttpServlet {
             azienda.setEmail(request.getParameter("emailAccessoAzienda"));
             azienda.setPassword(request.getParameter("password"));
             
-             System.out.println(azienda);
+        
 
             new AziendaDAOImpl().setRegistrazioneAzienda(azienda);
  
