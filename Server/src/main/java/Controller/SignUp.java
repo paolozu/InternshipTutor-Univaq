@@ -44,6 +44,33 @@ public class SignUp extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     
+//    private boolean verificaRegistrazioneCompletata(HttpServletRequest, HttpServletResponse response, Utente utente){
+//        
+//    }
+//    
+    
+    private void action_reload (HttpServletRequest request, HttpServletResponse response) {
+          System.out.println("Reload caricato");
+        if ("ST".equals(request.getParameter("registra"))) {
+            Map data = new HashMap();
+            data.put("outline_tpl", "");//rimozione outline
+            TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+            try {
+                res.activate("signup-Studente.ftl.html", data, response);
+            } catch (TemplateManagerException ex) {
+                (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+            }
+        } else {
+            Map data = new HashMap();
+            data.put("outline_tpl", "");//rimozione outline
+            TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+            try {
+                res.activate("signup-Azienda.ftl.html", data, response);
+            } catch (TemplateManagerException ex) {
+                (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+            }
+        }  
+    }
     
     private boolean verificaCredenziali(HttpServletRequest request, HttpServletResponse response, Utente utente) throws DataLayerException {
         
@@ -52,10 +79,12 @@ public class SignUp extends HttpServlet {
             if( new UtenteDAOImpl().getUsernameEsistente(utente.getUsername()) ){
                 credenziali_in_uso = true;
                 request.setAttribute("username_in_uso", true);
+                request.setAttribute("credenziali_in_uso", true);
             } else {
                 if ( new UtenteDAOImpl().getEmailEsistente(utente.getEmail()) ) {
                     credenziali_in_uso = false;
-                    request.setAttribute("email_in_uso", true);      
+                    request.setAttribute("email_in_uso", true);
+                    request.setAttribute("credenziali_in_uso", true);
                 }
             }
             
@@ -128,7 +157,7 @@ public class SignUp extends HttpServlet {
             if (!credenziali_in_uso) {
                 new StudenteDAOImpl().setRegistrazioneStudente(studente);
             } else {
-                // redirect
+                action_default(request, response);       
             }
          
               
@@ -174,15 +203,20 @@ public class SignUp extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, DataLayerException {
         try {
-            if (request.getParameter("signup") == null) {
-                action_default(request, response);
-            } else {
+            if (request.getAttribute("credenziali_in_uso") == null){
+                if (request.getParameter("signup") == null) {
+                     action_default(request, response);
+                }
                 if(request.getParameter("signup").equals("Iscriviti come Studente")){
                     action_signupStudente(request, response);
                 } else {
                     action_signupAzienda(request, response);
-                }
+                }                
+            } else {
+                action_reload(request, response);
             }
+            
+            
         } catch (DataLayerException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);
