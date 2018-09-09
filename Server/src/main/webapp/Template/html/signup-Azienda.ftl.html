@@ -60,7 +60,10 @@
 								</div>
 								<div class="row">
 									<div class="col-lg-6 mt-1">
-										<input class="form-control" placeholder="Durata Convenzione" name="durataConvenzione" type="text" required>
+										<input placeholder="Data inizio convenzione gg/mm/aaaa" class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="inizioConvenzione">
+									</div>
+                                                                        <div class="col-lg-6 mt-1">
+										<input placeholder="Data fine convenzione gg/mm/aaaa" class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="fineConvenzione">
 									</div>
 								</div><!-- Fine Azienda -->
 								<hr>
@@ -71,14 +74,6 @@
 									</div>
 									<div class="col-lg-6 mt-1">
 										<input class="form-control" placeholder="Cognome" name="cognomeRappresentante" type="text"  required>
-									</div>
-								</div><!--./row -->
-								<div class="row">
-									<div class="col-lg-6 mt-1">
-									  <input class="form-control" placeholder="email" name="emailRappresentante" type="email"  required>
-									</div>
-									<div class="col-lg-6 mt-1">
-									  <input class="form-control" placeholder="Telefono" name="telRappresentante" type="number" required>
 									</div>
 								</div><!--./row -->
 								<hr> <!-- Fine Rappresentante-->
