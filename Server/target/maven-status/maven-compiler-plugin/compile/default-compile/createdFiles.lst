@@ -1,8 +1,0 @@
-Controller\AnnunciAzienda.class
-Controller\Download.class
-Controller\RichiesteAzienda.class
-Controller\TirociniAzienda.class
-Controller\Upload.class
-Controller\Aziende.class
-Controller\AziendaSecurity.class
-Model\Bean\Richiesta.class

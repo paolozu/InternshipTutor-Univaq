@@ -11,8 +11,14 @@ import Framework.result.TemplateManagerException;
 import Framework.result.TemplateResult;
 import Framework.security.SecurityLayer;
 import Model.Bean.Azienda;
+import Model.Bean.Resoconto;
+import Model.Bean.Studente;
 import Model.DAO.Impl.AziendaDAOImpl;
+import Model.DAO.Impl.StudenteDAOImpl;
+import Model.DAO.Impl.TirocinanteDAOImpl;
 import Model.DAO.Interface.AziendaDAO;
+import Model.DAO.Interface.StudenteDAO;
+import Model.DAO.Interface.TirocinanteDAO;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -42,11 +48,13 @@ import java.util.logging.Logger;
  * @author lorenzo
  */
 public class Download extends HttpServlet {
-
+    
+    private TirocinanteDAO tirocinioDAO;
     private AziendaDAO aziendaDAO;
 
     public Download() {
         aziendaDAO = new AziendaDAOImpl();
+        tirocinioDAO = new TirocinanteDAOImpl();
     }
 
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
@@ -57,9 +65,31 @@ public class Download extends HttpServlet {
         }
     }
 
-    private void download_resoconto(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException, DataLayerException {
+    private void download_resoconto(HttpServletRequest request, HttpServletResponse response, Studente studente, long idResoconto) throws IOException, TemplateManagerException, DataLayerException {
 
-        //TODO
+        Resoconto resoconto = new Resoconto(idResoconto);
+        int fileLength;
+        try {			
+			InputStream fileInputStream = tirocinioDAO.downloadResoconto(resoconto);
+                       
+                        response.setContentType("application/pdf");
+			response.addHeader("Content-Disposition", "attachment; filename=convenzione.pdf");
+                        fileLength = fileInputStream.available();
+                        response.setContentLength(fileLength);
+                        
+                        
+                        OutputStream responseOutputStream = response.getOutputStream();
+                      
+			int bytes;
+			while ((bytes = fileInputStream.read()) != -1) {
+				responseOutputStream.write(bytes);
+			}
+			fileInputStream.close();
+		}
+		catch(DataLayerException e) {
+			request.setAttribute("message", "Data access exception: " + e.getMessage());
+            action_error(request, response);
+		}
 
     }
 
@@ -74,18 +104,19 @@ public class Download extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-        Azienda azienda;
+        
         HttpSession s = SecurityLayer.checkSession(request);
 
         try {
             if (s != null) {
                 if (request.getParameter("resoconto") != null) {
-
-                    download_resoconto(request, response);
+                  Studente  studente = new Studente((long) s.getAttribute("userid"));
+                  long idResoconto =  SecurityLayer.checkNumeric(request.getParameter("resoconto"));
+                    
+                    download_resoconto(request, response,studente, idResoconto);
 
                 } else if(request.getParameter("convenzione") != null) {
-                    azienda = new Azienda((long) s.getAttribute("userid"));
+                 Azienda azienda = new Azienda((long) s.getAttribute("userid"));
                     download_convenzione(request, response, azienda);
                 }
             } else {
@@ -93,13 +124,13 @@ public class Download extends HttpServlet {
                 action_error(request, response);
             }
 
-        } catch (DataLayerException | TemplateManagerException ex) {
+        } catch (TemplateManagerException | DataLayerException ex) {
             request.setAttribute("exception", "ex");
             action_error(request, response);
         } catch (DocumentException ex) {
             request.setAttribute("exception", "ex");
             action_error(request, response);
-        } 
+        }
     }
     
        private void download_convenzione(HttpServletRequest request, HttpServletResponse response, Azienda azienda)

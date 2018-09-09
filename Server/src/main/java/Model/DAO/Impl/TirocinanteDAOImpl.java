@@ -14,6 +14,8 @@ import Model.Bean.Docente;
 import Model.DAO.Interface.TirocinanteDAO;
 import Framework.data.DB;
 import Framework.data.DataLayerException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,7 +47,7 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
     
     private static final String GET_PATH_RESOCONTO="SELECT Resoconto.nome, Resoconto.directory, Resoconto.estensione, Resoconto.peso FROM Resoconto WHERE idResoconto=?";
     
-    
+    private static final String DOWNLOAD_RESOCONTO="SELECT Resoconto.file FROM Resoconto WHERE idResoconto=?";
     
     
     @Override
@@ -137,5 +139,31 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
         }
         return resoconto;
     }
+    
+    @Override
+    public InputStream downloadResoconto(Resoconto resoconto) throws DataLayerException {
+        PreparedStatement ps;
+        InputStream inputStream = null;
+
+        try (Connection connection = DB.getConnection()) {
+            ps = connection.prepareStatement(DOWNLOAD_RESOCONTO);
+            ps.setLong(1, resoconto.getId());
+            ResultSet rset = ps.executeQuery();
+
+            if (rset.next()) {
+                Blob blob = rset.getBlob("file");
+                inputStream = blob.getBinaryStream();
+            }
+
+            ps.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            throw new DataLayerException("Get resoconto", e);
+        }
+
+        return inputStream;
+    }
+    
    
 }

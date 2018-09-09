@@ -31,8 +31,6 @@ public class StudenteDAOImpl implements StudenteDAO {
 
     private static final String GET_STUDENTE="SELECT * FROM Studente WHERE Studente.idStudente=?";
     
-    private static final String DOWNLOAD_RESOCONTO="SELECT * FROM Resoconto WHERE idResoconto=?";
-    
     
     @Override
     public int setRegistrazioneStudente(Studente studente) throws DataLayerException{
