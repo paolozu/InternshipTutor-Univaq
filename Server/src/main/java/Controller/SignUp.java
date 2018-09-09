@@ -149,13 +149,10 @@ public class SignUp extends HttpServlet {
             azienda.setProvincia(request.getParameter("provincia"));
             azienda.setCap(request.getParameter("CAP"));
             azienda.setPartitaIva(request.getParameter("CF_PIva"));
-            azienda.setTelSede(request.getParameter("telSede"));
             azienda.setForoCompetente(request.getParameter("foro")); 
-            azienda.setDurataConvenzione(request.getParameter("durataConvenzione"));
             azienda.setNomeRappresentante(request.getParameter(request.getParameter("nomeRappresentante")));
             azienda.setCognomeRappresentante(request.getParameter("cognomeRappresentante"));
             azienda.setEmail(request.getParameter("emailRappresentante"));
-            azienda.setTelRappresentante(request.getParameter("telRappresentante"));
             azienda.setNomeResponsabile(request.getParameter("nomeResponsabile"));
             azienda.setCognomeResponsabile(request.getParameter("cognomeResponsabile"));
             azienda.setEmailResponsabile(request.getParameter("emailResponsabile"));
