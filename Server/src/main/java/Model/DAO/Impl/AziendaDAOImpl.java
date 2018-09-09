@@ -67,6 +67,8 @@ public class AziendaDAOImpl implements AziendaDAO {
             + "                                      JOIN Convenzione ON Azienda.Convenzione_idConvenzione = Convenzione.idConvenzione "
             + "                                         WHERE Azienda.idAzienda = ?";
 
+    private static final String GET_MODULO_CONVENZIONE = "SELECT Convenzione.nome, Convenzione.file, Convenzione.estensione, Convenzione.peso FROM Convenzione WHERE Convenzione.idConvenzione = 0";
+
     private static final String GET_APPROVAZIONE = "SELECT * FROM Azienda "
             + "                                         JOIN Convenzione ON Azienda.idConvenzione = Convenzione.idConvenzione "
             + "                                             WHERE Azienda.idAzienda=?";
@@ -94,7 +96,6 @@ public class AziendaDAOImpl implements AziendaDAO {
     private static final String GET_AZIENDE_CONVENZIONATE = "SELECT azienda.ragSociale FROM azienda WHERE Stato='CONVENZIONATA'";
 
     private static final String REMOVE_AZIENDA = "DELETE FROM AZIENDA WHERE idAzienda=?";
-    
 
     @Override
     public List<Richiesta> getRichieste(long idAzienda) throws DataLayerException {
@@ -218,7 +219,6 @@ public class AziendaDAOImpl implements AziendaDAO {
         }
         return tirocini;
     }
-
 
     @Override
     public Azienda getApprovazione(long id) throws DataLayerException {
@@ -609,8 +609,7 @@ public class AziendaDAOImpl implements AziendaDAO {
                 azienda.setProvincia(rset.getString("provincia"));
                 azienda.setDataIscrione(rset.getDate("dataIscrizione").toLocalDate());
                 azienda.setDataTermine(rset.getDate("dataTermine").toLocalDate());
-                
-                
+
             }
 
             ps.close();
@@ -629,7 +628,7 @@ public class AziendaDAOImpl implements AziendaDAO {
         try (Connection connection = DB.getConnection()) {
             ps = connection.prepareStatement(REMOVE_AZIENDA);
             ps.setLong(1, azienda.getId());
-            
+
             result = ps.executeUpdate();
 
             ps.close();
@@ -639,30 +638,56 @@ public class AziendaDAOImpl implements AziendaDAO {
         }
         return result;
     }
-    
- @Override
-	public InputStream getConvenzione(Azienda azienda) throws DataLayerException {
-	PreparedStatement ps;
+
+    @Override
+    public InputStream getConvenzione(Azienda azienda) throws DataLayerException {
+        PreparedStatement ps;
         InputStream inputStream = null;
-                
+
         try (Connection connection = DB.getConnection()) {
             ps = connection.prepareStatement(GET_CONVENZIONE);
             ps.setLong(1, azienda.getId());
 
             ResultSet rset = ps.executeQuery();
-            
-            if(rset.next()) {
+
+            if (rset.next()) {
                 Blob blob = rset.getBlob("file");
                 inputStream = blob.getBinaryStream();
             }
-            
+
             ps.close();
             connection.close();
 
         } catch (SQLException e) {
-        	throw new DataLayerException("GET CONVENZIONE", e);
+            throw new DataLayerException("GET CONVENZIONE", e);
         }
-        
+
         return inputStream;
+    }
+
+    @Override
+    public InputStream getModuloConvenzione() throws DataLayerException {
+        PreparedStatement ps;
+        InputStream inputStream = null;
+
+        try (Connection connection = DB.getConnection()) {
+            ps = connection.prepareStatement(GET_MODULO_CONVENZIONE);
+
+            ResultSet rset = ps.executeQuery();
+
+            if (rset.next()) {
+                Blob blob = rset.getBlob("file");
+                inputStream = blob.getBinaryStream();
+            }
+
+            ps.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            throw new DataLayerException("Get modulo convenzione", e);
         }
+
+        return inputStream;
+    }
+
 }

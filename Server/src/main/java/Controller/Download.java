@@ -13,23 +13,29 @@ import Framework.security.SecurityLayer;
 import Model.Bean.Azienda;
 import Model.DAO.Impl.AziendaDAOImpl;
 import Model.DAO.Interface.AziendaDAO;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.TextField;
+import java.io.ByteArrayOutputStream;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -51,26 +57,10 @@ public class Download extends HttpServlet {
         }
     }
 
-    private void action_download_convenzione(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException, DataLayerException {
-
-        HttpSession s = SecurityLayer.checkSession(request);
-        long idAzienda = (long) s.getAttribute("userid");
-        Map data = new HashMap();
-
-        Azienda azienda = new Azienda(idAzienda);
-        azienda = aziendaDAO.getAzienda(azienda);
-        
-        //TEMPLATE
-        data.put("azienda", azienda);
-        data.put("outline_tpl", "");//rimozione outline
-        TemplateResult res = new TemplateResult(getServletContext());
-        res.activate("downloadConvenzione.ftl.html", data, response);
-
-    }
-
-    private void action_download_generic(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void download_resoconto(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException, DataLayerException {
 
         //TODO
+
     }
 
     /**
@@ -84,20 +74,74 @@ public class Download extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+       
+        Azienda azienda;
+        HttpSession s = SecurityLayer.checkSession(request);
+
         try {
-            
-            if (request.getParameter("convenzione") != null) {
+            if (s != null) {
+                if (request.getParameter("resoconto") != null) {
 
-                action_download_convenzione(request, response);
+                    download_resoconto(request, response);
 
+                } else if(request.getParameter("convenzione") != null) {
+                    azienda = new Azienda((long) s.getAttribute("userid"));
+                    download_convenzione(request, response, azienda);
+                }
             } else {
-                request.setAttribute("message", "Riferiemto non valido");
+                request.setAttribute("message", "Area riservata");
                 action_error(request, response);
             }
 
         } catch (DataLayerException | TemplateManagerException ex) {
             request.setAttribute("exception", "ex");
             action_error(request, response);
+        } catch (DocumentException ex) {
+            request.setAttribute("exception", "ex");
+            action_error(request, response);
+        } 
+    }
+    
+       private void download_convenzione(HttpServletRequest request, HttpServletResponse response, Azienda azienda)
+        throws ServletException, IOException, DataLayerException, DocumentException {
+           
+           response.addHeader("Content-Disposition", "inline; filename=convenzione.pdf");
+           response.setContentType("application/pdf");
+        
+           azienda = aziendaDAO.getAzienda(azienda);
+           
+           try {
+            // We get a resource from our web app
+            InputStream is = aziendaDAO.getModuloConvenzione();
+            // We create a reader with the InputStream
+            PdfReader reader = new PdfReader(is, null);
+            // We create an OutputStream for the new PDF
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            // Now we create the PDF
+            PdfStamper stamper = new PdfStamper(reader, baos);
+            // We alter the fields of the existing PDF
+            
+            AcroFields fields = stamper.getAcroFields();
+            fields.setGenerateAppearances(true);
+            
+            
+            Set<String> parameters = fields.getFields().keySet();
+            
+            // Fill field
+            fields.setField("azienda", azienda.getRagioneSociale());
+            fields.setField("indirizzo", azienda.getIndirizzoSede());
+            fields.setField("piva", azienda.getPartitaIva());
+            fields.setField("nomeRap", azienda.getCognomeRappresentante()+" "+azienda.getNomeRappresentante());
+           
+            stamper.setFormFlattening(true);
+            stamper.close();
+            reader.close();
+            // We write the PDF bytes to the OutputStream
+            OutputStream os = response.getOutputStream();
+            baos.writeTo(os);
+            os.flush();
+        } catch (DocumentException e) {
+            throw new IOException(e.getMessage());
         }
     }
 

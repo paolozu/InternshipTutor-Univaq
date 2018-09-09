@@ -19,12 +19,12 @@ import java.util.List;
  * @author lorenzo
  */
 public interface AziendaDAO {
+    
+    public Azienda getAzienda(Azienda azienda) throws DataLayerException;
 
     public List<Azienda> getAziende() throws DataLayerException;
     
     public int removeAzienda(Azienda azienda) throws DataLayerException;
-    
-    public Azienda getAzienda(Azienda azienda) throws DataLayerException;
     
     public List<Azienda> getAllAziendeConvenzionate() throws DataLayerException;
 
@@ -53,5 +53,7 @@ public interface AziendaDAO {
     public void removeRichiesta(Richiesta richiesta) throws DataLayerException;
     
     public int setNuovoTirocinio(Tirocinio tirocinio) throws DataLayerException;
+    
+    public InputStream getModuloConvenzione() throws DataLayerException; 
 
 }
