@@ -16,9 +16,7 @@ import Model.Bean.Utente;
 import Model.DAO.Impl.AziendaDAOImpl;
 import Model.DAO.Impl.StudenteDAOImpl;
 import Model.DAO.Impl.UtenteDAOImpl;
-import Model.DAO.Interface.StudenteDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -57,6 +55,7 @@ public class SignUp extends HttpServlet {
             TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
             try {
                 res.activate("signup-Studente.ftl.html", data, response);
+                System.out.println("dentro reload");
             } catch (TemplateManagerException ex) {
                 (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
             }
@@ -204,14 +203,15 @@ public class SignUp extends HttpServlet {
             throws ServletException, DataLayerException {
         try {
             if (request.getAttribute("credenziali_in_uso") == null){
-                if (request.getParameter("signup") == null) {
-                     action_default(request, response);
-                }
-                if(request.getParameter("signup").equals("Iscriviti come Studente")){
-                    action_signupStudente(request, response);
-                } else {
-                    action_signupAzienda(request, response);
-                }                
+                 if (request.getParameter("signup") == null) {
+                    action_default(request, response);
+                } else { 
+                    if(request.getParameter("signup").equals("Iscriviti come Studente")){
+                        action_signupStudente(request, response);
+                    } else { 
+                        action_signupAzienda(request, response);
+                    } 
+                } 
             } else {
                 action_reload(request, response);
             }
