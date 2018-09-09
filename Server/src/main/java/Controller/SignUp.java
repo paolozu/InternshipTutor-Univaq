@@ -57,7 +57,7 @@ public class SignUp extends HttpServlet {
             data.put("outline_tpl", "");//rimozione outline
             TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
             try {
-                res.activate("signin-Studente.ftl.html", data, response);
+                res.activate("signup-Studente.ftl.html", data, response);
             } catch (TemplateManagerException ex) {
                 (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
             }
@@ -66,7 +66,7 @@ public class SignUp extends HttpServlet {
             data.put("outline_tpl", "");//rimozione outline
             TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
             try {
-                res.activate("signin-Azienda.ftl.html", data, response);
+                res.activate("signup-Azienda.ftl.html", data, response);
             } catch (TemplateManagerException ex) {
                 (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
             }
@@ -105,7 +105,7 @@ public class SignUp extends HttpServlet {
     private void action_signupStudente (HttpServletRequest request, HttpServletResponse response) throws DataLayerException {
         try {
             Studente studente = new Studente();
-            
+            System.out.println("dentro");
             studente.setTipo("ST");
             studente.setNome(request.getParameter("nomeStudente"));
             studente.setEmail(request.getParameter("emailDatiDiAccesso"));
@@ -179,7 +179,7 @@ public class SignUp extends HttpServlet {
             if (request.getParameter("signup") == null) {
                 action_default(request, response);
             } else {
-                if(request.getParameter("signup").equals("ST")){
+                if(request.getParameter("signup").equals("Iscriviti come Studente")){
                     action_signupStudente(request, response);
                 } else {
                     action_signupAzienda(request, response);
