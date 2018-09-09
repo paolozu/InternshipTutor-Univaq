@@ -116,19 +116,22 @@ public class SignUp extends HttpServlet {
             studente.setCodFiscale(request.getParameter("CFStudemte"));
             studente.setTelefono(request.getParameter("telefono")); 
             studente.setIndirizzoResidenza(request.getParameter("indirizzoResidenza"));
-            studente.setCorsoLaurea(request.getParameter(request.getParameter("corso")));
+            studente.setLaurea(request.getParameter("laureato"));
+            studente.setCorsoLaurea(request.getParameter("corso"));
             studente.setDiploma(request.getParameter("diploma"));
             studente.setDottorato(request.getParameter("dottorato"));
             studente.setCapNascita(request.getParameter("capNascita"));
+            studente.setCittaNascita(request.getParameter("luogoNascita"));
             studente.setCapResidenza(request.getParameter("capResidenza"));
             studente.setCittaResidenza(request.getParameter("cittaResidenzaStudente"));
             studente.setProvinciaResidenza(request.getParameter("provinciaResidenza"));
             studente.setProvinciaNascita(request.getParameter("provinciaNascita"));
             studente.setCrediti(SecurityLayer.checkNumeric(request.getParameter("crediti")));
-            // ERROR studente.setDataNascita(SecurityLayer.checkDate(request.getParameter("dataNascita")));
+            studente.setDataNascita(SecurityLayer.checkDate(request.getParameter("dataNascita")));
             studente.setHandicap(Boolean.valueOf(request.getParameter("handicap")));
             
-            System.out.println("date: "+ studente.getDataNascita());
+            
+            System.out.println(studente);
             
             new StudenteDAOImpl().setRegistrazioneStudente(studente);
            // action_showStudente(request,response);

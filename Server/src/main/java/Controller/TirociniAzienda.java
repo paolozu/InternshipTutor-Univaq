@@ -17,9 +17,12 @@ import Model.Bean.Studente;
 import Model.Bean.Tirocinio;
 import Model.DAO.Impl.AnnuncioDAOImpl;
 import Model.DAO.Impl.AziendaDAOImpl;
+import Model.DAO.Impl.TirocinanteDAOImpl;
 import Model.DAO.Interface.AnnuncioDAO;
 import Model.DAO.Interface.AziendaDAO;
+import Model.DAO.Interface.TirocinanteDAO;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
@@ -45,60 +48,59 @@ public class TirociniAzienda extends AziendaSecurity {
         }
     }
 
-    private void action_gestioneTirocinio(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void action_gestioneTirocinio(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException {
         switch (request.getParameter("action")) {
             case "visualizza":
-                try {
-                    data.put("titolo", "Resoconto tirocinio");
-                    data.put("idTirocinante", request.getParameter("idT"));
-                    data.put("idAnnuncio", request.getParameter("idA"));
+                data.put("titolo", "Resoconto tirocinio");
+                data.put("idTirocinante", request.getParameter("idT"));
+                data.put("idAnnuncio", request.getParameter("idA"));
 
-                    TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-                    res.activate("resocontoTirocinio.ftl.html", data, response);
+                TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+                res.activate("resocontoTirocinio.ftl.html", data, response);
 
-                } catch (TemplateManagerException ex) {
-                    (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-                }
                 break;
+
             case "concludi":
-                    SecurityLayer.checkString(request.getParameter("attivita"));
-                    SecurityLayer.checkString(request.getParameter("risultato"));
-                    SecurityLayer.checkString(request.getParameter("ore"));
-                    
-                    
-                    AziendaDAO queryA = new AziendaDAOImpl();
+                SecurityLayer.checkString(request.getParameter("attivita"));
+                SecurityLayer.checkString(request.getParameter("risultato"));
+                SecurityLayer.checkString(request.getParameter("ore"));
 
-                    Studente stu = new Studente(SecurityLayer.checkNumeric(request.getParameter("idT")));
-                    Resoconto res = new Resoconto(SecurityLayer.checkNumeric(request.getParameter("ore")), request.getParameter("attivita"), request.getParameter("risultato"));
-                    Annuncio an = new Annuncio(SecurityLayer.checkNumeric(request.getParameter("idA")));
+                AziendaDAO queryA = new AziendaDAOImpl();
 
-                    
-                    try {
-                    queryA.setConcludiTirocinio(new Tirocinio(stu, an, res));
-                    } catch (DataLayerException ex) {
-                        (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-                    }
+                Studente stu = new Studente(SecurityLayer.checkNumeric(request.getParameter("idT")));
+                Resoconto resoconto = new Resoconto(SecurityLayer.checkNumeric(request.getParameter("ore")), request.getParameter("attivita"), request.getParameter("risultato"));
+                Annuncio an = new Annuncio(SecurityLayer.checkNumeric(request.getParameter("idA")));
+
+                queryA.setConcludiTirocinio(new Tirocinio(stu, an, resoconto));
+
+                /*Creazione PDF*/
                 
-
+                TirocinanteDAO tirocinio = new TirocinanteDAOImpl();
+                //Carico modello base resoconto
+                InputStream moduloResoconto = tirocinio.downloadResoconto(new Resoconto(0));
+                
+                
+                
+                
                 //Notifica aggiornamento tirocinio
-                data.put("alert","Tirocinio concluso");
+                data.put("alert", "Tirocinio concluso");
                 action_listaTirocinanti(data, request, response);
-                
+
                 break;
             case "elimina":
                 Studente studente = new Studente(SecurityLayer.checkNumeric(request.getParameter("idT")));
                 Annuncio annuncio = new Annuncio(SecurityLayer.checkNumeric(request.getParameter("idA")));
-                
+
                 AziendaDAO queryB = new AziendaDAOImpl();
-                
-                 try {
-                    queryB.removeTirocinio(new Tirocinio(studente,annuncio));
-                    } catch (DataLayerException ex) {
-                        (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-                    }
-                
+
+                try {
+                    queryB.removeTirocinio(new Tirocinio(studente, annuncio));
+                } catch (DataLayerException ex) {
+                    (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+                }
+
                 //Notifica aggiornamento tirocinio
-                data.put("alert","Tirocinio rimosso");
+                data.put("alert", "Tirocinio rimosso");
                 action_listaTirocinanti(data, request, response);
                 break;
             default:
@@ -160,7 +162,13 @@ public class TirociniAzienda extends AziendaSecurity {
             SecurityLayer.checkString(request.getParameter("idT"));
             SecurityLayer.checkString(request.getParameter("idA"));
 
-            action_gestioneTirocinio(data, request, response);
+            try {
+                action_gestioneTirocinio(data, request, response);
+            } catch (DataLayerException ex) {
+                Logger.getLogger(TirociniAzienda.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (TemplateManagerException ex) {
+                Logger.getLogger(TirociniAzienda.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             // visualizza lista tirocinanti
             action_listaTirocinanti(data, request, response);

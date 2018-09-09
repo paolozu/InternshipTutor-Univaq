@@ -26,8 +26,8 @@ import javax.naming.NamingException;
  */
 public class StudenteDAOImpl implements StudenteDAO {
 
-    private static final String REGISTRAZIONE_STUDENTE="INSERT INTO Studente (idStudente, nome, cognome, codFiscale, telefono, crediti, handicap, dataNascita, indirizzoResidenza, corsoLaurea, diploma, laurea, dottorato, cap_nascita, citta_nascita, provincia_nascita, cap_residenza, citta_residenza, provincia_residenza)"
-            +                                          " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String REGISTRAZIONE_STUDENTE="INSERT INTO Studente (idStudente, nome, cognome, codFiscale, telefono, handicap, dataNascita, indirizzoResidenza, corsoLaurea, diploma, laurea, dottorato, cap_nascita, citta_nascita, provincia_nascita, cap_residenza, citta_residenza, provincia_residenza)"
+            +                                          " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     private static final String GET_STUDENTE="SELECT * FROM Studente WHERE Studente.idStudente=?";
     
@@ -54,22 +54,19 @@ public class StudenteDAOImpl implements StudenteDAO {
                 ps.setString(3, studente.getCognome());
                 ps.setString(4, studente.getCodFiscale());
                 ps.setString(5, studente.getTelefono());
-                ps.setInt(6, studente.getCrediti());
-                ps.setBoolean(7, studente.isHandicap());
-                ps.setDate(8, java.sql.Date.valueOf(studente.getDataNascita()));
-                ps.setString(9, studente.getIndirizzoResidenza());
-                ps.setString(10, studente.getCorsoLaurea());
-                ps.setString(11, studente.getDiploma());
-                ps.setString(12, studente.getLaurea());
-                ps.setString(13, studente.getDottorato());
-                ps.setString(14, studente.getCapNascita());
-                ps.setString(15, studente.getCittaNascita());
-                ps.setString(16, studente.getProvinciaNascita());
-                ps.setString(17, studente.getCapResidenza());
-                ps.setString(18, studente.getCittaResidenza());
-                ps.setString(19, studente.getProvinciaResidenza());
-
-
+                ps.setBoolean(6, studente.isHandicap());
+                ps.setDate(7, java.sql.Date.valueOf(studente.getDataNascita()));
+                ps.setString(8, studente.getIndirizzoResidenza());
+                ps.setString(9, studente.getCorsoLaurea());
+                ps.setString(10, studente.getDiploma());
+                ps.setString(11, studente.getLaurea());
+                ps.setString(12, studente.getDottorato());
+                ps.setString(13, studente.getCapNascita());
+                ps.setString(14, studente.getCittaNascita());
+                ps.setString(15, studente.getProvinciaNascita());
+                ps.setString(16, studente.getCapResidenza());
+                ps.setString(17, studente.getCittaResidenza());
+                ps.setString(18, studente.getProvinciaResidenza());
 
                 result = ps.executeUpdate();
 

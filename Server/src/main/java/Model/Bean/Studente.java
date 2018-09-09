@@ -225,6 +225,8 @@ public class Studente extends Utente {
     public String toString() {
         return "Studente{" + "nome=" + nome + ", cognome=" + cognome + ", codFiscale=" + codFiscale + ", telefono=" + telefono + ", indirizzoResidenza=" + indirizzoResidenza + ", corsoLaurea=" + corsoLaurea + ", diploma=" + diploma + ", laurea=" + laurea + ", dottorato=" + dottorato + ", capNascita=" + capNascita + ", capResidenza=" + capResidenza + ", cittaResidenza=" + cittaResidenza + ", provinciaResidenza=" + provinciaResidenza + ", cittaNascita=" + cittaNascita + ", provinciaNascita=" + provinciaNascita + ", crediti=" + crediti + ", dataNascita=" + dataNascita + ", handicap=" + handicap + '}';
     }
+
+   
     
     
 
