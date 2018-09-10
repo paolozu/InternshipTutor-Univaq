@@ -10,6 +10,7 @@ import Framework.result.TemplateResult;
 import Framework.data.DataLayerException;
 import Framework.result.FailureResult;
 import Framework.security.SecurityLayer;
+import Framework.security.SecurityLayerException;
 import Model.Bean.Azienda;
 import Model.Bean.Studente;
 import Model.Bean.Utente;
@@ -56,29 +57,46 @@ public class Login extends HttpServlet {
     }
 
     private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-
-        try { //... VALIDAZIONE IDENTITA'...
-
-            UtenteDAO queryU = new UtenteDAOImpl();
-            Utente utente = queryU.getCredenziali(username, password);
-            if (utente != null) {
-
-                SecurityLayer.createSession(request, utente.getUsername(), utente.getId(), utente.getTipo());
+        
+        try {
+            SecurityLayer.issetString("login", request.getParameter("username"));
+            System.out.println("ok");
+        } catch (SecurityLayerException ex) {
+            System.out.println("errore");
+           request.setAttribute("exception", ex);
+            action_error(request, response);
+        }
+        
+        
+        try {
+            
+            String username = SecurityLayer.issetString("login", request.getParameter("username"));
+            String password = request.getParameter("password");
+            
+            try { //... VALIDAZIONE IDENTITA'...
                 
-                if (request.getParameter("referrer") != null) {
-                    response.sendRedirect(request.getParameter("referrer"));
+                UtenteDAO queryU = new UtenteDAOImpl();
+                Utente utente = queryU.getCredenziali(username, password);
+                if (utente != null) {
+                    
+                    SecurityLayer.createSession(request, utente.getUsername(), utente.getId(), utente.getTipo());
+                    
+                    if (request.getParameter("referrer") != null) {
+                        response.sendRedirect(request.getParameter("referrer"));
+                    } else {
+                        response.sendRedirect("homepage");
+                    }
                 } else {
-                    response.sendRedirect("homepage");
+                    //notifica errore credenziali
+                    request.setAttribute("message", "USER NOT FOUD");
+                    action_error(request, response);
                 }
-            } else {
-                //notifica errore credenziali
-                request.setAttribute("message", "USER NOT FOUD");
+                
+            } catch (DataLayerException ex) {
+                request.setAttribute("exception", ex);
                 action_error(request, response);
             }
-
-        } catch (DataLayerException ex) {
+        } catch (SecurityLayerException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);
         }

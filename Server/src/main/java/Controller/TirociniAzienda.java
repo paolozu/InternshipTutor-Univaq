@@ -128,6 +128,7 @@ public class TirociniAzienda extends AziendaSecurity {
                 action_save_PDF(resoconto);
 
                 break;
+                
             case "elimina":
                 Studente studente = new Studente(SecurityLayer.checkNumeric(request.getParameter("idT")));
                 Annuncio annuncio = new Annuncio(SecurityLayer.checkNumeric(request.getParameter("idA")));
@@ -171,6 +172,7 @@ public class TirociniAzienda extends AziendaSecurity {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 

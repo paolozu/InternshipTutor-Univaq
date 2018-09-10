@@ -116,7 +116,7 @@ public class SecurityLayer {
         return s.replaceAll("\\\\(['\"\\\\])", "$1");
     }
 
-    public static int checkNumeric(String s) {
+    public static int checkNumeric(String s) throws NumberFormatException {
         //convertiamo la stringa in numero, ma assicuriamoci prima che sia valida
         //convert the string to a number, ensuring its validity
         if (s != null) {
@@ -154,6 +154,22 @@ public class SecurityLayer {
             return s;
         } else {
             throw new SecurityLayerException("Richiesta non valida");
+        }
+    }
+    
+    public static String issetString(String parameter, String s) throws SecurityLayerException {
+        //convertiamo la stringa in numero, ma assicuriamoci prima che sia valida
+        //convert the string to a number, ensuring its validity
+        if (s != null) {
+            if(!s.isEmpty()){
+            //se la conversione fallisce, viene generata un'eccezione
+            //if the conversion fails, an exception is raised
+            return s;
+            }else{
+                throw new SecurityLayerException("Parametro vuoto: "+parameter);
+            }
+        } else {
+            throw new SecurityLayerException("Parametro obbligatorio: "+parameter);
         }
     }
 

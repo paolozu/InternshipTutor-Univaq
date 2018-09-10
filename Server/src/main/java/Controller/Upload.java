@@ -30,9 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-
-
-
 /**
  *
  * @author lorenzo
@@ -42,6 +39,7 @@ public class Upload extends AmministratoreSecurity {
     private AmministratoreDAO ammDAO;
 
     public Upload() {
+        
         super();
         ammDAO = new AmministratoreDAOImpl();
     }
@@ -55,16 +53,15 @@ public class Upload extends AmministratoreSecurity {
     }
 
     private void action_upload_convenzione(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, NamingException, NoSuchAlgorithmException, Exception {
-        
+
         //Convenzione
         Part file = request.getPart("filetoupload");
-        
+
         String nome = file.getSubmittedFileName();
         long peso = file.getSize();
         String estensione = file.getContentType();
         InputStream filePDF = file.getInputStream();
-        
-        
+
         Convenzione convenzione = new Convenzione(nome, filePDF, estensione, peso);
 
         //Azienda
