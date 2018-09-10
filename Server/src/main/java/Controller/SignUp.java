@@ -49,7 +49,7 @@ public class SignUp extends HttpServlet {
 //    
     
     private boolean verificaCredenziali(HttpServletRequest request, HttpServletResponse response, Utente utente) throws DataLayerException {
-        System.out.println("Dentro verificaCredenziali");
+      
         boolean credenziali_in_uso = false;
         
             if( new UtenteDAOImpl().getUsernameEsistente(utente.getUsername()) ){
@@ -100,7 +100,7 @@ public class SignUp extends HttpServlet {
    
     
     
-    private void action_signupStudente (HttpServletRequest request, HttpServletResponse response) throws DataLayerException, SecurityLayerException {
+    private void action_signupStudente (HttpServletRequest request, HttpServletResponse response) throws DataLayerException, SecurityLayerException, IOException {
         try {
             
             Studente studente = new Studente();
@@ -133,15 +133,17 @@ public class SignUp extends HttpServlet {
             if (!credenziali_in_uso) {
                 new StudenteDAOImpl().setRegistrazioneStudente(studente);
             }
-         
+            
+            response.sendRedirect("homepage");
               
         } catch (IllegalArgumentException e) {
         }
     }
     
     
-    private void action_signupAzienda (HttpServletRequest request, HttpServletResponse response) throws DataLayerException {
+    private void action_signupAzienda (HttpServletRequest request, HttpServletResponse response) throws DataLayerException, IOException {
         try {
+            
             Azienda azienda = new Azienda();
             
             azienda.setTipo("AZ");
@@ -164,18 +166,23 @@ public class SignUp extends HttpServlet {
             azienda.setEmail(request.getParameter("emailAccessoAzienda"));
             azienda.setPassword(request.getParameter("password"));
             
-        
-
-            new AziendaDAOImpl().setRegistrazioneAzienda(azienda);
+     
  
-              
+            boolean credenziali_in_uso = verificaCredenziali(request, response, azienda);
+            
+            if (!credenziali_in_uso) {
+                new AziendaDAOImpl().setRegistrazioneAzienda(azienda);
+            }
+            
+            response.sendRedirect("view.signup_done");
+            
         } catch (IllegalArgumentException e) {
         }
     }
     
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, DataLayerException, SecurityLayerException {
+            throws ServletException, DataLayerException, SecurityLayerException, IOException {
         try { 
             if (request.getParameter("signup") == null) {
                 action_default(request, response);

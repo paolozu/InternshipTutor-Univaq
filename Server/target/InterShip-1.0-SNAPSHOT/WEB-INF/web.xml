@@ -178,6 +178,10 @@
         <param-name>view.error_template</param-name>
         <param-value>view.error.ftl.html</param-value>
     </context-param>
+    <context-param>
+        <param-name>view.signup_done</param-name>
+        <param-value>SignUpDone.ftl.html</param-value>
+    </context-param>
     <resource-ref>
         <res-ref-name>jdbc/webdb</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
