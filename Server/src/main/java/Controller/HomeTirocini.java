@@ -10,11 +10,16 @@ import Framework.result.FailureResult;
 import Framework.result.TemplateManagerException;
 import Framework.result.TemplateResult;
 import Framework.security.SecurityLayer;
+import Framework.security.SecurityLayerException;
 import Model.Bean.Annuncio;
+import Model.Bean.Richiesta;
+import Model.Bean.Studente;
 import Model.Bean.Tirocinio;
 import Model.DAO.Impl.AnnuncioDAOImpl;
+import Model.DAO.Impl.RichiestaDAOImpl;
 import Model.DAO.Impl.TirocinanteDAOImpl;
 import Model.DAO.Interface.AnnuncioDAO;
+import Model.DAO.Interface.RichiestaDAO;
 import Model.DAO.Interface.TirocinanteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,18 +48,24 @@ public class HomeTirocini extends InternshipBaseController {
         }
     }
 
-    private void action_default(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException {
+    private void action_default(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException {
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
         AnnuncioDAO annuncioDAO = new AnnuncioDAOImpl();
         List<Annuncio> annunci = annuncioDAO.getAnnunci(0, "ATTIVO");
-        
+
         data.put("annunci", annunci);
 
-        try {
+        if (data.get("utente_tipo")!=null) {
+            if (data.get("utente_tipo").equals("ST")) {
+
+                res.activate("homeTirociniStudente.ftl.html", data, response);
+            }else{
+                res.activate("homeTirocini.ftl.html", data, response);
+            }
+        } else {
             res.activate("homeTirocini.ftl.html", data, response);
-        } catch (TemplateManagerException ex) {
-            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
         }
+
     }
 
     /**
@@ -78,13 +89,24 @@ public class HomeTirocini extends InternshipBaseController {
         }
 
         try {
-            
-            if (request.getParameter("refT") != null) {
-            } else {
-
-                action_default(data, request, response);
+            if (request.getParameter("refA") != null) {
+                long idAnnuncio = SecurityLayer.issetInt(request.getParameter("refA"));
+                Annuncio annuncio = new Annuncio(idAnnuncio);
+                Studente studente = new Studente((long) s.getAttribute("userid"));
+                
+                Richiesta richiesta = new Richiesta(annuncio, studente);
+                RichiestaDAO richiestaDAO = new RichiestaDAOImpl();
+                
+                int result = richiestaDAO.saveRichiesta(richiesta);
+                
+                if(result==1){
+                data.put("alert", "200");
+                }else{
+                    data.put("alert", "400");
+                }
             }
-        } catch (DataLayerException ex) {
+                action_default(data, request, response);
+        } catch (SecurityLayerException | TemplateManagerException | DataLayerException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);
         }
