@@ -6,6 +6,7 @@
 package Controller;
 
 import Framework.data.DataLayerException;
+import Framework.pdf.GeneratePDF;
 import Framework.result.FailureResult;
 import Framework.result.TemplateManagerException;
 import Framework.result.TemplateResult;
@@ -19,9 +20,11 @@ import Model.Bean.Studente;
 import Model.Bean.Tirocinio;
 import Model.DAO.Impl.AnnuncioDAOImpl;
 import Model.DAO.Impl.AziendaDAOImpl;
+import Model.DAO.Impl.StudenteDAOImpl;
 import Model.DAO.Impl.TirocinanteDAOImpl;
 import Model.DAO.Interface.AnnuncioDAO;
 import Model.DAO.Interface.AziendaDAO;
+import Model.DAO.Interface.StudenteDAO;
 import Model.DAO.Interface.TirocinanteDAO;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
@@ -117,16 +120,29 @@ public class TirociniAzienda extends AziendaSecurity {
                 int ore = SecurityLayer.issetInt(request.getParameter("ore"));
 
                 AziendaDAO queryA = new AziendaDAOImpl();
-
-                Studente stu = new Studente(idStudente);
+                StudenteDAO stuDAO = new StudenteDAOImpl();
+                
+                Studente stu = stuDAO.getStudente(idStudente);
                 Resoconto resoconto = new Resoconto(ore, attivita, risultato);
                 Annuncio an = new Annuncio(idAnnuncio);
 
                 //nuovo resoconto con id aggiornato
                 resoconto = queryA.setConcludiTirocinio(new Tirocinio(stu, an, resoconto));
 
-                action_save_PDF(resoconto);
-
+                
+                int result = GeneratePDF.resocontoTirocinio(resoconto,stu);
+                
+                if(result==1){
+                //Notifica aggiornamento tirocinio
+                data.put("alert", "Tirocinio concluso");
+                action_listaTirocinanti(data, request, response);
+                }else{
+                
+                //TODO rimuovere ultimo inserimento resoconto
+                
+                request.setAttribute("message", "Errore inserimento pdf convenzione");
+                action_error(request, response);
+                }
                 break;
                 
             case "elimina":

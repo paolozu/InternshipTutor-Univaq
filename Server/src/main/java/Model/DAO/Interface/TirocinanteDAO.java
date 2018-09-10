@@ -19,7 +19,7 @@ import java.util.List;
 public interface TirocinanteDAO {
     
      public List<Tirocinio> getTirocini(long idTirocinante) throws DataLayerException;
-     public void setValutazione(int valutazione, int idResoconto) throws DataLayerException;
+     public void setValutazione(int valutazione, long idResoconto) throws DataLayerException;
      public Resoconto getPathResoconto(int idResoconto) throws DataLayerException;
      public InputStream downloadResoconto(Resoconto resoconto) throws DataLayerException;
      public int uploadResoconto(Resoconto resoconto) throws DataLayerException;

@@ -50,7 +50,7 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
     
     private static final String DOWNLOAD_RESOCONTO="SELECT Resoconto.file FROM Resoconto WHERE idResoconto=?";
     
-    private static final String UPLOAD_RESOCONTO = "UPDATE Resoconto SET File=? WHERE idResoconto=?;";
+    private static final String UPLOAD_RESOCONTO = "UPDATE Resoconto SET Nome= ?, File=?, Estensione=?, Peso=? WHERE idResoconto=?;";
 
     
     @Override
@@ -86,7 +86,7 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
     }
 
     @Override
-    public void setValutazione(int valutazione,int idResoconto) throws DataLayerException{
+    public void setValutazione(int valutazione,long idResoconto) throws DataLayerException{
       
         DB db = new DB();
         PreparedStatement ps = null;
@@ -96,7 +96,7 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
             connection = db.getConnection();
             ps = connection.prepareStatement(SET_VALUTAZIONE);
             ps.setInt(1, valutazione);
-            ps.setInt(2, idResoconto);
+            ps.setLong(2, idResoconto);
            
             int result = ps.executeUpdate();
         } catch (SQLException  ex) {
@@ -154,10 +154,12 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
         try (Connection connection = DB.getConnection()) {
             ps = connection.prepareStatement(UPLOAD_RESOCONTO);
 
+            ps.setString(1, resoconto.getNome());
+            ps.setBlob(2, resoconto.getFile());
+            ps.setString(3, resoconto.getEstensione());
+            ps.setLong(4, resoconto.getPeso());
+            ps.setLong(5, resoconto.getId());
             
-            ps.setLong(2, resoconto.getId());
-            ps.setBlob(1, resoconto.getFile());
-
             System.out.println("query:"+ps.toString());
             result = ps.executeUpdate();
              
