@@ -10,8 +10,10 @@ import Framework.result.FailureResult;
 import Framework.result.TemplateManagerException;
 import Framework.result.TemplateResult;
 import Framework.security.SecurityLayer;
+import Framework.security.SecurityLayerException;
 import Model.Bean.Annuncio;
 import Model.Bean.Azienda;
+import Model.Bean.Convenzione;
 import Model.Bean.Resoconto;
 import Model.Bean.Studente;
 import Model.Bean.Tirocinio;
@@ -21,12 +23,20 @@ import Model.DAO.Impl.TirocinanteDAOImpl;
 import Model.DAO.Interface.AnnuncioDAO;
 import Model.DAO.Interface.AziendaDAO;
 import Model.DAO.Interface.TirocinanteDAO;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -48,43 +58,74 @@ public class TirociniAzienda extends AziendaSecurity {
         }
     }
 
-    private void action_gestioneTirocinio(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException {
-        switch (request.getParameter("action")) {
-            case "visualizza":
-                data.put("titolo", "Resoconto tirocinio");
-                data.put("idTirocinante", request.getParameter("idT"));
-                data.put("idAnnuncio", request.getParameter("idA"));
+    private int action_save_PDF(Resoconto resoconto) throws IOException, DataLayerException, DocumentException {
 
+        TirocinanteDAO tirocinioDAO = new TirocinanteDAOImpl();
+
+        // Carico modello base resoconto
+        InputStream is = tirocinioDAO.downloadResoconto(new Resoconto(0));
+        // We create a reader with the InputStream
+        PdfReader reader = new PdfReader(is, null);
+        // We create an OutputStream for the new PDF
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // Now we create the PDF
+        PdfStamper stamper = new PdfStamper(reader, baos);
+        // We alter the fields of the existing PDF
+
+        AcroFields fields = stamper.getAcroFields();
+        fields.setGenerateAppearances(true);
+
+        Set<String> parameters = fields.getFields().keySet();
+
+        // Fill field
+//      fields.setField("azienda", azienda.getRagioneSociale());
+        //Flatt form
+        stamper.setFormFlattening(true);
+        stamper.close();
+        reader.close();
+
+        is = new ByteArrayInputStream(baos.toByteArray());
+        is.close();
+
+        resoconto.setNome("resoconto");
+        resoconto.setPeso(is.available());
+        resoconto.setEstensione("application/pdf");
+        resoconto.setFile(is);
+
+        return tirocinioDAO.uploadResoconto(resoconto);
+    }
+
+    private void action_gestioneTirocinio(Map data, long idStudente, long idAnnuncio, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException, DocumentException, SecurityLayerException {
+
+        switch (request.getParameter("action")) {
+            
+            case "visualizza":
                 TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+                
+                data.put("titolo", "Resoconto tirocinio");
+                data.put("idTirocinante", idStudente);
+                data.put("idAnnuncio", idAnnuncio);
+
                 res.activate("resocontoTirocinio.ftl.html", data, response);
 
                 break;
 
             case "concludi":
-                SecurityLayer.checkString(request.getParameter("attivita"));
-                SecurityLayer.checkString(request.getParameter("risultato"));
-                SecurityLayer.checkString(request.getParameter("ore"));
+                //Check input
+                String attivita = SecurityLayer.issetString(request.getParameter("attivita"));
+                String risultato = SecurityLayer.issetString(request.getParameter("risultato"));
+                int ore = SecurityLayer.issetInt(request.getParameter("ore"));
 
                 AziendaDAO queryA = new AziendaDAOImpl();
 
-                Studente stu = new Studente(SecurityLayer.checkNumeric(request.getParameter("idT")));
-                Resoconto resoconto = new Resoconto(SecurityLayer.checkNumeric(request.getParameter("ore")), request.getParameter("attivita"), request.getParameter("risultato"));
-                Annuncio an = new Annuncio(SecurityLayer.checkNumeric(request.getParameter("idA")));
+                Studente stu = new Studente(idStudente);
+                Resoconto resoconto = new Resoconto(ore, attivita, risultato);
+                Annuncio an = new Annuncio(idAnnuncio);
 
-                queryA.setConcludiTirocinio(new Tirocinio(stu, an, resoconto));
+                //nuovo resoconto con id aggiornato
+                resoconto = queryA.setConcludiTirocinio(new Tirocinio(stu, an, resoconto));
 
-                /*Creazione PDF*/
-                
-                TirocinanteDAO tirocinio = new TirocinanteDAOImpl();
-                //Carico modello base resoconto
-                InputStream moduloResoconto = tirocinio.downloadResoconto(new Resoconto(0));
-                
-                
-                
-                
-                //Notifica aggiornamento tirocinio
-                data.put("alert", "Tirocinio concluso");
-                action_listaTirocinanti(data, request, response);
+                action_save_PDF(resoconto);
 
                 break;
             case "elimina":
@@ -103,43 +144,24 @@ public class TirociniAzienda extends AziendaSecurity {
                 data.put("alert", "Tirocinio rimosso");
                 action_listaTirocinanti(data, request, response);
                 break;
+
             default:
                 action_listaTirocinanti(data, request, response);
         }
     }
 
-    private void action_listaTirocinanti(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void action_listaTirocinanti(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException {
 
-        try {
-            AziendaDAO queryA = new AziendaDAOImpl();
+        AziendaDAO queryA = new AziendaDAOImpl();
+        List<Tirocinio> tirocini = queryA.getTirocini((long) s.getAttribute("userid"));
 
-            data.put("tirocini", queryA.getTirocini((long) s.getAttribute("userid")));
-            data.put("titolo", "Lista tirocinanti");
+        data.put("tirocini", tirocini);
+        data.put("titolo", "Lista tirocinanti");
 
-            TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-            res.activate("listaTirocinanti.ftl.html", data, response);
-
-        } catch (TemplateManagerException | DataLayerException ex) {
-            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-
-        }
+        TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+        res.activate("listaTirocinanti.ftl.html", data, response);
     }
 
-//    private void action_richieste(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        try {
-//            AziendaDAO queryA = new AziendaDAOImpl();
-//
-//            data.put("studenti", queryA.getRichieste((long) s.getAttribute("userid")));
-//            data.put("titolo", "Lista richieste");
-//
-//            TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-//            res.activate("listaRichieste.ftl.html", data, response);
-//
-//        } catch (TemplateManagerException | DataLayerException ex) {
-//            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-//        }
-//
-//    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -151,27 +173,31 @@ public class TirociniAzienda extends AziendaSecurity {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
 
+        
         Map data = new HashMap();
         data.put("utente_username", s.getAttribute("username"));
         data.put("utente_tipo", s.getAttribute("tipo"));
 
-        if (request.getParameter("action") != null) {
+        
+        try {
 
-            SecurityLayer.checkString(request.getParameter("idT"));
-            SecurityLayer.checkString(request.getParameter("idA"));
+            if (request.getParameter("action") != null) {
 
-            try {
-                action_gestioneTirocinio(data, request, response);
-            } catch (DataLayerException ex) {
-                Logger.getLogger(TirociniAzienda.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (TemplateManagerException ex) {
-                Logger.getLogger(TirociniAzienda.class.getName()).log(Level.SEVERE, null, ex);
+                long idStudente = SecurityLayer.issetLong(request.getParameter("idT"));
+                long idAnnuncio = SecurityLayer.issetLong(request.getParameter("idA"));
+
+                //Gestione del tirocinio
+                action_gestioneTirocinio(data, idStudente, idAnnuncio, request, response);
+
+            } else {
+                // Lista tirocinanti
+                action_listaTirocinanti(data, request, response);
             }
-        } else {
-            // visualizza lista tirocinanti
-            action_listaTirocinanti(data, request, response);
-        }
+
+        } catch (TemplateManagerException | DocumentException | DataLayerException | SecurityLayerException ex) {
+            request.setAttribute("exception", ex);
+            action_error(request, response);
+        } 
     }
 }

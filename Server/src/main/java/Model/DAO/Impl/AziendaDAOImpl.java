@@ -18,6 +18,7 @@ import Model.DAO.Interface.UtenteDAO;
 import Framework.data.DB;
 import Framework.data.DataLayerException;
 import Framework.result.FailureResult;
+import Model.Bean.Resoconto;
 import Model.Bean.Richiesta;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -142,7 +143,18 @@ public class AziendaDAOImpl implements AziendaDAO {
             rset = ps.executeQuery();
 
             if (rset.next()) {
-                Studente s = new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("codFiscale"), rset.getString("telefono"), rset.getString("indirizzoResidenza"), rset.getString("corsoLaurea"), rset.getString("cap_Residenza"), rset.getString("citta_Residenza"), rset.getString("provincia_Residenza"), rset.getInt("crediti"), rset.getBoolean("handicap"), rset.getDate("dataNascita").toLocalDate());
+                
+                
+                Studente s = new Studente(
+                        rset.getLong("idStudente"),
+                        rset.getString("nome"), rset.getString("cognome"),
+                        rset.getString("codFiscale"), rset.getString("telefono"),
+                        rset.getString("indirizzoResidenza"), rset.getString("corsoLaurea"),
+                        rset.getString("cap_Residenza"), rset.getString("citta_Residenza"),
+                        rset.getString("provincia_Residenza"), rset.getBoolean("handicap"),
+                        rset.getDate("dataNascita").toLocalDate()
+                );
+                
                 Annuncio a = new Annuncio(rset.getLong("Richiesta.Annuncio_idAnnuncio"));
                 richiesta = new Richiesta(a, s);
             }
@@ -257,7 +269,7 @@ public class AziendaDAOImpl implements AziendaDAO {
      * @param tirocinio
      */
     @Override
-    public void setConcludiTirocinio(Tirocinio tirocinio) throws DataLayerException {
+    public Resoconto setConcludiTirocinio(Tirocinio tirocinio) throws DataLayerException {
         Connection connection = null;
         PreparedStatement ps = null;
 
@@ -286,6 +298,7 @@ public class AziendaDAOImpl implements AziendaDAO {
                 } else {
                     throw new DataLayerException("ERRORE UPDATE TIROCINIO");
                 }
+                return new Resoconto(idResoconto);
             }
         } catch (SQLException ex) {
             throw new DataLayerException("ERRORE CONCLUDI TIROCINIO", ex);
@@ -297,6 +310,8 @@ public class AziendaDAOImpl implements AziendaDAO {
                 throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
             }
         }
+        
+        return null;
 
     }
 

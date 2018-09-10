@@ -20,6 +20,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -49,6 +50,8 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
     
     private static final String DOWNLOAD_RESOCONTO="SELECT Resoconto.file FROM Resoconto WHERE idResoconto=?";
     
+    private static final String UPLOAD_RESOCONTO = "UPDATE Resoconto SET File=? WHERE idResoconto=?;";
+
     
     @Override
     public List<Tirocinio> getTirocini(long idStudente) throws DataLayerException{     
@@ -111,33 +114,8 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
 
     @Override
     public Resoconto getPathResoconto(int idResoconto) throws DataLayerException {
-        DB db = new DB();
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rset = null;
-        Resoconto resoconto = null;
-
-        try {
-            connection = db.getConnection();
-            ps = connection.prepareStatement(GET_PATH_RESOCONTO);
-            ps.setInt(1, idResoconto);
-            rset = ps.executeQuery();
-
-            if (rset.next()) {
-                resoconto = new Resoconto(rset.getString("nome"),rset.getString("directory"),rset.getString("estensione"),rset.getLong("peso"));
-            }
-        } catch (SQLException ex) {
-             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
-        } finally {
-            try {
-                rset.close();
-                ps.close();
-                connection.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return resoconto;
+        //REMOVE
+        return null;
     }
     
     @Override
@@ -163,6 +141,34 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
         }
 
         return inputStream;
+    }
+
+    @Override
+    public int uploadResoconto(Resoconto resoconto) throws DataLayerException {
+        System.out.println("res:"+resoconto.getId());
+        System.out.println("query:"+resoconto.getFile());
+        PreparedStatement ps;
+        int result = 0;
+        long idConvenzione;
+
+        try (Connection connection = DB.getConnection()) {
+            ps = connection.prepareStatement(UPLOAD_RESOCONTO);
+
+            
+            ps.setLong(2, resoconto.getId());
+            ps.setBlob(1, resoconto.getFile());
+
+            System.out.println("query:"+ps.toString());
+            result = ps.executeUpdate();
+             
+
+            ps.close();
+            connection.close();
+        } catch (SQLException e) {
+            throw new DataLayerException("ERRORE UPLOAD", e);
+        }
+        
+        return result;
     }
     
    

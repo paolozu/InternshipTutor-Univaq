@@ -101,7 +101,20 @@ public class StudenteDAOImpl implements StudenteDAO {
             rset = ps.executeQuery();
 
             if (rset.next()) {
-                studente = new Studente(rset.getLong("idStudente"),rset.getString("nome"), rset.getString("cognome"), rset.getString("codFiscale"), rset.getString("telefono"),rset.getString("indirizzoResidenza"),rset.getString("corsoLaurea"),rset.getString("cap_Residenza"),rset.getString("citta_Residenza"),rset.getString("provincia_Residenza"), rset.getInt("crediti"),rset.getBoolean("handicap"),rset.getDate("dataNascita").toLocalDate());
+                studente = new Studente(
+                        rset.getLong("idStudente"),
+                        rset.getString("nome"),
+                        rset.getString("cognome"),
+                        rset.getString("codFiscale"),
+                        rset.getString("telefono"),
+                        rset.getString("indirizzoResidenza"),
+                        rset.getString("corsoLaurea"),
+                        rset.getString("cap_Residenza"),
+                        rset.getString("citta_Residenza"),
+                        rset.getString("provincia_Residenza"),
+                        rset.getBoolean("handicap"),
+                        rset.getDate("dataNascita").toLocalDate()
+                );
             }
         } catch (SQLException ex) {
             throw new DataLayerException("ERRORE GET STUDENTE", ex);

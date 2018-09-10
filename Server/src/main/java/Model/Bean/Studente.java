@@ -6,23 +6,38 @@
 
 package Model.Bean;
 import java.time.LocalDate;
+
 /**
  *
  * @author lorenzo
  */
 public class Studente extends Utente {
     
-    private String nome, cognome, codFiscale, telefono, indirizzoResidenza, corsoLaurea, diploma,laurea,dottorato;
-    private String capNascita,capResidenza,cittaResidenza,provinciaResidenza, cittaNascita, provinciaNascita;
-    private int crediti;
+    private String nome,
+            cognome,
+            codFiscale,
+            telefono,
+            indirizzoResidenza,
+            corsoLaurea,
+            diploma,
+            laurea,
+            dottorato;
+    private String capNascita,
+            capResidenza,
+            cittaResidenza,
+            provinciaResidenza,
+            cittaNascita,
+            provinciaNascita;
+    
     private LocalDate dataNascita;
+    
     private boolean handicap;
     
 
     public Studente() {
     }
     
-    public Studente(String username, String password, String email,String nome, String cognome, String codFiscale, String telefono, String indirizzoResidenza, String corsoLaurea, String diploma, String laurea, String dottorato, String capNascita, String capResidenza, String cittaResidenza, String provinciaResidenza, String cittaNascita, String provinciaNascita, int crediti, LocalDate dataNascita, boolean handicap) {
+    public Studente(String username, String password, String email,String nome, String cognome, String codFiscale, String telefono, String indirizzoResidenza, String corsoLaurea, String diploma, String laurea, String dottorato, String capNascita, String capResidenza, String cittaResidenza, String provinciaResidenza, String cittaNascita, String provinciaNascita, LocalDate dataNascita, boolean handicap) {
         this.username=username;
         this.password=password;
         this.email=email;
@@ -41,12 +56,11 @@ public class Studente extends Utente {
         this.provinciaResidenza = provinciaResidenza;
         this.cittaNascita = cittaNascita;
         this.provinciaNascita = provinciaNascita;
-        this.crediti = crediti;
         this.dataNascita = dataNascita;
         this.handicap = handicap;
     }
     
-        public Studente(long id,String nome, String cognome, String codFiscale, String telefono,String indirizzoResidenza, String corsoLaurea, String capResidenza, String cittaResidenza, String provinciaResidenza, int crediti, boolean handicap, LocalDate dataNascita) {
+        public Studente(long id,String nome, String cognome, String codFiscale, String telefono,String indirizzoResidenza, String corsoLaurea, String capResidenza, String cittaResidenza, String provinciaResidenza, boolean handicap, LocalDate dataNascita) {
         this.id=id;
         this.nome = nome;
         this.cognome = cognome;
@@ -57,7 +71,6 @@ public class Studente extends Utente {
         this.capResidenza = capResidenza;
         this.cittaResidenza = cittaResidenza;
         this.provinciaResidenza = provinciaResidenza;
-        this.crediti = crediti;
         this.handicap = handicap;
         this.dataNascita = dataNascita;
     }
@@ -91,10 +104,6 @@ public class Studente extends Utente {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
-    }
-
-    public void setCrediti(int crediti) {
-        this.crediti = crediti;
     }
 
     public void setDataNascita(LocalDate dataNascita) {
@@ -216,20 +225,10 @@ public class Studente extends Utente {
     public String getProvinciaNascita() {
         return provinciaNascita;
     }
-    
-    public int getCrediti() {
-        return crediti;
-    }
 
     @Override
     public String toString() {
-        return "Studente{" + "nome=" + nome + ", cognome=" + cognome + ", codFiscale=" + codFiscale + ", telefono=" + telefono + ", indirizzoResidenza=" + indirizzoResidenza + ", corsoLaurea=" + corsoLaurea + ", diploma=" + diploma + ", laurea=" + laurea + ", dottorato=" + dottorato + ", capNascita=" + capNascita + ", capResidenza=" + capResidenza + ", cittaResidenza=" + cittaResidenza + ", provinciaResidenza=" + provinciaResidenza + ", cittaNascita=" + cittaNascita + ", provinciaNascita=" + provinciaNascita + ", crediti=" + crediti + ", dataNascita=" + dataNascita + ", handicap=" + handicap + '}';
+        return "Studente{" + "nome=" + nome + ", cognome=" + cognome + ", codFiscale=" + codFiscale + ", telefono=" + telefono + ", indirizzoResidenza=" + indirizzoResidenza + ", corsoLaurea=" + corsoLaurea + ", diploma=" + diploma + ", laurea=" + laurea + ", dottorato=" + dottorato + ", capNascita=" + capNascita + ", capResidenza=" + capResidenza + ", cittaResidenza=" + cittaResidenza + ", provinciaResidenza=" + provinciaResidenza + ", cittaNascita=" + cittaNascita + ", provinciaNascita=" + provinciaNascita + ", dataNascita=" + dataNascita + ", handicap=" + handicap + '}';
     }
-
-   
-    
-    
-
-    
   
 }

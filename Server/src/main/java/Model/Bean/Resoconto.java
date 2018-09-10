@@ -5,13 +5,16 @@
  */
 package Model.Bean;
 
+import java.io.InputStream;
+
 /**
  *
  * @author lorenzo
  */
 public class Resoconto {
     private long id;
-    private String nome,directory,estensione;
+    private String nome,estensione;
+    InputStream file;
     private long peso;
     private String attivitaSvolta, risultatoConseguito;
     private int oreSvolte, valutazione;
@@ -26,9 +29,9 @@ public class Resoconto {
         this.valutazione=valutazione;
     }
 
-    public Resoconto(String nome, String directory, String estensione, long peso) {
+    public Resoconto(String nome, InputStream file, String estensione, long peso) {
         this.nome = nome;
-        this.directory = directory;
+        this.file = file;
         this.estensione = estensione;
         this.peso = peso;
     }
@@ -86,12 +89,12 @@ public class Resoconto {
         this.nome = nome;
     }
 
-    public String getDirectory() {
-        return directory;
+    public InputStream getFile() {
+        return file;
     }
 
-    public void setDirectory(String directory) {
-        this.directory = directory;
+    public void setFile(InputStream file) {
+        this.file = file;
     }
 
     public String getEstensione() {
@@ -110,8 +113,5 @@ public class Resoconto {
         this.peso = peso;
     }
 
-    @Override
-    public String toString() {
-        return "Resoconto{" + "id=" + id + ", nome=" + nome + ", directory=" + directory + ", estensione=" + estensione + ", peso=" + peso + '}';
-    }
+   
 }

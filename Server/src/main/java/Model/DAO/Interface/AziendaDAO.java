@@ -8,6 +8,7 @@ package Model.DAO.Interface;
 import Framework.data.DataLayerException;
 import Model.Bean.Azienda;
 import Model.Bean.Convenzione;
+import Model.Bean.Resoconto;
 import Model.Bean.Richiesta;
 import Model.Bean.Studente;
 import Model.Bean.Tirocinio;
@@ -42,7 +43,7 @@ public interface AziendaDAO {
 
     public Azienda getApprovazione(long id) throws DataLayerException;
 
-    public void setConcludiTirocinio(Tirocinio tirocinio) throws DataLayerException;
+    public Resoconto setConcludiTirocinio(Tirocinio tirocinio) throws DataLayerException;
 
     public int setRegistrazioneAzienda(Azienda azienda) throws DataLayerException;
 

@@ -126,7 +126,6 @@ public class SignUp extends HttpServlet {
             studente.setCittaResidenza(request.getParameter("cittaResidenzaStudente"));
             studente.setProvinciaResidenza(request.getParameter("provinciaResidenza"));
             studente.setProvinciaNascita(request.getParameter("provinciaNascita"));
-            studente.setCrediti(SecurityLayer.checkNumeric(request.getParameter("crediti")));
             studente.setDataNascita(SecurityLayer.checkDate(request.getParameter("dataNascita")));
             studente.setHandicap(Boolean.valueOf(request.getParameter("handicap")));
             

@@ -1,5 +1,6 @@
 package Framework.security;
 
+import Framework.data.DataLayerException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -115,7 +116,7 @@ public class SecurityLayer {
         return s.replaceAll("\\\\(['\"\\\\])", "$1");
     }
 
-    public static int checkNumeric(String s) throws NumberFormatException {
+    public static int checkNumeric(String s) {
         //convertiamo la stringa in numero, ma assicuriamoci prima che sia valida
         //convert the string to a number, ensuring its validity
         if (s != null) {
@@ -124,6 +125,35 @@ public class SecurityLayer {
             return Integer.parseInt(s);
         } else {
             throw new NumberFormatException("String argument is null");
+        }
+    }
+
+
+    
+    public static int issetInt(String s) throws SecurityLayerException {
+
+        //convertiamo la stringa in numero, ma assicuriamoci prima che sia valida
+        if (s != null) {
+            //se la conversione fallisce, viene generata un'eccezione
+            try {
+                return Integer.parseInt(s);
+            } catch (NumberFormatException ex) {
+                throw new SecurityLayerException("Formato dati non valido");
+            }
+        } else {
+            throw new SecurityLayerException("Richiesta non valida");
+        }
+    }
+    
+    public static String issetString(String s) throws SecurityLayerException {
+        //convertiamo la stringa in numero, ma assicuriamoci prima che sia valida
+        //convert the string to a number, ensuring its validity
+        if (s != null) {
+            //se la conversione fallisce, viene generata un'eccezione
+            //if the conversion fails, an exception is raised
+            return s;
+        } else {
+            throw new SecurityLayerException("Richiesta non valida");
         }
     }
 
@@ -140,7 +170,7 @@ public class SecurityLayer {
     }
 
     public static LocalDate checkDate(String date) throws IllegalArgumentException {
-         //convertiamo la stringa in data, ma assicuriamoci prima che sia valida
+        //convertiamo la stringa in data, ma assicuriamoci prima che sia valida
         if (date != null) {
             return LocalDate.parse(date);
         } else {
