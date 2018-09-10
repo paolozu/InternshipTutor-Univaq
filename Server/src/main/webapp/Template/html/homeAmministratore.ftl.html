@@ -68,13 +68,14 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Aziende approvate</div>
                 <div class="panel-body btn-margins">
-                    <div class="col-md-12">
+                    <div class="col-md-12 table-responsive">
                         <#list aziendeApprovate>
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Ragione Sociale</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -83,13 +84,13 @@
                                 <tr>
                                     <td>${azienda?index+1}</td>
                                     <td>${azienda.getRagioneSociale()}</td>
+                                     <form method="post" action="Upload" enctype="multipart/form-data">
                                     <td>
-                                        <form method="post" action="Upload" enctype="multipart/form-data">
                                             <input name="filetoupload" type="file">
                                             <input type="hidden" name="refA" value="${azienda.getId()}">
-                                            <input value="Upload" type="submit">
-                                        </form>
                                     </td>
+                                    <td><input class="btn btn-default" value="Upload" type="submit"></td>
+                                    </form>
                                 </tr>
                                 </#items>
                             </tbody>
