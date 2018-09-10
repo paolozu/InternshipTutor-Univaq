@@ -9,6 +9,7 @@ import Framework.data.DataLayerException;
 import Framework.result.FailureResult;
 import Framework.result.TemplateManagerException;
 import Framework.result.TemplateResult;
+import Framework.security.SecurityLayer;
 import Model.Bean.Azienda;
 import Model.DAO.Impl.AziendaDAOImpl;
 import Model.DAO.Interface.AziendaDAO;
@@ -23,6 +24,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -50,12 +52,16 @@ public class Aziende extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Map data = new HashMap();
+        HttpSession s = SecurityLayer.checkSession(request);
+        
         data.put("page_title", "Aziende");
         AziendaDAO queryA = new AziendaDAOImpl();
         
         try {
             List<Azienda> aziende = queryA.getAllAziendeConvenzionate();
             data.put("aziende",aziende);
+            data.put("utente_username", s.getAttribute("username"));
+            data.put("utente_tipo", s.getAttribute("tipo"));
         } catch (DataLayerException ex) {
             request.setAttribute("Aziende", "Data access exception: " + ex.getMessage());
             action_error(request, response);

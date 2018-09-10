@@ -132,10 +132,21 @@ public class SignUp extends HttpServlet {
             
             if (!credenziali_in_uso) {
                 new StudenteDAOImpl().setRegistrazioneStudente(studente);
+                
+                Map data = new HashMap();
+                data.put("outline_tpl", "");
+                data.put("signup_done", "Registrazione effettuata!");
+
+                TemplateResult res = new TemplateResult(getServletContext());
+                try {
+                    res.activate("SingUpDone.ftl.html", data, response);
+                } catch (TemplateManagerException ex) {
+                    (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+                }
+              
             }
             
-            response.sendRedirect("homepage");
-              
+           
         } catch (IllegalArgumentException e) {
         }
     }
@@ -172,9 +183,20 @@ public class SignUp extends HttpServlet {
             
             if (!credenziali_in_uso) {
                 new AziendaDAOImpl().setRegistrazioneAzienda(azienda);
+                
+                Map data = new HashMap();
+                data.put("outline_tpl", "");
+                data.put("signup_done", "Registrazione effettuata!");
+                data.put("body", "Attendi che la convenzione sia approvata dall'amministratore.");
+                TemplateResult res = new TemplateResult(getServletContext());
+                try {
+                    res.activate("SingUpDone.ftl.html", data, response);
+                } catch (TemplateManagerException ex) {
+                    (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+                }
             }
             
-            response.sendRedirect("homepage");
+           
             
         } catch (IllegalArgumentException e) {
         }
