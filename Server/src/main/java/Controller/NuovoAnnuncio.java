@@ -5,15 +5,22 @@
  */
 package Controller;
 
+import Framework.data.DataLayerException;
 import Framework.result.FailureResult;
 import Framework.result.TemplateManagerException;
 import Framework.result.TemplateResult;
+import Framework.security.SecurityLayer;
+import Model.Bean.Annuncio;
+import Model.Bean.Azienda;
+import Model.Bean.Docente;
+import Model.Bean.Referente;
+import Model.DAO.Impl.AnnuncioDAOImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,6 +36,40 @@ public class NuovoAnnuncio extends AziendaSecurity {
         } else {
             (new FailureResult(getServletContext())).activate((String) request.getAttribute("message"), request, response);
         }
+    }
+    
+    private void action_registra(HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException {
+        System.out.println("Dentro");
+       
+        Annuncio annuncio = new Annuncio();
+        Azienda azienda = new Azienda((long) s.getAttribute("userid"));
+        Referente referente = new Referente(
+                request.getParameter("nomeRef"),
+                request.getParameter("cognRef"), 
+                request.getParameter("mailRef"),
+                request.getParameter("telRef"));
+        System.out.println(referente);
+        Docente docente = new Docente(
+                request.getParameter("nomeDoc"),
+                request.getParameter("cognDoc"),
+                request.getParameter("mailDoc"));
+   
+        System.out.println(referente);
+        annuncio.setAzienda(azienda);
+        annuncio.setTitolo(request.getParameter("titolo"));
+        annuncio.setSettore(request.getParameter("settore"));
+        annuncio.setModalita(request.getParameter("modalita"));
+        annuncio.setSussidio(request.getParameter("sussidio"));
+        annuncio.setDataAvvio(SecurityLayer.checkDate(request.getParameter("dataInizio")));
+        annuncio.setDataTermine(SecurityLayer.checkDate(request.getParameter("dataTermine")));
+        annuncio.setCorpo(request.getParameter("corpo"));
+        annuncio.setReferente(referente);
+        annuncio.setDocente(docente);
+        System.out.println(annuncio);
+        new AnnuncioDAOImpl().saveAnnuncio(annuncio);
+         
+        response.sendRedirect("homepage");
+              
     }
 
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -55,9 +96,24 @@ public class NuovoAnnuncio extends AziendaSecurity {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        action_default(request,response);
+        try {
+            if (request.getParameter("pubblica") == null) {
+                action_default(request, response);
+            } else {
+                try {
+                    action_registra(request, response);
+                } catch (DataLayerException ex) {
+                    Logger.getLogger(NuovoAnnuncio.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+       
+        } catch (IOException e) {
+        }
 
     }
+     
+
+    
 
     /**
      * Returns a short description of the servlet.

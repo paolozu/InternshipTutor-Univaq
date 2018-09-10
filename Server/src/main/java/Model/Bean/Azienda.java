@@ -213,6 +213,7 @@ public class Azienda extends Utente {
     public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
+    
 
     @Override
     public String toString() {
