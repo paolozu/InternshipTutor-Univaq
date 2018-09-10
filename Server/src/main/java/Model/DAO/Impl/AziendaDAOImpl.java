@@ -97,6 +97,8 @@ public class AziendaDAOImpl implements AziendaDAO {
     private static final String GET_AZIENDE_CONVENZIONATE = "SELECT azienda.ragSociale FROM azienda WHERE Stato='CONVENZIONATA'";
 
     private static final String REMOVE_AZIENDA = "DELETE FROM AZIENDA WHERE idAzienda=?";
+    
+    
 
     @Override
     public List<Richiesta> getRichieste(long idAzienda) throws DataLayerException {
