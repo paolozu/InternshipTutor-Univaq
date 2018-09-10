@@ -1,2 +1,2 @@
-Framework/security/SecurityLayerException.class
-Controller/Testing.class
+Controller\Testing.class
+Framework\security\SecurityLayerException.class
