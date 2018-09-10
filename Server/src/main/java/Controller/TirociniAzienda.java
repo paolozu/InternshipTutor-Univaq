@@ -184,8 +184,8 @@ public class TirociniAzienda extends AziendaSecurity {
 
             if (request.getParameter("action") != null) {
 
-                long idStudente = SecurityLayer.issetLong(request.getParameter("idT"));
-                long idAnnuncio = SecurityLayer.issetLong(request.getParameter("idA"));
+                long idStudente = SecurityLayer.issetInt(request.getParameter("idT"));
+                long idAnnuncio = SecurityLayer.issetInt(request.getParameter("idA"));
 
                 //Gestione del tirocinio
                 action_gestioneTirocinio(data, idStudente, idAnnuncio, request, response);
