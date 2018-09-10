@@ -54,7 +54,7 @@
 										<input placeholder="Data di Nascita gg/mm/aaaa" class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="dataNascita">
 									</div>
 									<div class="col-lg-6 mt-1">
-												<input class="form-control" placeholder="Codice Fiscale" name="CFStudemte" type="text" required>
+                                                                            <input class="form-control" placeholder="Codice Fiscale" name="CFStudemte" type="text" maxlength="16" required>
 									</div>
 								</div>
 								<div class="row">
@@ -75,7 +75,7 @@
 								</div><!--./row -->
 								<div class="row ">
 									<div class="col-lg-6 mt-1">
-										<select name="handicap"class="form-control">
+										<select name="handicap" class="form-control">
 											<option id="labelHandicap" value="" disabled selected>Portatore di handicap</option>
 											<option name="handicap" value="true">Si</option>
 											<option name="handicap" value="false">No</option>
@@ -106,22 +106,17 @@
 										<input class="form-control" placeholder="Diplomato in" name="diploma" type="text" required>
 									</div>
 									<div class="col-lg-6 mt-1">
-										<input class="form-control" placeholder="Laureato in" name="laureato" type="text" required>
+										<input class="form-control" placeholder="Laureato in" name="laureato" type="text">
 									</div>
 								</div><!--./row -->
 								<div class="row">
 									<div class="col-lg-6 mt-1">
-										<input class="form-control" placeholder="Dottorato" name="dottorato" type="text" required>
+										<input class="form-control" placeholder="Dottorato" name="dottorato" type="text">
 									</div>
 									<div class="col-lg-6 mt-1">
 											<input class="form-control" placeholder="Corso di laurea in corso" name="corso" type="text" required>
 									</div>
 								</div><!--./row -->
-								<div class="row">
-									<div class="col-lg-6 mt-1">
-												<input class="form-control" placeholder="Crediti richiesti" name="crediti" type="number" required>
-									</div>
-								</div>
 								<div class="row mt-5">
 									<div class="text-center col-lg-6 col-lg-offset-3">
 										<input name="signup" class="btn btn-lg btn-primary" value="Iscriviti come Studente" type="submit">

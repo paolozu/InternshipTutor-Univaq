@@ -12,12 +12,11 @@ import Framework.result.TemplateResult;
 import Framework.security.SecurityLayer;
 import Model.Bean.Azienda;
 import Model.Bean.Studente;
+import Model.Bean.Utente;
 import Model.DAO.Impl.AziendaDAOImpl;
 import Model.DAO.Impl.StudenteDAOImpl;
-import Model.DAO.Interface.StudenteDAO;
+import Model.DAO.Impl.UtenteDAOImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -42,6 +41,55 @@ public class SignUp extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+//    private boolean verificaRegistrazioneCompletata(HttpServletRequest, HttpServletResponse response, Utente utente){
+//        
+//    }
+//    
+    
+    private void action_reload (HttpServletRequest request, HttpServletResponse response) {
+          System.out.println("Reload caricato");
+        if ("ST".equals(request.getParameter("registra"))) {
+            Map data = new HashMap();
+            data.put("outline_tpl", "");//rimozione outline
+            TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+            try {
+                res.activate("signup-Studente.ftl.html", data, response);
+                System.out.println("dentro reload");
+            } catch (TemplateManagerException ex) {
+                (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+            }
+        } else {
+            Map data = new HashMap();
+            data.put("outline_tpl", "");//rimozione outline
+            TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+            try {
+                res.activate("signup-Azienda.ftl.html", data, response);
+            } catch (TemplateManagerException ex) {
+                (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+            }
+        }  
+    }
+    
+    private boolean verificaCredenziali(HttpServletRequest request, HttpServletResponse response, Utente utente) throws DataLayerException {
+        
+        boolean credenziali_in_uso = false;
+        
+            if( new UtenteDAOImpl().getUsernameEsistente(utente.getUsername()) ){
+                credenziali_in_uso = true;
+                request.setAttribute("username_in_uso", true);
+                request.setAttribute("credenziali_in_uso", true);
+            } else {
+                if ( new UtenteDAOImpl().getEmailEsistente(utente.getEmail()) ) {
+                    credenziali_in_uso = false;
+                    request.setAttribute("email_in_uso", true);
+                    request.setAttribute("credenziali_in_uso", true);
+                }
+            }
+            
+            return credenziali_in_uso;
+        }
+ 
     
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
         if (request.getAttribute("exception") != null) {
@@ -72,40 +120,14 @@ public class SignUp extends HttpServlet {
             }
         }  
     }
-    
-    
-  /*  private void action_showStudente (HttpServletRequest request, HttpServletResponse response) {
-        if ("ST".equals(request.getParameter("signup"))) {
-            action_signupStudente(request, response);
-        } else {
-            Map data = new HashMap();
-            data.put("outline_tpl", "");//rimozione outline
-            TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-            try {
-                res.activate("signin-Studente.ftl.html", data, response);
-            } catch (TemplateManagerException ex) {
-                (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-            }
-        }
-       
-    } */
-    
- /*   private void action_showAzienda (HttpServletRequest request, HttpServletResponse response) {
-        Map data = new HashMap();
-        data.put("outline_tpl", "");//rimozione outline
-        TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-        try {
-            res.activate("signin-Azienda.ftl.html", data, response);
-        } catch (TemplateManagerException ex) {
-            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-        }
-    } */
+   
     
     
     private void action_signupStudente (HttpServletRequest request, HttpServletResponse response) throws DataLayerException {
         try {
+            
             Studente studente = new Studente();
-            System.out.println("dentro");
+
             studente.setTipo("ST");
             studente.setNome(request.getParameter("nomeStudente"));
             studente.setEmail(request.getParameter("emailDatiDiAccesso"));
@@ -129,11 +151,14 @@ public class SignUp extends HttpServlet {
             studente.setDataNascita(SecurityLayer.checkDate(request.getParameter("dataNascita")));
             studente.setHandicap(Boolean.valueOf(request.getParameter("handicap")));
             
+            boolean credenziali_in_uso = verificaCredenziali(request, response, studente);
             
-            System.out.println(studente);
-            
-            new StudenteDAOImpl().setRegistrazioneStudente(studente);
-           // action_showStudente(request,response);
+            if (!credenziali_in_uso) {
+                new StudenteDAOImpl().setRegistrazioneStudente(studente);
+            } else {
+                action_default(request, response);       
+            }
+         
               
         } catch (IllegalArgumentException e) {
         }
@@ -149,20 +174,22 @@ public class SignUp extends HttpServlet {
             azienda.setIndirizzoSede(request.getParameter("indirizzo"));
             azienda.setCitta(request.getParameter("citta"));
             azienda.setProvincia(request.getParameter("provincia"));
-            azienda.setCap(request.getParameter("CAP"));
+            azienda.setCap(request.getParameter("cap"));
             azienda.setPartitaIva(request.getParameter("CF_PIva"));
-            azienda.setForoCompetente(request.getParameter("foro")); 
-            azienda.setNomeRappresentante(request.getParameter(request.getParameter("nomeRappresentante")));
+            azienda.setForoCompetente(request.getParameter("foro"));
+            azienda.setDataIscrione(SecurityLayer.checkDate(request.getParameter("inizioConvenzione")));
+            azienda.setDataTermine(SecurityLayer.checkDate(request.getParameter("fineConvenzione")));
+            azienda.setNomeRappresentante((request.getParameter("nomeRappresentante")));
             azienda.setCognomeRappresentante(request.getParameter("cognomeRappresentante"));
-            azienda.setEmail(request.getParameter("emailRappresentante"));
             azienda.setNomeResponsabile(request.getParameter("nomeResponsabile"));
             azienda.setCognomeResponsabile(request.getParameter("cognomeResponsabile"));
             azienda.setEmailResponsabile(request.getParameter("emailResponsabile"));
             azienda.setTelResponsabile(request.getParameter("telefonoResponsabile"));
             azienda.setUsername(request.getParameter("usernameAzienda"));
-            azienda.setEmail(request.getParameter("email"));
+            azienda.setEmail(request.getParameter("emailAccessoAzienda"));
             azienda.setPassword(request.getParameter("password"));
             
+        
 
             new AziendaDAOImpl().setRegistrazioneAzienda(azienda);
  
@@ -175,15 +202,21 @@ public class SignUp extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, DataLayerException {
         try {
-            if (request.getParameter("signup") == null) {
-                action_default(request, response);
+            if (request.getAttribute("credenziali_in_uso") == null){
+                 if (request.getParameter("signup") == null) {
+                    action_default(request, response);
+                } else { 
+                    if(request.getParameter("signup").equals("Iscriviti come Studente")){
+                        action_signupStudente(request, response);
+                    } else { 
+                        action_signupAzienda(request, response);
+                    } 
+                } 
             } else {
-                if(request.getParameter("signup").equals("Iscriviti come Studente")){
-                    action_signupStudente(request, response);
-                } else {
-                    action_signupAzienda(request, response);
-                }
+                action_reload(request, response);
             }
+            
+            
         } catch (DataLayerException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);

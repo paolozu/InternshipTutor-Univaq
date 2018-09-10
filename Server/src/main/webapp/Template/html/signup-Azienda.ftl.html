@@ -23,7 +23,7 @@
 				<div class="login-panel panel panel-primary">
 					<div class="panel-heading">Sign In</div>
 					<div class="panel-body">
-						<form role="form">
+                                            <form role="form" method="POST">
 							<fieldset>
 								<label class="">Azienda</label>
 								<div class="row">
@@ -39,7 +39,7 @@
 										<input class="form-control" placeholder="Citt&agrave;" name="citta" type="text" required>
 									</div>
 								  <div class="col-lg-6 mt-1">
-										<input class="form-control" placeholder="Provincia" name="Provincia" type="text" required>
+										<input class="form-control" placeholder="Provincia" name="provincia" type="text" required>
 									</div>
 								</div><!--./row -->
 								<div class="row">
@@ -47,13 +47,10 @@
  									 <input class="form-control" placeholder="CAP" name="cap" type="number" required>
  								 </div>
 								 <div class="col-lg-6 mt-1">
-									 <input class="form-control" placeholder="Codice fiscale / P.IVA" name="CF_PIva" type="text" required>
+                                                                     <input class="form-control" placeholder="Codice fiscale / P.IVA" name="CF_PIva" maxlength="16" type="text" required>
 								 </div>
 								</div><!--./row -->
 								<div class="row">
-									<div class="col-lg-6 mt-1">
-									  <input class="form-control" placeholder="Telefono sede legale" name="telSede" type="number"  required>
-									</div>
 									<div class="col-lg-6 mt-1">
 									  <input class="form-control" placeholder="Foro competente" name="foro" type="text"  required>
 									</div>
@@ -98,7 +95,7 @@
 								<label>Dati di accesso</label>
 								<div class="row">
 									<div class="col-lg-6 mt-1">
-									  <input class="form-control" placeholder="Username" name="usernameAzienda" type="email" required>
+                                                                            <input class="form-control" placeholder="Username" name="usernameAzienda" type="text" required>
 									</div>
 									<div class="col-lg-6 mt-1">
 									  <input class="form-control" placeholder="Email" name="emailAccessoAzienda" type="email" required>
@@ -112,7 +109,7 @@
 								<!-- Fine Dati di Accesso-->
 								<div class="row mt-5">
 									<div class="text-center col-lg-6 col-lg-offset-3">
-										<a href="" class="btn btn-lg btn-primary">Iscriviti come Azienda</a>
+										<input name="signup" class="btn btn-lg btn-primary" value="Iscriviti come Azienda" type="submit">
 									</div>
 								</div>
 							</fieldset>
