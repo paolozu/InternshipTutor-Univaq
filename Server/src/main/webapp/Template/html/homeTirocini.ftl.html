@@ -1,0 +1,99 @@
+	
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="#">
+                    <em class="fa fa-home"></em>
+                </a></li>
+            <li class="active">Tirocini</li>
+        </ol>
+    </div><!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Tirocini</h1>
+        </div>
+    </div><!--/.row-->
+
+    <div class="row mt-1">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-3 mt-2">
+                                <label>Data inizio: </label>
+                                <input type="date" class="form-control" placeholder="gg-mm-aa">
+                            </div>
+                            <div class="col-xs-12 col-md-3 mt-2">
+                                <label>Data fine: </label>
+                                <input type="date" class="form-control" placeholder="gg-mm-aa">
+                            </div>
+                            <div class="col-xs-12 col-md-6 mt-2">
+                                <label>Cerca tirocinio: </label>
+                                <form>
+                                    <div class="input-group input-group-lg">
+                                        <input type="text" placeholder="" class="form-control">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" tabindex="-1"><i class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/.row-->
+
+    <div class="row mt-2">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <#list annunci as annuncio>
+                    <form>
+                     <div class="search-result-item col-md-12">
+                        <div class="search-result-item-body col-sm-12 mt-1">
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <h3 class="search-result-title"><a href="#">${annuncio.titolo}</a></h3>
+                                    <p class="text-muted">${annuncio.settore}</p>
+                                    <p>${annuncio.corpo}</p>
+                                    <br>
+                                    <h4>Periodo</h4>
+                                    <p>${annuncio.dataAvvio} al ${annuncio.dataTermine}</p>
+                                </div>
+                                <div class="col-sm-3 text-center mt-5">
+                                    <input type="hidden" value="${annuncio.id}">
+                                    <button type="submit" class="btn btn-primary btn-info btn-md" value="">Invia richiesta</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--/.search-result-item-->
+                    </form>
+                    <#else>
+                    <div class="text-center">
+                    <p>Nessun annuncio</p>
+                    </div>
+                    </#list>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default"><span class="fa fa-arrow-left"></span></button>
+                    <button type="button" class="btn btn-default">1</button>
+                    <button type="button" class="btn btn-default">2</button>
+                    <button type="button" class="btn btn-default">3</button>
+                    <button type="button" class="btn btn-default">4</button>
+                    <button type="button" class="btn btn-default">5</button>
+                    <button type="button" class="btn btn-default">6</button>
+                    <button type="button" class="btn btn-default"><span class="fa fa-arrow-right"></span></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 mt-3">
+            <p class="back-link">Internshiptutor <a href="https://www.medialoot.com">UNIVAQ</a></p>
+        </div>
+    </div><!-- /.row -->
+</div><!--/.main-->

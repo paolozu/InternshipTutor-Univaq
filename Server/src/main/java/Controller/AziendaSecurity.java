@@ -30,7 +30,7 @@ public abstract class AziendaSecurity extends InternshipBaseController {
 
     protected HttpSession s;
     
-    @Override
+
     protected void autenticazione(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         s = SecurityLayer.checkSession(request);
         if (s == null || !(s.getAttribute("tipo").equals("AZ"))) {

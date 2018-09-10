@@ -1,4 +1,1 @@
-Controller\Testing.class
-Framework\security\SecurityLayerException.class
-Framework\pdf\GeneratePDF.class
-Controller\NuovoAnnuncio.class
+Controller/HomeTirocini.class

@@ -26,8 +26,6 @@ public abstract class  InternshipBaseController extends HttpServlet {
         response.sendRedirect("login?referrer=" + URLEncoder.encode(request.getRequestURI(), "UTF-8"));
     }
         
-    protected abstract void autenticazione(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException;
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

@@ -85,6 +85,10 @@
         <servlet-name>NuovoAnnuncio</servlet-name>
         <servlet-class>Controller.NuovoAnnuncio</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HomeTirocini</servlet-name>
+        <servlet-class>Controller.HomeTirocini</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -164,6 +168,10 @@
     <servlet-mapping>
         <servlet-name>NuovoAnnuncio</servlet-name>
         <url-pattern>/NuovoAnnuncio</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeTirocini</servlet-name>
+        <url-pattern>/hometirocini</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

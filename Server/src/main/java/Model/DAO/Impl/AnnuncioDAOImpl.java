@@ -33,11 +33,14 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
             + "                                     ON annuncio.Azienda_idAzienda=azienda.idAzienda  "
             + "                                     WHERE annuncio.idAnnuncio = ?";
 
-    private static final String GET_ANNUNCI_STATO = "SELECT * FROM annuncio JOIN azienda "
+    private static final String GET_ANNUNCI_AZIENDA_BY_STATO = "SELECT * FROM annuncio JOIN azienda "
             + "                                     ON annuncio.Azienda_idAzienda=azienda.idAzienda WHERE annuncio.Azienda_idAzienda=? AND annuncio.stato=? LIMIT ?,4";
 
     private static final String SET_ANNUNCIO = "INSERT INTO annuncio (titolo, corpo, dataAvvio, dataTermine, modalita, sussidio, settore, Azienda_idAzienda,nomeDocente,cognomeDocente,emailDocente,nomeReferente,cognomeReferente,emailReferente,telefonoReferente,stato)\n"
             + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'ATTIVO')";
+
+    private static final String GET_ANNUNCI_STATO = "SELECT * FROM annuncio JOIN azienda "
+            + "                                     ON annuncio.Azienda_idAzienda=azienda.idAzienda WHERE annuncio.stato=? LIMIT ?,4";
 
     public Annuncio getAnnuncioById(long id) throws DataLayerException {
         Connection connection = null;
@@ -103,11 +106,34 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
     }
 
     @Override
+    public List<Annuncio> getAnnunci(int valuePage, String stato) throws DataLayerException {
+
+        List<Annuncio> annunci = new ArrayList();
+        try (Connection connection = DB.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(GET_ANNUNCI_STATO)) {
+
+                ps.setString(1, stato);
+                ps.setInt(2, valuePage);
+
+                try (ResultSet rset = ps.executeQuery()) {
+                    while (rset.next()) {
+                        annunci.add(new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio").toLocalDate(), rset.getDate("dataTermine").toLocalDate(), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), new Azienda(rset.getInt("idAzienda"))));
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataLayerException("Get annunci", ex);
+        }
+
+        return annunci;
+    }
+
+    @Override
     public int saveAnnuncio(Annuncio annuncio) throws DataLayerException {
-    int result=-1;
+        int result = -1;
         try (Connection connection = DB.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(SET_ANNUNCIO)) {
-                
+
                 ps.setString(1, annuncio.getTitolo());
                 ps.setString(2, annuncio.getCorpo());
                 ps.setDate(3, java.sql.Date.valueOf(annuncio.getDataAvvio()));
