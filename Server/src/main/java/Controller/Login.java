@@ -59,19 +59,9 @@ public class Login extends HttpServlet {
     private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException {
         
         try {
-            SecurityLayer.issetString("login", request.getParameter("username"));
-            System.out.println("ok");
-        } catch (SecurityLayerException ex) {
-            System.out.println("errore");
-           request.setAttribute("exception", ex);
-            action_error(request, response);
-        }
-        
-        
-        try {
             
             String username = SecurityLayer.issetString("login", request.getParameter("username"));
-            String password = request.getParameter("password");
+            String password = SecurityLayer.issetString("password", request.getParameter("password"));
             
             try { //... VALIDAZIONE IDENTITA'...
                 
