@@ -18,5 +18,5 @@ public interface AnnuncioDAO {
     
     public Annuncio getAnnuncioById(long id) throws DataLayerException;
     public List<Annuncio> getAnnunci(long id, int valuePage, String stato) throws DataLayerException;
-    public void saveAnnuncio(Annuncio annuncio) throws DataLayerException;
+    public int saveAnnuncio(Annuncio annuncio) throws DataLayerException;
 }
