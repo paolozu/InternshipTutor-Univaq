@@ -10,6 +10,7 @@ import Framework.result.FailureResult;
 import Framework.result.TemplateManagerException;
 import Framework.result.TemplateResult;
 import Framework.security.SecurityLayer;
+import Framework.security.SecurityLayerException;
 import Model.Bean.Azienda;
 import Model.Bean.Studente;
 import Model.Bean.Utente;
@@ -47,43 +48,19 @@ public class SignUp extends HttpServlet {
 //    }
 //    
     
-    private void action_reload (HttpServletRequest request, HttpServletResponse response) {
-          System.out.println("Reload caricato");
-        if ("ST".equals(request.getParameter("registra"))) {
-            Map data = new HashMap();
-            data.put("outline_tpl", "");//rimozione outline
-            TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-            try {
-                res.activate("signup-Studente.ftl.html", data, response);
-                System.out.println("dentro reload");
-            } catch (TemplateManagerException ex) {
-                (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-            }
-        } else {
-            Map data = new HashMap();
-            data.put("outline_tpl", "");//rimozione outline
-            TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-            try {
-                res.activate("signup-Azienda.ftl.html", data, response);
-            } catch (TemplateManagerException ex) {
-                (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-            }
-        }  
-    }
-    
     private boolean verificaCredenziali(HttpServletRequest request, HttpServletResponse response, Utente utente) throws DataLayerException {
-        
+        System.out.println("Dentro verificaCredenziali");
         boolean credenziali_in_uso = false;
         
             if( new UtenteDAOImpl().getUsernameEsistente(utente.getUsername()) ){
                 credenziali_in_uso = true;
-                request.setAttribute("username_in_uso", true);
-                request.setAttribute("credenziali_in_uso", true);
+                request.setAttribute("message", "Username già in uso. Torna indietro e riprova.");
+                action_error(request, response);
             } else {
                 if ( new UtenteDAOImpl().getEmailEsistente(utente.getEmail()) ) {
-                    credenziali_in_uso = false;
-                    request.setAttribute("email_in_uso", true);
-                    request.setAttribute("credenziali_in_uso", true);
+                    credenziali_in_uso = true;
+                    request.setAttribute("message", "Email già in uso. Torna indietro e riprova.");
+                    action_error(request, response);
                 }
             }
             
@@ -123,7 +100,7 @@ public class SignUp extends HttpServlet {
    
     
     
-    private void action_signupStudente (HttpServletRequest request, HttpServletResponse response) throws DataLayerException {
+    private void action_signupStudente (HttpServletRequest request, HttpServletResponse response) throws DataLayerException, SecurityLayerException {
         try {
             
             Studente studente = new Studente();
@@ -155,8 +132,6 @@ public class SignUp extends HttpServlet {
             
             if (!credenziali_in_uso) {
                 new StudenteDAOImpl().setRegistrazioneStudente(studente);
-            } else {
-                action_default(request, response);       
             }
          
               
@@ -200,27 +175,21 @@ public class SignUp extends HttpServlet {
     
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, DataLayerException {
-        try {
-            if (request.getAttribute("credenziali_in_uso") == null){
-                 if (request.getParameter("signup") == null) {
-                    action_default(request, response);
+            throws ServletException, DataLayerException, SecurityLayerException {
+        try { 
+            if (request.getParameter("signup") == null) {
+                action_default(request, response);
+            } else { 
+                if(request.getParameter("signup").equals("Iscriviti come Studente")){
+                    action_signupStudente(request, response);
                 } else { 
-                    if(request.getParameter("signup").equals("Iscriviti come Studente")){
-                        action_signupStudente(request, response);
-                    } else { 
-                        action_signupAzienda(request, response);
-                    } 
+                    action_signupAzienda(request, response);
                 } 
-            } else {
-                action_reload(request, response);
-            }
-            
-            
+            } 
         } catch (DataLayerException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);
-        }
+        } 
     }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -237,7 +206,7 @@ public class SignUp extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (DataLayerException ex) {
+        } catch (DataLayerException | SecurityLayerException ex) {
             Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -255,7 +224,7 @@ public class SignUp extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (DataLayerException ex) {
+        } catch (DataLayerException | SecurityLayerException ex) {
             Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
