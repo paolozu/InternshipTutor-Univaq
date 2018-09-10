@@ -174,7 +174,7 @@ public class SignUp extends HttpServlet {
                 new AziendaDAOImpl().setRegistrazioneAzienda(azienda);
             }
             
-            response.sendRedirect("view.signup_done");
+            response.sendRedirect("homepage");
             
         } catch (IllegalArgumentException e) {
         }
