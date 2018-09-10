@@ -346,8 +346,8 @@ public class AziendaDAOImpl implements AziendaDAO {
                 ps.setString(12, azienda.getCognomeResponsabile());
                 ps.setString(13, azienda.getEmailResponsabile());
                 ps.setLong(14, nuovoUtente.getId());
-                ps.setDate(14, java.sql.Date.valueOf(azienda.getDataIscrione()));
-                ps.setDate(14, java.sql.Date.valueOf(azienda.getDataTermine()));
+                ps.setDate(15, java.sql.Date.valueOf(azienda.getDataIscrione()));
+                ps.setDate(16, java.sql.Date.valueOf(azienda.getDataTermine()));
 
                 result = ps.executeUpdate();
 

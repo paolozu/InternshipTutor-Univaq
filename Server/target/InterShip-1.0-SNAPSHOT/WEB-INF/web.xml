@@ -81,6 +81,10 @@
         <servlet-name>Testing</servlet-name>
         <servlet-class>Controller.Testing</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>NuovoAnnuncio</servlet-name>
+        <servlet-class>Controller.NuovoAnnuncio</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -156,6 +160,10 @@
     <servlet-mapping>
         <servlet-name>Testing</servlet-name>
         <url-pattern>/Testing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NuovoAnnuncio</servlet-name>
+        <url-pattern>/NuovoAnnuncio</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
