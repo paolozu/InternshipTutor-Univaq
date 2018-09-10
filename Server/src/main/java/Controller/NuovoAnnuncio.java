@@ -36,7 +36,6 @@ public class NuovoAnnuncio extends AziendaSecurity {
         data.put("utente_username", s.getAttribute("username"));
         data.put("utente_tipo", s.getAttribute("tipo"));
         
-        data.put("outline_tpl", "");//rimozione outline
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
         try {
             res.activate("pubblicaTirocinio.ftl.html", data, response);
