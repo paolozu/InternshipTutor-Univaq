@@ -36,10 +36,10 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
     private static final String GET_ANNUNCI_STATO = "SELECT * FROM annuncio JOIN azienda "
             + "                                     ON annuncio.Azienda_idAzienda=azienda.idAzienda WHERE annuncio.Azienda_idAzienda=? AND annuncio.stato=? LIMIT ?,4";
 
-    private static final String SET_ANNUNCIO = "INSERT INTO annuncio (titolo, corpo, dataAvvio, dataTermine, modalita, sussidio, settore, Azienda_idAzienda,nomeDocente,cognomeDocente,emailDocente,nomeReferente,cognomeReferente,emailReferente,telefonoReferente)\n"
-            + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String SET_ANNUNCIO = "INSERT INTO annuncio (titolo, corpo, dataAvvio, dataTermine, modalita, sussidio, settore, Azienda_idAzienda,nomeDocente,cognomeDocente,emailDocente,nomeReferente,cognomeReferente,emailReferente,telefonoReferente,stato)\n"
+            + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'ATTIVO')";
 
-    public Annuncio getAnnuncioById(long id) throws DataLayerException{
+    public Annuncio getAnnuncioById(long id) throws DataLayerException {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;
@@ -52,13 +52,13 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
             rset = ps.executeQuery();
 
             if (rset.next()) {
-                Referente referenteAnnuncio = new Referente(rset.getString("nomeReferente"), rset.getString("cognomeReferente"),rset.getString("telefonoReferente"));
+                Referente referenteAnnuncio = new Referente(rset.getString("nomeReferente"), rset.getString("cognomeReferente"), rset.getString("telefonoReferente"));
                 Docente docenteAnnuncio = new Docente(rset.getString("nomeDocente"), rset.getString("cognomeDocente"), rset.getString("emailDocente"));
                 Azienda aziendaAnnuncio = new Azienda(rset.getInt("idAzienda"));
-                annuncio = new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio").toLocalDate(), rset.getDate("dataTermine").toLocalDate(), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), aziendaAnnuncio, docenteAnnuncio,referenteAnnuncio);
+                annuncio = new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio").toLocalDate(), rset.getDate("dataTermine").toLocalDate(), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), aziendaAnnuncio, docenteAnnuncio, referenteAnnuncio);
             }
         } catch (SQLException ex) {
-             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
+            throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
         } finally {
             try {
                 rset.close();
@@ -89,7 +89,7 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
                 annunci.add(new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio").toLocalDate(), rset.getDate("dataTermine").toLocalDate(), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), new Azienda(rset.getInt("idAzienda"))));
             }
         } catch (SQLException ex) {
-             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
+            throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
         } finally {
             try {
                 rset.close();
@@ -103,43 +103,33 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
     }
 
     @Override
-    public void saveAnnuncio(Annuncio annuncio) throws DataLayerException{
-        
-        Connection connection = null;
-        PreparedStatement ps = null;
-        
-        
-        try {
-            connection = DB.getConnection();
-            ps = connection.prepareStatement(SET_ANNUNCIO);
-            ps.setString(1, annuncio.getTitolo());
-            ps.setString(2, annuncio.getCorpo());
-            ps.setDate(3, java.sql.Date.valueOf( annuncio.getDataAvvio() ));
-            ps.setDate(4, java.sql.Date.valueOf( annuncio.getDataTermine() ));
-            ps.setString(5, annuncio.getModalita());
-            ps.setString(6, annuncio.getSussidio());
-            ps.setString(7, annuncio.getSettore());
-            ps.setLong(8, annuncio.getAzienda().getId());
-            ps.setString(9, annuncio.getDocente().getNome());
-            ps.setString(10, annuncio.getDocente().getCognome());
-            ps.setString(11, annuncio.getDocente().getEmail());
-            ps.setString(12, annuncio.getReferente().getNome());
-            ps.setString(13, annuncio.getReferente().getCognome());
-            ps.setString(14, annuncio.getReferente().getEmail());
-            ps.setString(15, annuncio.getReferente().getTelefono());
-            
-            
-            int result = ps.executeUpdate();
-        } catch (SQLException ex) {
-             throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
-        } finally {
-            try {
-                ps.close();
-                connection.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+    public int saveAnnuncio(Annuncio annuncio) throws DataLayerException {
+    int result=-1;
+        try (Connection connection = DB.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(SET_ANNUNCIO)) {
+                
+                ps.setString(1, annuncio.getTitolo());
+                ps.setString(2, annuncio.getCorpo());
+                ps.setDate(3, java.sql.Date.valueOf(annuncio.getDataAvvio()));
+                ps.setDate(4, java.sql.Date.valueOf(annuncio.getDataTermine()));
+                ps.setString(5, annuncio.getModalita());
+                ps.setString(6, annuncio.getSussidio());
+                ps.setString(7, annuncio.getSettore());
+                ps.setLong(8, annuncio.getAzienda().getId());
+                ps.setString(9, annuncio.getDocente().getNome());
+                ps.setString(10, annuncio.getDocente().getCognome());
+                ps.setString(11, annuncio.getDocente().getEmail());
+                ps.setString(12, annuncio.getReferente().getNome());
+                ps.setString(13, annuncio.getReferente().getCognome());
+                ps.setString(14, annuncio.getReferente().getEmail());
+                ps.setString(15, annuncio.getReferente().getTelefono());
+
+                result = ps.executeUpdate();
             }
+        } catch (SQLException ex) {
+            throw new DataLayerException("Save annuncio", ex);
         }
+        return result;
     }
-    
+
 }
