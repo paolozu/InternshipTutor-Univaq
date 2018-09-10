@@ -33,6 +33,7 @@
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Framework/data/DB.java
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Framework/result/SplitSlashesFmkExt.java
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Model/DAO/Interface/AnnuncioDAO.java
+/Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Controller/NuovoAnnuncio.java
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Controller/AnnunciAzienda.java
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Model/DAO/Impl/AnnuncioDAOImpl.java
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Model/Bean/Convenzione.java

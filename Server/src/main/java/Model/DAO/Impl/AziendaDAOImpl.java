@@ -352,7 +352,7 @@ public class AziendaDAOImpl implements AziendaDAO {
                 result = ps.executeUpdate();
 
             } catch (SQLException ex) {
-                throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
+                throw new DataLayerException("ERRORE REGISTRAZIONE AZIENDA", ex);
             } finally {
                 //CHIUSURA CONNESSIONE
                 try {

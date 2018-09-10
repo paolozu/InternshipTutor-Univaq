@@ -1,0 +1,82 @@
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="#"> <em class="fa fa-home"></em> </a></li>
+            <li class="active">Resoconto tirocinio</li>
+        </ol>
+    </div>
+    <!--/.row-->
+    <div class="row">
+        <div class="col-md-8 col-lg-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading mt-1">Annuncio tirocionio</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12 mt-1">
+                            <h5>Titolo:</h5>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control mt-2" id="newAnnuncio" placeholder="Inserisci titolo..."/>
+                    <div class="row">
+                        <div class="col-md-12 mt-1">
+                            <h5>Informazioni:</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mt-1">
+                            <input type="text" class="form-control" id="settore" placeholder="Settore" required/>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <input type="text" class="form-control" id="modalità" placeholder="Modalità" required/>
+                        </div>	          
+                    </div> 
+                    <div class="row">
+                        <div class="col-md-12 mt-1">
+                            <h5>Periodo:</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mt-1">
+                            <input type="data" class="form-control" id="dataIn" placeholder="gg-mm-aa" required/>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <input type="data" class="form-control" id="dataFine" placeholder="gg-mm-aa" required/>
+                        </div>	          
+                    </div>  
+                    <div class="row">
+                        <div class="col-md-12 mt-1">
+                            <h5>Descizione:</h5>
+                        </div>
+                    </div>
+                    <textarea class="form-control mt-1" id="message" name="message" placeholder="Inserisci testo (Max 150 parole)" rows="5"></textarea>
+                    <h5 class="mt-3">Referente Aziendale:</h5>
+                    <div class="row">
+                        <div class="col-xs-12 mt-1 col-md-6">
+                            <input type="text" class="form-control" id="nomeRef" placeholder="Nome" required/>
+                        </div>
+                        <div class="col-xs-12 mt-1 col-md-6">
+                            <input type="text" class="form-control" id="cognRef" placeholder="Cognome" required/>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control mt-1" id="mailRef" placeholder="Email" required/>
+                    <input type="text" class="form-control mt-1" id="telRef" placeholder="Telefono (opzionale)" required/>
+                    <h5 class="mt-4">Docente di riferimento:</h5>
+                    <div class="row">
+                        <div class="col-md-6 mt-1">
+                            <input type="text" class="form-control" id="nomeDoc" placeholder="Nome" required/>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <input type="text" class="form-control" id="cognDoc" placeholder="Cognome" required/>
+                        </div>	          
+                    </div>
+                    <input type="text" class="form-control mt-1" id="mailRef" placeholder="Email" required/>
+                    <div class="col-md-4 col-lg-offset-4 mt-2 text-center">
+                        <input type="submit" class="form-control btn-success" value="PUBBLICA TIROCINIO"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.row-->
+</div>
+<!--/.main--> 
