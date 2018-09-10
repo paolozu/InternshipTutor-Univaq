@@ -1,8 +1,3 @@
-<<<<<<< HEAD
 Framework/security/SecurityLayerException.class
 Framework/pdf/GeneratePDF.class
 Controller/Testing.class
-=======
-Controller\Testing.class
-Framework\security\SecurityLayerException.class
->>>>>>> 8bfba3adb3eaac6fe6117116a7219f835bfb870b

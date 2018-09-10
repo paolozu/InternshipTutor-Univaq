@@ -78,8 +78,8 @@ public class AziendaDAOImpl implements AziendaDAO {
 
     private static final String UPDATE_ID_RESOCONTO_TIROCINIO = "UPDATE Tirocinio SET Resoconto_idResoconto=? WHERE Annuncio_idAnnuncio=? AND Studente_idStudente=?";
 
-    private static final String REGISTRAZIONE_AZIENDA = "INSERT INTO azienda ( stato, ragSociale, indirizzoSede, pIVA, foro, cap, citta, provincia, nomeRap, cognomeRap, telResponsabile, nomeResponsabile, cognomeResponsabile, emailResponsabile,idAzienda) "
-            + "                                         VALUES ('REGISTRATA',?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+    private static final String REGISTRAZIONE_AZIENDA = "INSERT INTO azienda ( stato, ragSociale, indirizzoSede, pIVA, foro, cap, citta, provincia, nomeRap, cognomeRap, telResponsabile, nomeResponsabile, cognomeResponsabile, emailResponsabile, idAzienda, dataIscrizione, dataTermine) "
+            + "                                         VALUES ('REGISTRATA',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
     private static final String UPDATE_STATO = "UPDATE Azienda SET Stato=? WHERE idAzienda=?";
 
@@ -346,6 +346,8 @@ public class AziendaDAOImpl implements AziendaDAO {
                 ps.setString(12, azienda.getCognomeResponsabile());
                 ps.setString(13, azienda.getEmailResponsabile());
                 ps.setLong(14, nuovoUtente.getId());
+                ps.setDate(14, java.sql.Date.valueOf(azienda.getDataIscrione()));
+                ps.setDate(14, java.sql.Date.valueOf(azienda.getDataTermine()));
 
                 result = ps.executeUpdate();
 
