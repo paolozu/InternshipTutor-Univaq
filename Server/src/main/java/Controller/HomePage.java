@@ -10,29 +10,17 @@ import Framework.result.FailureResult;
 import Framework.result.TemplateManagerException;
 import Framework.result.TemplateResult;
 import Framework.security.SecurityLayer;
-import Model.Bean.Azienda;
-import Model.Bean.Studente;
 import Model.Bean.Tirocinio;
 import Model.DAO.Impl.AmministratoreDAOImpl;
 import Model.DAO.Impl.AziendaDAOImpl;
-import Model.DAO.Impl.StudenteDAOImpl;
 import Model.DAO.Impl.TirocinanteDAOImpl;
-import Model.DAO.Impl.UtenteDAOImpl;
 import Model.DAO.Interface.AmministratoreDAO;
 import Model.DAO.Interface.AziendaDAO;
 import Model.DAO.Interface.TirocinanteDAO;
-import Model.DAO.Interface.UtenteDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.util.Pair;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -64,6 +52,7 @@ public class HomePage extends HttpServlet {
 
     private void action_anonymous(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map data = new HashMap();
+        data.put("activeHome", "active");
         data.put("page_title", "Homepage");
 
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
@@ -171,7 +160,7 @@ public class HomePage extends HttpServlet {
                 action_anonymous(request, response);
             } else {
                 Map data = new HashMap();
-
+                data.put("activeHome", "active");
                 request.setAttribute("id", s.getAttribute("userid"));
 
                 data.put("utente_username", s.getAttribute("username"));

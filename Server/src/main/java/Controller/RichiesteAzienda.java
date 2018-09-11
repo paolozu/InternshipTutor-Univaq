@@ -10,6 +10,7 @@ import Framework.result.FailureResult;
 import Framework.result.TemplateManagerException;
 import Framework.result.TemplateResult;
 import Framework.security.SecurityLayer;
+import Framework.security.SecurityLayerException;
 import Model.Bean.Annuncio;
 import Model.Bean.Azienda;
 import Model.Bean.Resoconto;
@@ -25,6 +26,8 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +47,7 @@ public class RichiesteAzienda extends AziendaSecurity {
         }
     }
 
-    private void action_gestioneRichieste(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void action_gestioneRichieste(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, SecurityLayerException {
         switch (request.getParameter("action")) {
 
             case "visualizza":
@@ -72,9 +75,9 @@ public class RichiesteAzienda extends AziendaSecurity {
 
             case "accetta":
 
-                LocalDate dataInizio = SecurityLayer.checkDate(request.getParameter("dataInizio"));
-                LocalDate dataFine = SecurityLayer.checkDate(request.getParameter("dataFine"));
-                long idStudente = SecurityLayer.checkNumeric(request.getParameter("idStudente"));
+                LocalDate dataInizio = SecurityLayer.issetDate("DATA INIZIO",request.getParameter("dataInizio"));
+                LocalDate dataFine = SecurityLayer.issetDate("DATA FINE",request.getParameter("dataFine"));
+                long idStudente = SecurityLayer.issetInt(request.getParameter("idStudente"));
                 long idAnnuncio = SecurityLayer.checkNumeric(request.getParameter("idAnnuncio"));
 
                 Tirocinio nuovoTirocinio = new Tirocinio(new Studente(idStudente), new Annuncio(idAnnuncio), dataInizio, dataFine);
@@ -150,6 +153,7 @@ public class RichiesteAzienda extends AziendaSecurity {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Map data = new HashMap();
@@ -160,7 +164,12 @@ public class RichiesteAzienda extends AziendaSecurity {
 
             SecurityLayer.checkNumeric(request.getParameter("idStudente"));
 
-            action_gestioneRichieste(data, request, response);
+            try {
+                action_gestioneRichieste(data, request, response);
+            } catch (SecurityLayerException ex) {
+                request.setAttribute("exception", ex);
+                action_error(request, response);
+            }
         } else {
             // visualizza lista tirocinanti
             action_listaRichieste(data, request, response);

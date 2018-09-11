@@ -266,9 +266,11 @@ public class AziendaDAOImpl implements AziendaDAO {
     }
 
     /**
-     * Salva nel db il resoconto aggiornando la tabella tirocinio
+     * Salva il resoconto aggiornando la tabella tirocinio
      *
      * @param tirocinio
+     * @return 
+     * @throws Framework.data.DataLayerException
      */
     @Override
     public Resoconto setConcludiTirocinio(Tirocinio tirocinio) throws DataLayerException {
@@ -401,6 +403,7 @@ public class AziendaDAOImpl implements AziendaDAO {
         return result;
     }
 
+    @Override
     public boolean isConvenzionata(long id) throws DataLayerException {
         Connection connection = null;
         PreparedStatement ps = null;
@@ -433,6 +436,7 @@ public class AziendaDAOImpl implements AziendaDAO {
         return false;
     }
 
+    @Override
     public String getStato(long id) throws DataLayerException {
         Connection connection = null;
         PreparedStatement ps = null;
@@ -469,6 +473,7 @@ public class AziendaDAOImpl implements AziendaDAO {
      * Rimnuovi il tirocinio sostenuto dallo studente presso l'azienda
      *
      * @param tirocinio
+     * @throws Framework.data.DataLayerException
      */
     @Override
     public void removeTirocinio(Tirocinio tirocinio) throws DataLayerException {
@@ -503,7 +508,9 @@ public class AziendaDAOImpl implements AziendaDAO {
     /**
      * Rimnuovi il tirocinio sostenuto dallo studente presso l'azienda
      *
+     * @param richiesta
      * @param tirocinio
+     * @throws Framework.data.DataLayerException
      */
     @Override
     public void removeRichiesta(Richiesta richiesta) throws DataLayerException {
@@ -540,6 +547,8 @@ public class AziendaDAOImpl implements AziendaDAO {
      * Rimnuovi il tirocinio sostenuto dallo studente presso l'azienda
      *
      * @param tirocinio
+     * @return 
+     * @throws Framework.data.DataLayerException
      */
     @Override
     public int setNuovoTirocinio(Tirocinio tirocinio) throws DataLayerException {

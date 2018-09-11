@@ -51,27 +51,31 @@ public class Aziende extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
         Map data = new HashMap();
+        data.put("activeAziende", "active");
+        //Check sessione
         HttpSession s = SecurityLayer.checkSession(request);
+        if(s!=null){
+            data.put("utente_username", s.getAttribute("username"));
+            data.put("utente_tipo", s.getAttribute("tipo"));
+        }
         
         data.put("page_title", "Aziende");
         AziendaDAO queryA = new AziendaDAOImpl();
+       
+        
         
         try {
             List<Azienda> aziende = queryA.getAllAziendeConvenzionate();
             data.put("aziende",aziende);
-            data.put("utente_username", s.getAttribute("username"));
-            data.put("utente_tipo", s.getAttribute("tipo"));
-        } catch (DataLayerException ex) {
-            request.setAttribute("Aziende", "Data access exception: " + ex.getMessage());
-            action_error(request, response);
-        }
+            
 
-        TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-        try {
             res.activate("aziende.ftl.html", data, response);
-        } catch (TemplateManagerException ex) {
-            request.setAttribute("Template", "Load page exception: " + ex.getMessage());
+            
+        } catch (DataLayerException | TemplateManagerException ex) {
+            request.setAttribute("exception", ex);
             action_error(request, response);
         }
     }
