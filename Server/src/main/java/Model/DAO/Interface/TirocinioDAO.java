@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author lorenzo
  */
-public interface TirocinanteDAO {
+public interface TirocinioDAO {
 
     public List<Tirocinio> getTirocini(long idTirocinante) throws DataLayerException;
 

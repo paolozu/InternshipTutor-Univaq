@@ -13,10 +13,9 @@ import Framework.security.SecurityLayer;
 import Model.Bean.Tirocinio;
 import Model.DAO.Impl.AmministratoreDAOImpl;
 import Model.DAO.Impl.AziendaDAOImpl;
-import Model.DAO.Impl.TirocinanteDAOImpl;
+import Model.DAO.Impl.TirocinioDAOImpl;
 import Model.DAO.Interface.AmministratoreDAO;
 import Model.DAO.Interface.AziendaDAO;
-import Model.DAO.Interface.TirocinanteDAO;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +25,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import Model.DAO.Interface.TirocinioDAO;
 
 /**
  *
@@ -129,7 +129,7 @@ public class HomePage extends HttpServlet {
     private void action_studente(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
 
-            TirocinanteDAO queryTirocini = new TirocinanteDAOImpl();
+            TirocinioDAO queryTirocini = new TirocinioDAOImpl();
             List<Tirocinio> tirocini = queryTirocini.getTirocini((long) request.getAttribute("id"));
 
                 

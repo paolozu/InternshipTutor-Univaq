@@ -7,8 +7,7 @@ package Controller;
 
 import Framework.security.SecurityLayer;
 import Model.Bean.Resoconto;
-import Model.DAO.Impl.TirocinanteDAOImpl;
-import Model.DAO.Interface.TirocinanteDAO;
+import Model.DAO.Impl.TirocinioDAOImpl;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
@@ -26,6 +25,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import Model.DAO.Interface.TirocinioDAO;
 
 /**
  *

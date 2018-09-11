@@ -8,8 +8,7 @@ package Framework.pdf;
 import Framework.data.DataLayerException;
 import Model.Bean.Resoconto;
 import Model.Bean.Studente;
-import Model.DAO.Impl.TirocinanteDAOImpl;
-import Model.DAO.Interface.TirocinanteDAO;
+import Model.DAO.Impl.TirocinioDAOImpl;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
@@ -19,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
+import Model.DAO.Interface.TirocinioDAO;
 
 /**
  *
@@ -28,7 +28,7 @@ public class GeneratePDF {
     
         public static int resocontoTirocinio(Resoconto resoconto, Studente studente) throws IOException, DataLayerException, DocumentException {
 
-        TirocinanteDAO tirocinioDAO = new TirocinanteDAOImpl();
+        TirocinioDAO tirocinioDAO = new TirocinioDAOImpl();
 
         // Carico modello base resoconto
         InputStream is = tirocinioDAO.downloadResoconto(new Resoconto(0));

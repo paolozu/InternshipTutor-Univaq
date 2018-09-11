@@ -11,7 +11,6 @@ import Model.Bean.Convenzione;
 import Model.Bean.Resoconto;
 import Model.Bean.Tirocinio;
 import Model.Bean.Docente;
-import Model.DAO.Interface.TirocinanteDAO;
 import Framework.data.DB;
 import Framework.data.DataLayerException;
 import Model.Bean.Referente;
@@ -27,12 +26,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
+import Model.DAO.Interface.TirocinioDAO;
 
 /**
  *
  * @author lorenzo
  */
-public class TirocinanteDAOImpl implements TirocinanteDAO {
+public class TirocinioDAOImpl implements TirocinioDAO {
 
     private static final String GET_INFO_TIROCINIO = "SELECT Tirocinio.dataInizio, Tirocinio.dataFine, Tirocinio.Resoconto_idResoconto,Resoconto.nome,Resoconto.valutazione,Azienda.ragSociale, Azienda.indirizzoSede, Azienda.citta, Azienda.nomeResponsabile, Azienda.cognomeResponsabile, Azienda.emailResponsabile, Azienda.telResponsabile, Annuncio.nomeDocente, Annuncio.cognomeDocente, Annuncio.emailDocente FROM Tirocinio JOIN Annuncio ON Tirocinio.Annuncio_idAnnuncio = Annuncio.idAnnuncio LEFT JOIN Resoconto ON Tirocinio.Resoconto_idResoconto = Resoconto.idResoconto JOIN Azienda ON Annuncio.Azienda_idAzienda = Azienda.idAzienda WHERE Tirocinio.Studente_idStudente=?";
 

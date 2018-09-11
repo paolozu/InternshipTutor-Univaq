@@ -21,11 +21,10 @@ import Model.Bean.Tirocinio;
 import Model.DAO.Impl.AnnuncioDAOImpl;
 import Model.DAO.Impl.AziendaDAOImpl;
 import Model.DAO.Impl.StudenteDAOImpl;
-import Model.DAO.Impl.TirocinanteDAOImpl;
+import Model.DAO.Impl.TirocinioDAOImpl;
 import Model.DAO.Interface.AnnuncioDAO;
 import Model.DAO.Interface.AziendaDAO;
 import Model.DAO.Interface.StudenteDAO;
-import Model.DAO.Interface.TirocinanteDAO;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
@@ -46,6 +45,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import Model.DAO.Interface.TirocinioDAO;
 
 /**
  *
@@ -63,7 +63,7 @@ public class TirociniAzienda extends AziendaSecurity {
 
     private int action_save_PDF(Resoconto resoconto) throws IOException, DataLayerException, DocumentException {
 
-        TirocinanteDAO tirocinioDAO = new TirocinanteDAOImpl();
+        TirocinioDAO tirocinioDAO = new TirocinioDAOImpl();
 
         // Carico modello base resoconto
         InputStream is = tirocinioDAO.downloadResoconto(new Resoconto(0));

@@ -16,10 +16,9 @@ import Model.Bean.Resoconto;
 import Model.Bean.Studente;
 import Model.DAO.Impl.AziendaDAOImpl;
 import Model.DAO.Impl.StudenteDAOImpl;
-import Model.DAO.Impl.TirocinanteDAOImpl;
+import Model.DAO.Impl.TirocinioDAOImpl;
 import Model.DAO.Interface.AziendaDAO;
 import Model.DAO.Interface.StudenteDAO;
-import Model.DAO.Interface.TirocinanteDAO;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -43,6 +42,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import Model.DAO.Interface.TirocinioDAO;
 
 /**
  *
@@ -50,12 +50,12 @@ import java.util.logging.Logger;
  */
 public class Download extends HttpServlet {
 
-    private TirocinanteDAO tirocinioDAO;
+    private TirocinioDAO tirocinioDAO;
     private AziendaDAO aziendaDAO;
 
     public Download() {
         aziendaDAO = new AziendaDAOImpl();
-        tirocinioDAO = new TirocinanteDAOImpl();
+        tirocinioDAO = new TirocinioDAOImpl();
     }
 
     private void action_error(HttpServletRequest request, HttpServletResponse response) {
