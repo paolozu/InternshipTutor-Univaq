@@ -10,6 +10,8 @@ import Framework.result.FailureResult;
 import Framework.result.TemplateManagerException;
 import Framework.result.TemplateResult;
 import Framework.security.SecurityLayer;
+import Framework.security.SecurityLayerException;
+import Model.Bean.Annuncio;
 import Model.DAO.Impl.AnnuncioDAOImpl;
 import Model.DAO.Interface.AnnuncioDAO;
 import java.io.IOException;
@@ -74,14 +76,12 @@ public class AnnunciAzienda extends AziendaSecurity {
             try {
                 switch (request.getParameter("page")) {
                     case "annunciAttivi":
+                        data.put("disattiva_attiva", "hidden");
                         data.put("titolo","Annunci attivi");
                         data.put("annunci", queryAnn.getAnnunci((long) s.getAttribute("userid"), 0, "ATTIVO"));
                         break;
-                    case "annunciSospesi":
-                        data.put("titolo","Annunci sospesi");
-                        data.put("annunci", queryAnn.getAnnunci((long) s.getAttribute("userid"), 0, "SOSPESO"));
-                        break;
                     case "annunciDisattivati":
+                        data.put("disattiva_disattiva", "hidden");
                         data.put("titolo","Annunci disattivati");
                         data.put("annunci", queryAnn.getAnnunci((long) s.getAttribute("userid"), 0, "DISATTIVATO"));
                         break;
@@ -92,6 +92,48 @@ public class AnnunciAzienda extends AziendaSecurity {
             } catch (DataLayerException ex) {
                 (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
             }
+        } else if(request.getParameter("disattiva") != null) {
+            Annuncio annuncio = new Annuncio();
+            long id_annuncio = 0;
+            try {
+                id_annuncio = SecurityLayer.issetInt(request.getParameter("disattiva"));
+                System.out.println(id_annuncio);
+            } catch (SecurityLayerException ex) {
+                Logger.getLogger(AnnunciAzienda.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            try {
+                annuncio = new AnnuncioDAOImpl().getAnnuncioById(id_annuncio);
+                annuncio.setStato("DISATTIVATO");
+                int res = new AnnuncioDAOImpl().updateStato(annuncio);
+                if (res == 1) {
+                    // notifica successo
+                }
+            } catch (DataLayerException ex) {
+                Logger.getLogger(AnnunciAzienda.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if(request.getParameter("attiva") != null){
+                Annuncio annuncio = new Annuncio();
+                long id_annuncio = 0;
+                try {
+                    id_annuncio = SecurityLayer.issetInt(request.getParameter("attiva"));
+                    System.out.println(id_annuncio);
+                } catch (SecurityLayerException ex) {
+                    Logger.getLogger(AnnunciAzienda.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                try {
+                    annuncio = new AnnuncioDAOImpl().getAnnuncioById(id_annuncio);
+                    annuncio.setStato("ATTIVO");
+                    int res = new AnnuncioDAOImpl().updateStato(annuncio);
+                    if (res == 1) {
+                        
+                        response.sendRedirect("homepage");
+                    }
+                } catch (DataLayerException ex) {
+                    Logger.getLogger(AnnunciAzienda.class.getName()).log(Level.SEVERE, null, ex);
+                }
+               
         } else {
             response.sendRedirect("homepage");
         }

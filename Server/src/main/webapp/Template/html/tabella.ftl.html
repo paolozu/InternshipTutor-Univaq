@@ -36,7 +36,11 @@
                                     <td>${annuncio.dataTermine}</td>
                                     <td>${annuncio.modalita}</td>
                                     <td>${annuncio.settore}</td>
-                                    <td><a type="button" class="btn btn-sm btn-default" href="${annuncio.id}">Modifica</a></td>
+                                    
+                                    <td><a type="button" class="btn btn-sm btn-default ${disattiva_attiva!}" href="AnnunciAzienda?attiva=${annuncio.id}">Attiva</a></td>
+                                
+                                    <td><a type="button" class="btn btn-sm btn-default ${disattiva_disattiva!}" href="AnnunciAzienda?disattiva=${annuncio.id}">Disattiva</a></td>
+                          
                                 </tr>
                                 </#items>
                             </tbody>
