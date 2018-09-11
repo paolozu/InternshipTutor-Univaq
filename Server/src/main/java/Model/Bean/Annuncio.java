@@ -15,12 +15,13 @@ import java.util.Date;
 public class Annuncio {
     
     private long id;
-    private String titolo,corpo, modalita, settore, sussidio;
+    private String titolo,corpo, modalita, settore, sussidio, stato;
     private LocalDate dataAvvio, dataTermine;
     private Azienda azienda;
     private Docente docente;
     private Referente referente;
 
+    
 
     public Annuncio(String titolo, String corpo, LocalDate dataAvvio, LocalDate dataTermine, String modalita, String settore, String sussidio, Azienda azienda, Docente docente, Referente referente) {
         this.titolo = titolo;
@@ -77,6 +78,14 @@ public class Annuncio {
 
     public Annuncio() {
        
+    }
+
+    public String getStato() {
+        return stato;
+    }
+
+    public void setStato(String stato) {
+        this.stato = stato;
     }
     
     

@@ -37,6 +37,8 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
 
     private static final String SAVE_ANNUNCIO = "INSERT INTO annuncio (titolo, corpo, dataAvvio, dataTermine, modalita, sussidio, settore, Azienda_idAzienda,nomeDocente,cognomeDocente,emailDocente,nomeReferente,cognomeReferente,emailReferente,telefonoReferente,stato) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'ATTIVO')";
 
+    private static final String UPDATE_STATO = "UPDATE Annuncio SET Stato=? WHERE idAnnuncio=?";
+    
     @Override
     public Annuncio getAnnuncioById(long id) throws DataLayerException {
 
@@ -97,7 +99,10 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
     /****
      * 
      *
-     * @param valuePage */
+     * @param valuePage
+     * @param stato
+     * @return 
+     * @throws Framework.data.DataLayerException */
     @Override
     public List<Annuncio> getAnnunci(int valuePage, String stato) throws DataLayerException {
 
@@ -160,4 +165,23 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
         return result;
     }
 
+    public int updateStato(Annuncio annuncio) throws DataLayerException{
+    
+        int result = -1;
+        
+        try (Connection connection = DB.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(UPDATE_STATO)) {
+
+                //Prepare query
+                ps.setString(1, annuncio.getStato());
+                ps.setLong(2, annuncio.getId());
+
+                result = ps.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            throw new DataLayerException("UPDATE STATO ANNUNCIO", ex);
+        }
+        
+        return result;
+    }
 }

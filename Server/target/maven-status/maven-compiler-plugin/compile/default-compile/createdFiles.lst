@@ -1,10 +1,2 @@
-<<<<<<< HEAD
 Model/DAO/Interface/TirocinioDAO.class
 Model/DAO/Impl/TirocinioDAOImpl.class
-=======
-Model\DAO\Impl\TirocinioDAOImpl.class
-Model\DAO\Interface\TirocinioDAO.class
-Model\DAO\Impl\RichiestaDAOImpl.class
-Controller\HomeTirocini.class
-Model\DAO\Interface\RichiestaDAO.class
->>>>>>> 1370193daaba06b5b3efd3d240fcc1d7ad3be8dc
