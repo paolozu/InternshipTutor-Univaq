@@ -1,3 +1,2 @@
-Model\DAO\Impl\RichiestaDAOImpl.class
-Controller\HomeTirocini.class
-Model\DAO\Interface\RichiestaDAO.class
+Model/DAO/Interface/TirocinioDAO.class
+Model/DAO/Impl/TirocinioDAOImpl.class
