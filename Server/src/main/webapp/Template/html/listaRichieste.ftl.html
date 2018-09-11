@@ -5,13 +5,38 @@
             <li class="active">${titolo}</li> 
         </ol>
     </div><!--/.row-->
-    <#if alert??>
+    
+    <#if alertAccetta??>
     <div class="row mt-1" id='hideMe'>
         <div class="col-lg-12">
-            <div class="alert bg-success" role="alert"><em class="fa fa-lg fa-angle-right">&nbsp;</em>${alert}</div>
+            <#switch alertAccetta>
+            <#case "1">
+            <div class="alert bg-success" role="alert"><em class="fa fa-lg fa-angle-right">&nbsp;</em>Richiesta approvata</div>
+            <#break>
+            <#case "1062">
+            <div class="alert bg-warning" role="alert"><em class="fa fa-lg fa-angle-right">&nbsp;</em>Lo studente ha aderito precedentemente all'annuncio</div>
+            <#break>
+            <#default>
+            <div class="alert bg-danger" role="alert"><em class="fa fa-lg fa-angle-right">&nbsp;</em>Errore</div>
+            </#switch>
         </div>
     </div>
     </#if>
+    
+    <#if alertRifiuta??>
+    <div class="row mt-1" id='hideMe'>
+        <div class="col-lg-12">
+            <#switch alertRifiuta>
+            <#case "1">
+            <div class="alert bg-success" role="alert"><em class="fa fa-lg fa-angle-right">&nbsp;</em>Richiesta approvata</div>
+            <#break>
+            <#default>
+            <div class="alert bg-danger" role="alert"><em class="fa fa-lg fa-angle-right">&nbsp;</em>Errore</div>
+            </#switch>
+        </div>
+    </div>
+    </#if>
+    
     <div class="row mt-1">
         <div class="col-md-12">
             <div class="panel panel-default">

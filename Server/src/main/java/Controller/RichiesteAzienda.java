@@ -90,11 +90,11 @@ public class RichiesteAzienda extends AziendaSecurity {
                         richiestaDAO.deleteRichiesta(richiestaStudente);
                     
                         //Notifica
-                        data.put("alert", "Richiesta approvata");
+                        data.put("alertAccetta", "1");
                         break;
                     case 1062:
                         //Notifica
-                        data.put("alert", "Lo studente ha aderito precedentemente all'annuncio");
+                        data.put("alertAccetta", "1062");
                         break;
                 }
  
@@ -105,11 +105,11 @@ public class RichiesteAzienda extends AziendaSecurity {
             case "rifiuta":
 
                 if(richiestaDAO.deleteRichiesta(richiestaStudente)==1){
-                //Notifica aggiornamento tirocinio
-                data.put("alert", "Richiesta rifiutata");
+                //Notifica
+                data.put("alertRifiuta", "Richiesta rifiutata");
                 }else{
                 //Notifica aggiornamento tirocinio
-                data.put("alert", "Erorre rimozione richiesta");
+                data.put("alertRifiuta", "Erorre rimozione richiesta");
                 }
                 
                 action_listaRichieste(data, request, response);
