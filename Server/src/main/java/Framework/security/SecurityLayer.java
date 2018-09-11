@@ -129,6 +129,19 @@ public class SecurityLayer {
     }
 
 
+    public static LocalDate issetDate(String parameter, String date) throws SecurityLayerException {
+        //convertiamo la stringa in data, ma assicuriamoci prima che sia valida
+        if (date != null) {
+            try{
+                return LocalDate.parse(date);
+            }
+            catch(IllegalArgumentException ex){
+                throw new SecurityLayerException("Formato dati errato");
+        }
+        } else {
+            throw new SecurityLayerException("Parametro obbligatorio: "+parameter);
+        }
+    }
     
     public static int issetInt(String s) throws SecurityLayerException {
 

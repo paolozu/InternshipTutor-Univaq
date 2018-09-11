@@ -29,82 +29,75 @@ import javax.naming.NamingException;
  */
 public class AnnuncioDAOImpl implements AnnuncioDAO {
 
-    private static final String GET_ANNUNCIO_BY_ID = "SELECT * FROM annuncio JOIN azienda "
-            + "                                     ON annuncio.Azienda_idAzienda=azienda.idAzienda  "
-            + "                                     WHERE annuncio.idAnnuncio = ?";
+    private static final String GET_ANNUNCIO_BY_ID = "SELECT * FROM annuncio JOIN azienda ON annuncio.Azienda_idAzienda=azienda.idAzienda  WHERE annuncio.idAnnuncio = ?";
 
-    private static final String GET_ANNUNCI_AZIENDA_BY_STATO = "SELECT * FROM annuncio JOIN azienda "
-            + "                                     ON annuncio.Azienda_idAzienda=azienda.idAzienda WHERE annuncio.Azienda_idAzienda=? AND annuncio.stato=? LIMIT ?,4";
+    private static final String GET_ANNUNCI_AZIENDA_BY_STATO = "SELECT * FROM annuncio JOIN azienda ON annuncio.Azienda_idAzienda=azienda.idAzienda WHERE annuncio.Azienda_idAzienda=? AND annuncio.stato=? LIMIT ?,4";
 
-    private static final String SET_ANNUNCIO = "INSERT INTO annuncio (titolo, corpo, dataAvvio, dataTermine, modalita, sussidio, settore, Azienda_idAzienda,nomeDocente,cognomeDocente,emailDocente,nomeReferente,cognomeReferente,emailReferente,telefonoReferente,stato)\n"
-            + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'ATTIVO')";
+    private static final String GET_ANNUNCI_STATO = "SELECT * FROM annuncio JOIN azienda ON annuncio.Azienda_idAzienda=azienda.idAzienda WHERE annuncio.stato=? LIMIT ?,4";
 
-    private static final String GET_ANNUNCI_STATO = "SELECT * FROM annuncio JOIN azienda "
-            + "                                     ON annuncio.Azienda_idAzienda=azienda.idAzienda WHERE annuncio.stato=? LIMIT ?,4";
+    private static final String SAVE_ANNUNCIO = "INSERT INTO annuncio (titolo, corpo, dataAvvio, dataTermine, modalita, sussidio, settore, Azienda_idAzienda,nomeDocente,cognomeDocente,emailDocente,nomeReferente,cognomeReferente,emailReferente,telefonoReferente,stato) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'ATTIVO')";
 
+    @Override
     public Annuncio getAnnuncioById(long id) throws DataLayerException {
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rset = null;
+
         Annuncio annuncio = null;
 
-        try {
-            connection = DB.getConnection();
-            ps = connection.prepareStatement(GET_ANNUNCIO_BY_ID);
-            ps.setLong(1, id);
-            rset = ps.executeQuery();
+        try (Connection connection = DB.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(GET_ANNUNCIO_BY_ID)) {
+                ps.setLong(1, id);
+                try (ResultSet rset = ps.executeQuery()) {
 
-            if (rset.next()) {
-                Referente referenteAnnuncio = new Referente(rset.getString("nomeReferente"), rset.getString("cognomeReferente"), rset.getString("telefonoReferente"));
-                Docente docenteAnnuncio = new Docente(rset.getString("nomeDocente"), rset.getString("cognomeDocente"), rset.getString("emailDocente"));
-                Azienda aziendaAnnuncio = new Azienda(rset.getInt("idAzienda"));
-                annuncio = new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio").toLocalDate(), rset.getDate("dataTermine").toLocalDate(), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), aziendaAnnuncio, docenteAnnuncio, referenteAnnuncio);
+                    if (rset.next()) {
+                        Referente referenteAnnuncio = new Referente(rset.getString("nomeReferente"), rset.getString("cognomeReferente"), rset.getString("telefonoReferente"));
+                        Docente docenteAnnuncio = new Docente(rset.getString("nomeDocente"), rset.getString("cognomeDocente"), rset.getString("emailDocente"));
+                        Azienda aziendaAnnuncio = new Azienda(rset.getInt("idAzienda"));
+                        annuncio = new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio").toLocalDate(), rset.getDate("dataTermine").toLocalDate(), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), aziendaAnnuncio, docenteAnnuncio, referenteAnnuncio);
+                    }
+                }
             }
         } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
-        } finally {
-            try {
-                rset.close();
-                ps.close();
-                connection.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            throw new DataLayerException("GET ANNUNCIO", ex);
         }
-        return annuncio;
 
+        return annuncio;
     }
 
     @Override
     public List<Annuncio> getAnnunci(long idAzienda, int valuePage, String stato) throws DataLayerException {
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rset = null;
+
         List<Annuncio> annunci = new ArrayList();
-        try {
-            connection = DB.getConnection();
-            ps = connection.prepareStatement(GET_ANNUNCI_STATO);
-            ps.setLong(1, idAzienda);
-            ps.setString(2, stato);
-            ps.setInt(3, valuePage);
-            rset = ps.executeQuery();
-            while (rset.next()) {
-                annunci.add(new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio").toLocalDate(), rset.getDate("dataTermine").toLocalDate(), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), new Azienda(rset.getInt("idAzienda"))));
+
+        try (Connection connection = DB.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(GET_ANNUNCI_AZIENDA_BY_STATO)) {
+                ps.setLong(1, idAzienda);
+                ps.setString(2, stato);
+                ps.setInt(3, valuePage);
+                try (ResultSet rset = ps.executeQuery()) {
+                    while (rset.next()) {
+                        annunci.add(
+                                new Annuncio(rset.getInt("idAnnuncio"),
+                                rset.getString("titolo"), rset.getString("corpo"),
+                                rset.getDate("dataAvvio").toLocalDate(),
+                                rset.getDate("dataTermine").toLocalDate(),
+                                rset.getString("modalita"),
+                                rset.getString("settore"),
+                                rset.getString("sussidio"),
+                                new Azienda(rset.getInt("idAzienda")))
+                        );
+                    }
+                }
             }
         } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE CREDENZIALI UTENTE", ex);
-        } finally {
-            try {
-                rset.close();
-                ps.close();
-                connection.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(StudenteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            throw new DataLayerException("GET ANNUNCI FROM AZIENDA", ex);
         }
+
         return annunci;
     }
 
+    /****
+     * 
+     *
+     * @param valuePage */
     @Override
     public List<Annuncio> getAnnunci(int valuePage, String stato) throws DataLayerException {
 
@@ -117,12 +110,21 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
 
                 try (ResultSet rset = ps.executeQuery()) {
                     while (rset.next()) {
-                        annunci.add(new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio").toLocalDate(), rset.getDate("dataTermine").toLocalDate(), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), new Azienda(rset.getInt("idAzienda"))));
+                        annunci.add(new Annuncio(rset.getInt("idAnnuncio"),
+                                rset.getString("titolo"),
+                                rset.getString("corpo"),
+                                rset.getDate("dataAvvio").toLocalDate(),
+                                rset.getDate("dataTermine").toLocalDate(),
+                                rset.getString("modalita"),
+                                rset.getString("settore"),
+                                rset.getString("sussidio"),
+                                new Azienda(rset.getInt("idAzienda")))
+                        );
                     }
                 }
             }
         } catch (SQLException ex) {
-            throw new DataLayerException("Get annunci", ex);
+            throw new DataLayerException("GET ANNUNCI BY PAGE", ex);
         }
 
         return annunci;
@@ -132,7 +134,7 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
     public int saveAnnuncio(Annuncio annuncio) throws DataLayerException {
         int result = -1;
         try (Connection connection = DB.getConnection()) {
-            try (PreparedStatement ps = connection.prepareStatement(SET_ANNUNCIO)) {
+            try (PreparedStatement ps = connection.prepareStatement(SAVE_ANNUNCIO)) {
 
                 ps.setString(1, annuncio.getTitolo());
                 ps.setString(2, annuncio.getCorpo());
@@ -153,7 +155,7 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
                 result = ps.executeUpdate();
             }
         } catch (SQLException ex) {
-            throw new DataLayerException("Save annuncio", ex);
+            throw new DataLayerException("SAVE ANNUNCIO", ex);
         }
         return result;
     }

@@ -55,11 +55,11 @@ public class HomeTirocini extends InternshipBaseController {
 
         data.put("annunci", annunci);
 
-        if (data.get("utente_tipo")!=null) {
+        if (data.get("utente_tipo") != null) {
             if (data.get("utente_tipo").equals("ST")) {
 
                 res.activate("homeTirociniStudente.ftl.html", data, response);
-            }else{
+            } else {
                 res.activate("homeTirocini.ftl.html", data, response);
             }
         } else {
@@ -81,8 +81,10 @@ public class HomeTirocini extends InternshipBaseController {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Map data = new HashMap();
+        data.put("activeTirocini", "active");
+        
+        //Check sessione
         HttpSession s = SecurityLayer.checkSession(request);
-
         if (s != null) {
             data.put("utente_username", s.getAttribute("username"));
             data.put("utente_tipo", s.getAttribute("tipo"));
@@ -90,31 +92,35 @@ public class HomeTirocini extends InternshipBaseController {
 
         try {
             if (request.getParameter("refA") != null) {
+                //Invio richiesta tirocinio
                 long idAnnuncio = SecurityLayer.issetInt(request.getParameter("refA"));
                 Annuncio annuncio = new Annuncio(idAnnuncio);
                 Studente studente = new Studente((long) s.getAttribute("userid"));
-                
+
                 Richiesta richiesta = new Richiesta(annuncio, studente);
                 RichiestaDAO richiestaDAO = new RichiestaDAOImpl();
-                
+
+                //Query
                 int result = richiestaDAO.saveRichiesta(richiesta);
-                
-                switch(result){
+
+                //Notifica
+                switch (result) {
                     case -1:
-                        data.put("alert","-1");
+                        data.put("alert", "-1");
                         break;
-                     
+
                     case 1:
-                        data.put("alert","1");
+                        data.put("alert", "1");
                         break;
-                    
+
                     case 1062:
-                        data.put("alert","1062");
+                        data.put("alert", "1062");
                         break;
                 }
-                
             }
-                action_default(data, request, response);
+            
+            action_default(data, request, response);
+            
         } catch (SecurityLayerException | TemplateManagerException | DataLayerException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);
