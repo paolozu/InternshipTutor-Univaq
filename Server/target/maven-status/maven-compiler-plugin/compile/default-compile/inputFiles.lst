@@ -2,10 +2,12 @@ C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\mai
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Controller\NuovoAnnuncio.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Framework\result\TemplateManagerException.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Model\DAO\Interface\UtenteDAO.java
+C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Model\DAO\Interface\RichiestaDAO.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Framework\result\DataModelFiller.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Controller\AziendaSecurity.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Framework\result\TemplateResult.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Model\DAO\Interface\AziendaDAO.java
+C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Model\DAO\Impl\RichiestaDAOImpl.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Controller\AmministratoreSecurity.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Framework\data\DB.java
 C:\xampp\htdocs\Dev\InternshipTutor-Univaq\InternshipTutor-Univaq\Server\src\main\java\Model\Bean\Azienda.java

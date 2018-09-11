@@ -65,10 +65,21 @@ public class NuovoAnnuncio extends AziendaSecurity {
         annuncio.setCorpo(request.getParameter("corpo"));
         annuncio.setReferente(referente);
         annuncio.setDocente(docente);
-        System.out.println(annuncio);
-        new AnnuncioDAOImpl().saveAnnuncio(annuncio);
-         
-        response.sendRedirect("homepage");
+        
+        try {
+             new AnnuncioDAOImpl().saveAnnuncio(annuncio);
+        } catch (DataLayerException e) {
+        }
+        
+         Map data = new HashMap();
+        data.put("outline_tpl", "");
+        data.put("annuncio_done", "Annuncio pubblicato con successo!");
+        TemplateResult res = new TemplateResult(getServletContext());
+        try {
+            res.activate("SingUpDone.ftl.html", data, response);
+        } catch (TemplateManagerException ex) {
+            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+        }
               
     }
 

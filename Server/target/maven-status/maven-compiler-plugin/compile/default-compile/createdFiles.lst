@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 Model/DAO/Impl/RichiestaDAOImpl.class
 Model/DAO/Interface/RichiestaDAO.class
 Controller/HomeTirocini.class
+=======
+Model\DAO\Impl\RichiestaDAOImpl.class
+Controller\HomeTirocini.class
+Model\DAO\Interface\RichiestaDAO.class
+>>>>>>> c3dfeac48d1a0cbf7e0d24513bd5e99e27c525b9
