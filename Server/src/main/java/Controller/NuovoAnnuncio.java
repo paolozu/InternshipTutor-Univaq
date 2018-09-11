@@ -38,6 +38,18 @@ public class NuovoAnnuncio extends AziendaSecurity {
         }
     }
     
+    private boolean verificaCampi(HttpServletRequest request, HttpServletResponse response, Annuncio annuncio) throws IOException, DataLayerException {
+         boolean campi_errati = false;
+        
+            if( annuncio.getDataAvvio().isAfter(annuncio.getDataTermine()) ){
+                request.setAttribute("message", "Data inizio maggiore della data termine.");
+                action_error(request, response);
+                campi_errati = true;
+            } 
+            
+            return campi_errati;  
+    }
+    
     private void action_registra(HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException {
        
         Annuncio annuncio = new Annuncio();
@@ -63,19 +75,23 @@ public class NuovoAnnuncio extends AziendaSecurity {
         annuncio.setReferente(referente);
         annuncio.setDocente(docente);
         
-        try {
-             new AnnuncioDAOImpl().saveAnnuncio(annuncio);
-        } catch (DataLayerException e) {
-        }
+        boolean campi_non_validi =  verificaCampi(request, response, annuncio);
         
-         Map data = new HashMap();
-        data.put("outline_tpl", "");
-        data.put("annuncio_done", "Annuncio pubblicato con successo!");
-        TemplateResult res = new TemplateResult(getServletContext());
+        if (!campi_non_validi) {
+            try {
+                new AnnuncioDAOImpl().saveAnnuncio(annuncio);
+                
+                Map data = new HashMap();
+                data.put("outline_tpl", "");
+                data.put("annuncio_done", "Annuncio pubblicato con successo!");
+                TemplateResult res = new TemplateResult(getServletContext());
         try {
             res.activate("SingUpDone.ftl.html", data, response);
         } catch (TemplateManagerException ex) {
             (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+        }
+            } catch (DataLayerException e) {
+            }
         }
               
     }
