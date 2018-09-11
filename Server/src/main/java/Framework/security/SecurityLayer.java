@@ -128,21 +128,19 @@ public class SecurityLayer {
         }
     }
 
-
     public static LocalDate issetDate(String parameter, String date) throws SecurityLayerException {
         //convertiamo la stringa in data, ma assicuriamoci prima che sia valida
         if (date != null) {
-            try{
+            try {
                 return LocalDate.parse(date);
-            }
-            catch(IllegalArgumentException ex){
+            } catch (IllegalArgumentException ex) {
                 throw new SecurityLayerException("Formato dati errato");
-        }
+            }
         } else {
-            throw new SecurityLayerException("Parametro obbligatorio: "+parameter);
+            throw new SecurityLayerException("Parametro obbligatorio: " + parameter);
         }
     }
-    
+
     public static int issetInt(String s) throws SecurityLayerException {
 
         //convertiamo la stringa in numero, ma assicuriamoci prima che sia valida
@@ -157,7 +155,7 @@ public class SecurityLayer {
             throw new SecurityLayerException("Richiesta non valida");
         }
     }
-    
+
     public static String issetString(String s) throws SecurityLayerException {
         //convertiamo la stringa in numero, ma assicuriamoci prima che sia valida
         //convert the string to a number, ensuring its validity
@@ -169,20 +167,20 @@ public class SecurityLayer {
             throw new SecurityLayerException("Richiesta non valida");
         }
     }
-    
+
     public static String issetString(String parameter, String s) throws SecurityLayerException {
         //convertiamo la stringa in numero, ma assicuriamoci prima che sia valida
         //convert the string to a number, ensuring its validity
         if (s != null) {
-            if(!s.isEmpty()){
-            //se la conversione fallisce, viene generata un'eccezione
-            //if the conversion fails, an exception is raised
-            return s;
-            }else{
-                throw new SecurityLayerException("Parametro vuoto: "+parameter);
+            if (!s.isEmpty()) {
+                //se la conversione fallisce, viene generata un'eccezione
+                //if the conversion fails, an exception is raised
+                return s;
+            } else {
+                throw new SecurityLayerException("Parametro vuoto: " + parameter);
             }
         } else {
-            throw new SecurityLayerException("Parametro obbligatorio: "+parameter);
+            throw new SecurityLayerException("Parametro obbligatorio: " + parameter);
         }
     }
 

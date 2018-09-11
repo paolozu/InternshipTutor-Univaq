@@ -99,7 +99,6 @@ public class HomePage extends HttpServlet {
     private void action_admin(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         HttpSession s = request.getSession();
-        System.out.println("qui"+s.getAttribute("message"));
         int homepage = 0;
 
         try {

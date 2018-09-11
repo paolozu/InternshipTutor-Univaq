@@ -102,74 +102,63 @@ public class AziendaDAOImpl implements AziendaDAO {
 
     @Override
     public List<Richiesta> getRichieste(long idAzienda) throws DataLayerException {
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rset = null;
-        List<Richiesta> richieste = new ArrayList();
-        try {
-            connection = DB.getConnection();
-            ps = connection.prepareStatement(GET_RICHIESTE);
-            ps.setLong(1, idAzienda);
-            rset = ps.executeQuery();
-            while (rset.next()) {
 
-                Studente s = new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email"), rset.getString("codFiscale"), rset.getString("telefono"));
-                Annuncio a = new Annuncio(rset.getLong("idAnnuncio"));
-                richieste.add(new Richiesta(a, s));
+        List<Richiesta> richieste = new ArrayList();
+
+        try (Connection connection = DB.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(GET_RICHIESTE)) {
+                ps.setLong(1, idAzienda);
+                try (ResultSet rset = ps.executeQuery()) {
+
+                    while (rset.next()) {
+                        Studente s = new Studente(rset.getLong("idStudente"),
+                                rset.getString("nome"), rset.getString("cognome"),
+                                rset.getString("email"),
+                                rset.getString("codFiscale"),
+                                rset.getString("telefono")
+                        );
+                        Annuncio a = new Annuncio(rset.getLong("idAnnuncio"));
+                        
+                        richieste.add(new Richiesta(a, s));
+                    }
+                }
             }
         } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE GET RICHIESTE", ex);
-        } finally {
-            try {
-                rset.close();
-                ps.close();
-                connection.close();
-            } catch (SQLException ex) {
-                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
-            }
+            throw new DataLayerException("GET RICHIESTE", ex);
         }
         return richieste;
     }
 
     @Override
     public Richiesta getRichiestaStudente(Richiesta richiesta) throws DataLayerException {
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rset = null;
 
-        try {
-            connection = DB.getConnection();
-            ps = connection.prepareStatement(GET_RICHIESTA_STUDENTE);
-            ps.setLong(1, richiesta.getStudente().getId());
-            ps.setLong(2, richiesta.getAnnuncio().getId());
-            rset = ps.executeQuery();
+        try (Connection connection = DB.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(GET_RICHIESTE)) {
+                
+                ps.setLong(1, richiesta.getStudente().getId());
+                ps.setLong(2, richiesta.getAnnuncio().getId());
+                
+                try (ResultSet rset = ps.executeQuery()) {
 
-            if (rset.next()) {
-                
-                
-                Studente s = new Studente(
-                        rset.getLong("idStudente"),
-                        rset.getString("nome"), rset.getString("cognome"),
-                        rset.getString("codFiscale"), rset.getString("telefono"),
-                        rset.getString("indirizzoResidenza"), rset.getString("corsoLaurea"),
-                        rset.getString("cap_Residenza"), rset.getString("citta_Residenza"),
-                        rset.getString("provincia_Residenza"), rset.getBoolean("handicap"),
-                        rset.getDate("dataNascita").toLocalDate()
-                );
-                
-                Annuncio a = new Annuncio(rset.getLong("Richiesta.Annuncio_idAnnuncio"));
-                richiesta = new Richiesta(a, s);
+                    if (rset.next()) {
+
+                        Studente s = new Studente(
+                                rset.getLong("idStudente"),
+                                rset.getString("nome"), rset.getString("cognome"),
+                                rset.getString("codFiscale"), rset.getString("telefono"),
+                                rset.getString("indirizzoResidenza"), rset.getString("corsoLaurea"),
+                                rset.getString("cap_Residenza"), rset.getString("citta_Residenza"),
+                                rset.getString("provincia_Residenza"), rset.getBoolean("handicap"),
+                                rset.getDate("dataNascita").toLocalDate()
+                        );
+
+                        Annuncio a = new Annuncio(rset.getLong("Richiesta.Annuncio_idAnnuncio"));
+                        richiesta = new Richiesta(a, s);
+                    }
+                }
             }
         } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE GET CONVEZIONE", ex);
-        } finally {
-            try {
-                rset.close();
-                ps.close();
-                connection.close();
-            } catch (SQLException ex) {
-                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
-            }
+            throw new DataLayerException("GET RICHIESTA STUDENTE", ex);
         }
         return richiesta;
     }

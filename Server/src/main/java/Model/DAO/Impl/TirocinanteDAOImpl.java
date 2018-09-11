@@ -33,16 +33,7 @@ import javax.naming.NamingException;
  */
 public class TirocinanteDAOImpl implements TirocinanteDAO {
 
-    private static final String GET_INFO_TIROCINIO="SELECT Tirocinio.dataInizio, Tirocinio.dataFine, Tirocinio.Resoconto_idResoconto,Resoconto.nome,Resoconto.valutazione,Azienda.ragSociale, "
-            + "                                 Azienda.indirizzoSede, Azienda.citta, Azienda.nomeResponsabile, Azienda.cognomeResponsabile, "
-            + "                                 Azienda.emailResponsabile, Azienda.telResponsabile, Annuncio.nomeDocente, Annuncio.cognomeDocente,"
-            + "                                 Annuncio.emailDocente "
-            + "                                     FROM Tirocinio "
-            + "                                     JOIN Annuncio ON Tirocinio.Annuncio_idAnnuncio = Annuncio.idAnnuncio "
-            + "                                     LEFT JOIN Resoconto ON Tirocinio.Resoconto_idResoconto = Resoconto.idResoconto "
-            + "                                     JOIN Azienda ON Annuncio.Azienda_idAzienda = Azienda.idAzienda"
-            + "                                     WHERE Tirocinio.Studente_idStudente=?";
-            
+    private static final String GET_INFO_TIROCINIO="SELECT Tirocinio.dataInizio, Tirocinio.dataFine, Tirocinio.Resoconto_idResoconto,Resoconto.nome,Resoconto.valutazione,Azienda.ragSociale, Azienda.indirizzoSede, Azienda.citta, Azienda.nomeResponsabile, Azienda.cognomeResponsabile, Azienda.emailResponsabile, Azienda.telResponsabile, Annuncio.nomeDocente, Annuncio.cognomeDocente, Annuncio.emailDocente FROM Tirocinio JOIN Annuncio ON Tirocinio.Annuncio_idAnnuncio = Annuncio.idAnnuncio LEFT JOIN Resoconto ON Tirocinio.Resoconto_idResoconto = Resoconto.idResoconto JOIN Azienda ON Annuncio.Azienda_idAzienda = Azienda.idAzienda WHERE Tirocinio.Studente_idStudente=?";
     
     private static final String SET_VALUTAZIONE="UPDATE Resoconto SET valutazione=? WHERE idResoconto=?";
     
@@ -145,8 +136,6 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
 
     @Override
     public int uploadResoconto(Resoconto resoconto) throws DataLayerException {
-        System.out.println("res:"+resoconto.getId());
-        System.out.println("query:"+resoconto.getFile());
         PreparedStatement ps;
         int result = 0;
         long idConvenzione;
@@ -160,7 +149,6 @@ public class TirocinanteDAOImpl implements TirocinanteDAO {
             ps.setLong(4, resoconto.getPeso());
             ps.setLong(5, resoconto.getId());
             
-            System.out.println("query:"+ps.toString());
             result = ps.executeUpdate();
              
 

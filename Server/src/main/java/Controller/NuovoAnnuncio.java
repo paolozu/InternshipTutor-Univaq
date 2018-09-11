@@ -39,7 +39,6 @@ public class NuovoAnnuncio extends AziendaSecurity {
     }
     
     private void action_registra(HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException {
-        System.out.println("Dentro");
        
         Annuncio annuncio = new Annuncio();
         Azienda azienda = new Azienda((long) s.getAttribute("userid"));
@@ -48,13 +47,11 @@ public class NuovoAnnuncio extends AziendaSecurity {
                 request.getParameter("cognRef"), 
                 request.getParameter("mailRef"),
                 request.getParameter("telRef"));
-        System.out.println(referente);
         Docente docente = new Docente(
                 request.getParameter("nomeDoc"),
                 request.getParameter("cognDoc"),
                 request.getParameter("mailDoc"));
    
-        System.out.println(referente);
         annuncio.setAzienda(azienda);
         annuncio.setTitolo(request.getParameter("titolo"));
         annuncio.setSettore(request.getParameter("settore"));

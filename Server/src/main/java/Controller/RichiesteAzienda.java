@@ -47,15 +47,13 @@ public class RichiesteAzienda extends AziendaSecurity {
         }
     }
 
-    private void action_gestioneRichieste(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, SecurityLayerException {
+    private void action_gestioneRichieste(Map data,long idStudente, long idAnnuncio, HttpServletRequest request, HttpServletResponse response) throws IOException, SecurityLayerException {
         switch (request.getParameter("action")) {
 
             case "visualizza":
                 try {
 
                     AziendaDAO queryA = new AziendaDAOImpl();
-                    long idStudente = SecurityLayer.checkNumeric(request.getParameter("idStudente"));
-                    long idAnnuncio = SecurityLayer.checkNumeric(request.getParameter("idAnnuncio"));
 
                     Richiesta richiestaStudente = new Richiesta(new Annuncio(idAnnuncio), new Studente(idStudente));
 
@@ -77,8 +75,7 @@ public class RichiesteAzienda extends AziendaSecurity {
 
                 LocalDate dataInizio = SecurityLayer.issetDate("DATA INIZIO",request.getParameter("dataInizio"));
                 LocalDate dataFine = SecurityLayer.issetDate("DATA FINE",request.getParameter("dataFine"));
-                long idStudente = SecurityLayer.issetInt(request.getParameter("idStudente"));
-                long idAnnuncio = SecurityLayer.checkNumeric(request.getParameter("idAnnuncio"));
+                
 
                 Tirocinio nuovoTirocinio = new Tirocinio(new Studente(idStudente), new Annuncio(idAnnuncio), dataInizio, dataFine);
 
@@ -108,10 +105,7 @@ public class RichiesteAzienda extends AziendaSecurity {
             case "rifiuta":
                 AziendaDAO queryB = new AziendaDAOImpl();
 
-                long idStudenteR = SecurityLayer.checkNumeric(request.getParameter("idStudente"));
-                long idAnnuncioR = SecurityLayer.checkNumeric(request.getParameter("idAnnuncio"));
-
-                Richiesta richiestaStudenteR = new Richiesta(new Annuncio(idAnnuncioR), new Studente(idStudenteR));
+                Richiesta richiestaStudenteR = new Richiesta(new Annuncio(idAnnuncio), new Studente(idAnnuncio));
 
                 try {
                     queryB.removeRichiesta(richiestaStudenteR);
@@ -161,11 +155,13 @@ public class RichiesteAzienda extends AziendaSecurity {
         data.put("utente_tipo", s.getAttribute("tipo"));
 
         if (request.getParameter("action") != null) {
+try {
+            long idStudente = SecurityLayer.issetInt(request.getParameter("idStudente"));
+            long idAnnuncio = SecurityLayer.issetInt(request.getParameter("idAnnuncio"));
+                
 
-            SecurityLayer.checkNumeric(request.getParameter("idStudente"));
-
-            try {
-                action_gestioneRichieste(data, request, response);
+            
+                action_gestioneRichieste(data,idStudente,idAnnuncio, request, response);
             } catch (SecurityLayerException ex) {
                 request.setAttribute("exception", ex);
                 action_error(request, response);
