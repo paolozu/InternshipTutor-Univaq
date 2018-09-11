@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Internship Tutor</title>
+        <link href="Template/css/bootstrap.min.css" rel="stylesheet">
+        <link href="Template/css/styles.css" rel="stylesheet">
+        <!--Theme-->
+        <link href="Template/css/theme-default.css" rel="stylesheet">
+        <!--Custom Font-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+        <!--[if lt IE 9]>
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
+            <div class="login-panel panel panel-primary">
+                <div class="panel-heading">Convenzione</div>
+                <div class="panel-body">
+                    <form role="form">
+                        <fieldset>
+                            <label>Azienda</label>
+                            <div class="row">
+                                <div class="col-lg-6 mt-1">
+                                    <input class="form-control" placeholder="${azienda.ragioneSociale}" type="text" disabled>
+                                </div>
+                                <div class="col-lg-6 mt-1">
+                                    <input class="form-control" placeholder="${azienda.partitaIva}" type="text" disabled>
+                                </div>
+                            </div><!--./row -->
+                            <div class="row">
+                                <div class="col-lg-6 mt-1">
+                                    <input class="form-control" placeholder="${azienda.provincia}" type="text" disabled>
+                                </div>
+                                <div class="col-lg-6 mt-1">
+                                    <input class="form-control" placeholder="${azienda.citta}" type="text" disabled>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 mt-1">
+                                    <input class="form-control" placeholder="${azienda.cap}" type="text" disabled>
+                                </div>
+                                <div class="col-lg-6 mt-1">
+                                    <input class="form-control" placeholder="${azienda.indirizzoSede}" type="text" disabled>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 mt-1">
+                                    <input class="form-control" placeholder="${azienda.foroCompetente}" type="text" disabled>
+                                </div>
+                            </div><!-- Fine Azienda -->
+                            <hr>
+                            <label>Rappresentante</label>
+                            <div class="row">
+                                <div class="col-lg-6 mt-1">
+                                    <input class="form-control" placeholder="${azienda.nomeRappresentante}"  type="text" disabled>
+                                </div>
+                                <div class="col-lg-6 mt-1">
+                                    <input class="form-control" placeholder="${azienda.cognomeRappresentante}"  type="text" disabled>
+                                </div>
+                            </div><!--./row -->
+                            <hr> <!-- Fine Rappresentante-->
+                            <label>Responsabile</label>
+                            <div class="row">
+                                <div class="col-lg-6  mt-1">
+                                    <input class="form-control" placeholder="${azienda.nomeResponsabile}"  type="text" disabled>
+                                </div>
+                                <div class="col-lg-6  mt-1">
+                                    <input class="form-control" placeholder="${azienda.cognomeResponsabile}" type="text" disabled>
+                                </div>
+                            </div><!--./row -->
+                            <div class="row">
+                                <div class="col-lg-6  mt-1">
+                                    <input class="form-control" placeholder="${azienda.emailResponsabile}" type="email" disabled>
+                                </div>
+                                <div class="col-lg-6  mt-1">
+                                    <input class="form-control" placeholder="${azienda.telResponsabile}" type="text" disabled>
+                                </div>
+                            </div><!--./row -->
+                            <hr> <!-- Fine Responsabile-->
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div><!-- /.col-->
+        <script src="Template/js/jquery-1.11.1.min.js"></script>
+        <script src="Template/js/bootstrap.min.js"></script>
+    </body>
+</html>

@@ -10,6 +10,7 @@ import Framework.result.FailureResult;
 import Framework.result.TemplateManagerException;
 import Framework.result.TemplateResult;
 import Framework.security.SecurityLayer;
+import Framework.security.SecurityLayerException;
 import Model.Bean.Azienda;
 import Model.DAO.Impl.AmministratoreDAOImpl;
 import Model.DAO.Impl.AziendaDAOImpl;
@@ -61,64 +62,62 @@ public class infoAzienda extends AmministratoreSecurity {
         }
     }
 
-    private void action_registrata(HttpServletRequest request, HttpServletResponse response, long idAzienda) throws IOException, TemplateManagerException {
+    private void action_registrata(HttpServletRequest request, HttpServletResponse response, long idAzienda) throws IOException, TemplateManagerException, DataLayerException {
         Map data = new HashMap();
         Azienda azienda = new Azienda(idAzienda);
 
         if (request.getParameter("approva") != null) {
-            try {
-                //Action azienda approvata
-                aziendaDAO.updateStato(new Azienda(idAzienda), "APPROVATA");
-            } catch (DataLayerException ex) {
-                request.setAttribute("exception", ex);
-                action_error(request, response);
-            }
+            //Action azienda approvata
+            aziendaDAO.updateStato(new Azienda(idAzienda), "APPROVATA");
+
             s.setAttribute("message", "Azienda approvata correttamente");
             response.sendRedirect("homepage");
-            
+
         } else if (request.getParameter("rifiuta") != null) {
             //Action azienda rifiutata
-            try {
-                aziendaDAO.removeAzienda(azienda);
-            } catch (DataLayerException ex) {
-                request.setAttribute("exception", ex);
-                action_error(request, response);
-            }
+            aziendaDAO.removeAzienda(azienda);
+
             s.setAttribute("message", "Azienda rimossa correttamente");
             response.sendRedirect("homepage");
-        }else{
+        } else {
             //Action default
-            try {
-                azienda = aziendaDAO.getAzienda(azienda);
+            azienda = aziendaDAO.getAzienda(azienda);
 
-                //TEMPLATE
-                data.put("azienda", azienda);
-                data.put("outline_tpl", "");//rimozione outline
-                TemplateResult res = new TemplateResult(getServletContext());
-                res.activate("approvazioneAzienda.ftl.html", data, response);
+            //TEMPLATE
+            data.put("azienda", azienda);
+            data.put("outline_tpl", "");//rimozione outline
+            TemplateResult res = new TemplateResult(getServletContext());
+            res.activate("approvazioneAzienda.ftl.html", data, response);
 
-            } catch (DataLayerException ex) {
-                request.setAttribute("exception", ex);
-                action_error(request, response);
-            }
         }
     }
 
-    private void action_convenzioanta(HttpServletRequest request, HttpServletResponse response, long idAzienda) throws IOException, TemplateManagerException, ServletException {
+    private void action_convenzioanta(HttpServletRequest request, HttpServletResponse response, long idAzienda) throws IOException, TemplateManagerException, ServletException, DataLayerException {
+        Map data = new HashMap();
+        Azienda azienda = new Azienda(idAzienda);
+
+        //Action default
+        azienda = aziendaDAO.getAzienda(azienda);
+
+        //TEMPLATE
+        data.put("azienda", azienda);
+        data.put("outline_tpl", "");//rimozione outline
+        
+        TemplateResult res = new TemplateResult(getServletContext());
+        res.activate("convenzioneAzienda.ftl.html", data, response);
 
     }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException {
+            throws ServletException, IOException {
 
-        long idAzienda;
+        String action = request.getParameter("action");
 
         try {
-            if (request.getParameter("refA") != null && request.getParameter("action") != null) {
+            if (action != null) {
 
-                idAzienda = SecurityLayer.checkNumeric(request.getParameter("refA"));
-                String action = request.getParameter("action");
+                long idAzienda = SecurityLayer.issetInt(request.getParameter("refA"));
 
                 switch (action) {
                     case "registrata":
@@ -132,16 +131,10 @@ public class infoAzienda extends AmministratoreSecurity {
                         action_error(request, response);
                 }
             } else {
-                request.setAttribute("message", "Invalid reference");
+                request.setAttribute("message", "Richiesta non valida");
                 action_error(request, response);
             }
-        } catch (NumberFormatException ex) {
-            request.setAttribute("message", "Invalid number submitted");
-            action_error(request, response);
-        } catch (IOException ex) {
-            request.setAttribute("exception", ex);
-            action_error(request, response);
-        } catch (TemplateManagerException ex) {
+        } catch (DataLayerException | TemplateManagerException | SecurityLayerException | NumberFormatException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);
         }

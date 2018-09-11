@@ -63,7 +63,7 @@
         </div>
     </div><!--/AZIENDE REGISTRATE -->
     
-    <div class="row mt-1"><!--AZIENDE REGISTRATE -->
+    <div class="row mt-1"><!--AZIENDE APPROVATE -->
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Aziende approvate</div>
@@ -109,9 +109,9 @@
                 </div>
             </div><!-- /.panel-->
         </div>
-    </div><!--/AZIENDE REGISTRATE -->
+    </div><!--/AZIENDE APPROVATE -->
     
-    <div class="row mt-1"><!--AZIENDE REGISTRATE -->
+    <div class="row mt-1"><!--AZIENDE CONVENZIONATE -->
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Aziende convenzionate</div>
@@ -131,7 +131,7 @@
                                 <tr>
                                     <td>${azienda?index+1}</td>
                                     <td>${azienda.getRagioneSociale()}</td>
-                                    <td><button type="button" class="btn btn-sm btn-default" value="${azienda.getId()}">Apri</button></td>
+                                    <td><a type="button" class="btn btn-sm btn-default" href="infoAzienda?action=convenzionata&refA=${azienda.id}">Apri</a></td>
                                 </tr>
                                 </#items>
                             </tbody>
@@ -151,5 +151,5 @@
                 </div>
             </div><!-- /.panel-->
         </div>
-    </div><!--/AZIENDE REGISTRATE -->
+    </div><!--/AZIENDE CONVENZIONATE -->
 </div><!--/.main-->

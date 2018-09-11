@@ -152,6 +152,7 @@ public class SecurityLayer {
                 throw new SecurityLayerException("Formato dati non valido");
             }
         } else {
+            //Non specifica il campo di errore
             throw new SecurityLayerException("Richiesta non valida");
         }
     }

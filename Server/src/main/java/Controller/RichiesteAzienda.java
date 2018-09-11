@@ -106,10 +106,10 @@ public class RichiesteAzienda extends AziendaSecurity {
 
                 if(richiestaDAO.deleteRichiesta(richiestaStudente)==1){
                 //Notifica
-                data.put("alertRifiuta", "Richiesta rifiutata");
+                data.put("alertRifiuta", "1");
                 }else{
                 //Notifica aggiornamento tirocinio
-                data.put("alertRifiuta", "Erorre rimozione richiesta");
+                data.put("alertRifiuta", "-1");
                 }
                 
                 action_listaRichieste(data, request, response);

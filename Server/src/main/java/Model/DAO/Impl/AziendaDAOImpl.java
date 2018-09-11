@@ -71,7 +71,7 @@ public class AziendaDAOImpl implements AziendaDAO {
 
     private static final String UPDATE_ID_RESOCONTO_TIROCINIO = "UPDATE Tirocinio SET Resoconto_idResoconto=? WHERE Annuncio_idAnnuncio=? AND Studente_idStudente=?";
 
-    private static final String REGISTRAZIONE_AZIENDA = "INSERT INTO azienda ( stato, ragSociale, indirizzoSede, pIVA, foro, cap, citta, provincia, nomeRap, cognomeRap, telResponsabile, nomeResponsabile, cognomeResponsabile, emailResponsabile, idAzienda, dataIscrizione, dataTermine) "
+    private static final String REGISTRAZIONE_AZIENDA = "INSERT INTO azienda ( stato, ragSociale, indirizzoSede, pIVA, foro, cap, citta, provincia, nomeRap, cognomeRap, telResponsabile, nomeResponsabile, cognomeResponsabile, emailResponsabile, idAzienda, dataInizio, dataFine) "
             + "                                         VALUES ('REGISTRATA',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
     private static final String UPDATE_STATO = "UPDATE Azienda SET Stato=? WHERE idAzienda=?";
@@ -522,15 +522,15 @@ public class AziendaDAOImpl implements AziendaDAO {
                 azienda.setCap(rset.getString("cap"));
                 azienda.setCitta(rset.getString("citta"));
                 azienda.setProvincia(rset.getString("provincia"));
-                azienda.setDataIscrione(rset.getDate("dataIscrizione").toLocalDate());
-                azienda.setDataTermine(rset.getDate("dataTermine").toLocalDate());
+                azienda.setDataIscrione(rset.getDate("dataInizio").toLocalDate());
+                azienda.setDataTermine(rset.getDate("dataFine").toLocalDate());
 
             }
 
             ps.close();
             connection.close();
         } catch (SQLException ex) {
-            throw new DataLayerException("Error get company", ex);
+            throw new DataLayerException("GET COMPANY", ex);
         }
         return azienda;
     }
