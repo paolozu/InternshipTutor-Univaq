@@ -18,8 +18,10 @@ import Model.Bean.Richiesta;
 import Model.Bean.Studente;
 import Model.Bean.Tirocinio;
 import Model.DAO.Impl.AziendaDAOImpl;
+import Model.DAO.Impl.RichiestaDAOImpl;
 import Model.DAO.Impl.StudenteDAOImpl;
 import Model.DAO.Interface.AziendaDAO;
+import Model.DAO.Interface.RichiestaDAO;
 import Model.DAO.Interface.StudenteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -47,17 +49,17 @@ public class RichiesteAzienda extends AziendaSecurity {
         }
     }
 
-    private void action_gestioneRichieste(Map data,long idStudente, long idAnnuncio, HttpServletRequest request, HttpServletResponse response) throws IOException, SecurityLayerException {
+    private void action_gestioneRichieste(Map data,long idStudente, long idAnnuncio, HttpServletRequest request, HttpServletResponse response) throws IOException, SecurityLayerException, TemplateManagerException, DataLayerException {
+        
+        RichiestaDAO richiestaDAO = new RichiestaDAOImpl();
+        Richiesta richiestaStudente = new Richiesta(new Annuncio(idAnnuncio), new Studente(idStudente));
+        
         switch (request.getParameter("action")) {
-
+            
+            //L'azienda visualizza la richiesta dello studente
             case "visualizza":
-                try {
 
-                    AziendaDAO queryA = new AziendaDAOImpl();
-
-                    Richiesta richiestaStudente = new Richiesta(new Annuncio(idAnnuncio), new Studente(idStudente));
-
-                    richiestaStudente = queryA.getRichiestaStudente(richiestaStudente);
+                    richiestaStudente = richiestaDAO.getRichiestaStudente(richiestaStudente);
 
                     TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
                     data.put("richiesta", richiestaStudente);
@@ -66,55 +68,50 @@ public class RichiesteAzienda extends AziendaSecurity {
 
                     res.activate("richiestaStudente.ftl.html", data, response);
 
-                } catch (TemplateManagerException | DataLayerException ex) {
-                    (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-                }
                 break;
 
+            //L'azienda accetta la richiesta dello studente
             case "accetta":
 
+                //Check campi
                 LocalDate dataInizio = SecurityLayer.issetDate("DATA INIZIO",request.getParameter("dataInizio"));
                 LocalDate dataFine = SecurityLayer.issetDate("DATA FINE",request.getParameter("dataFine"));
                 
-
+                //Creazione nuovo tirocinio
                 Tirocinio nuovoTirocinio = new Tirocinio(new Studente(idStudente), new Annuncio(idAnnuncio), dataInizio, dataFine);
 
-                AziendaDAO queryA = new AziendaDAOImpl();
-
-                int result = 0;
-                try {
-                    result = queryA.setNuovoTirocinio(nuovoTirocinio);
-                } catch (DataLayerException ex) {
-                    (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+                //DAO per nuovo tirocinio
+                AziendaDAO aziendaDAO = new AziendaDAOImpl();
+                
+                //Se il tirocinio viene salvato correttamente si provvede alla rimozione della richiesta
+                switch(aziendaDAO.setNuovoTirocinio(nuovoTirocinio)){
+                    case 1:
+                        //rimozione richiesta
+                        richiestaDAO.deleteRichiesta(richiestaStudente);
+                    
+                        //Notifica
+                        data.put("alert", "Richiesta approvata");
+                        break;
+                    case 1062:
+                        //Notifica
+                        data.put("alert", "Lo studente ha aderito precedentemente all'annuncio");
+                        break;
                 }
-
-                if (result != 0) {
-                    Richiesta richiestaStudente = new Richiesta(new Annuncio(idAnnuncio), new Studente(idStudente));
-
-                    try {
-                        queryA.removeRichiesta(richiestaStudente);
-                    } catch (DataLayerException ex) {
-                        (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-                    }
-                    //Notifica aggiornamento tirocinio
-                    data.put("alert", "Richiesta approvata");
-                }
+ 
                 action_listaRichieste(data, request, response);
                 break;
 
+            //L'azienda rifiuta la richiesta dello studente
             case "rifiuta":
-                AziendaDAO queryB = new AziendaDAOImpl();
 
-                Richiesta richiestaStudenteR = new Richiesta(new Annuncio(idAnnuncio), new Studente(idAnnuncio));
-
-                try {
-                    queryB.removeRichiesta(richiestaStudenteR);
-                } catch (DataLayerException ex) {
-                    (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-                }
-
+                if(richiestaDAO.deleteRichiesta(richiestaStudente)==1){
                 //Notifica aggiornamento tirocinio
                 data.put("alert", "Richiesta rifiutata");
+                }else{
+                //Notifica aggiornamento tirocinio
+                data.put("alert", "Erorre rimozione richiesta");
+                }
+                
                 action_listaRichieste(data, request, response);
                 break;
             default:
@@ -133,8 +130,8 @@ public class RichiesteAzienda extends AziendaSecurity {
             res.activate("listaRichieste.ftl.html", data, response);
 
         } catch (TemplateManagerException | DataLayerException ex) {
-            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-
+            request.setAttribute("exception", ex);
+                action_error(request, response);
         }
     }
 
@@ -162,10 +159,10 @@ try {
 
             
                 action_gestioneRichieste(data,idStudente,idAnnuncio, request, response);
-            } catch (SecurityLayerException ex) {
+            } catch (DataLayerException | TemplateManagerException | SecurityLayerException ex) {
                 request.setAttribute("exception", ex);
                 action_error(request, response);
-            }
+            } 
         } else {
             // visualizza lista tirocinanti
             action_listaRichieste(data, request, response);

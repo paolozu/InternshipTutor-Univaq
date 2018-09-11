@@ -31,8 +31,6 @@ public interface AziendaDAO {
 
     public List<Richiesta> getRichieste(long id) throws DataLayerException;
     
-    public Richiesta getRichiestaStudente(Richiesta richiesta) throws DataLayerException;
-
     public List<Tirocinio> getTirocini(long id) throws DataLayerException;
 
     public InputStream getConvenzione(Azienda azienda) throws DataLayerException;
@@ -51,8 +49,6 @@ public interface AziendaDAO {
 
     public void removeTirocinio(Tirocinio tirocinio) throws DataLayerException;
 
-    public void removeRichiesta(Richiesta richiesta) throws DataLayerException;
-    
     public int setNuovoTirocinio(Tirocinio tirocinio) throws DataLayerException;
     
     public InputStream getModuloConvenzione() throws DataLayerException; 

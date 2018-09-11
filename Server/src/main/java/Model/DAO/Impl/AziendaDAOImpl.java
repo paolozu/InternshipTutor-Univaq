@@ -43,8 +43,7 @@ public class AziendaDAOImpl implements AziendaDAO {
             + "                                                           JOIN Utente ON Utente.idUtente = Studente.idStudente  \n"
             + "                                                               WHERE Azienda.idAzienda = ?";
 
-    private static final String GET_RICHIESTA_STUDENTE = "SELECT * FROM Richiesta JOIN STUDENTE ON Richiesta.Studente_idStudente=Studente.idStudente WHERE Studente.idStudente=? AND Richiesta.Annuncio_idAnnuncio=?";
-
+   
     private static final String GET_AZIENDE = "SELECT azienda.idAzienda,azienda.ragSociale FROM azienda";
 
     private static final String GET_AZIENDA = "SELECT * FROM Azienda WHERE Azienda.idAzienda=?";
@@ -123,40 +122,7 @@ public class AziendaDAOImpl implements AziendaDAO {
         return richieste;
     }
 
-    @Override
-    public Richiesta getRichiestaStudente(Richiesta richiesta) throws DataLayerException {
-
-        try (Connection connection = DB.getConnection()) {
-            try (PreparedStatement ps = connection.prepareStatement(GET_RICHIESTE)) {
-
-                ps.setLong(1, richiesta.getStudente().getId());
-                ps.setLong(2, richiesta.getAnnuncio().getId());
-
-                try (ResultSet rset = ps.executeQuery()) {
-
-                    if (rset.next()) {
-
-                        Studente s = new Studente(
-                                rset.getLong("idStudente"),
-                                rset.getString("nome"), rset.getString("cognome"),
-                                rset.getString("codFiscale"), rset.getString("telefono"),
-                                rset.getString("indirizzoResidenza"), rset.getString("corsoLaurea"),
-                                rset.getString("cap_Residenza"), rset.getString("citta_Residenza"),
-                                rset.getString("provincia_Residenza"), rset.getBoolean("handicap"),
-                                rset.getDate("dataNascita").toLocalDate()
-                        );
-
-                        Annuncio a = new Annuncio(rset.getLong("Richiesta.Annuncio_idAnnuncio"));
-                        richiesta = new Richiesta(a, s);
-                    }
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DataLayerException("GET RICHIESTA STUDENTE", ex);
-        }
-        return richiesta;
-    }
-
+   
     @Override
     public List<Azienda> getAziende() throws DataLayerException {
 
@@ -476,77 +442,30 @@ public class AziendaDAOImpl implements AziendaDAO {
     /**
      * Rimnuovi il tirocinio sostenuto dallo studente presso l'azienda
      *
-     * @param richiesta
-     * @param tirocinio
-     * @throws Framework.data.DataLayerException
-     */
-    @Override
-    public void removeRichiesta(Richiesta richiesta) throws DataLayerException {
-        Connection connection = null;
-        PreparedStatement ps = null;
-
-        try {
-            connection = DB.getConnection();
-            ps = connection.prepareStatement(DELETE_RICHIESTA);
-            ps.setLong(1, richiesta.getAnnuncio().getId());
-            ps.setLong(2, richiesta.getStudente().getId());
-
-            int result = ps.executeUpdate();
-
-            if (result != 0) {
-            } else {
-                throw new DataLayerException("ERRORE DELETE RICHIESTA");
-            }
-
-        } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE QUERY RIMOZIONE TIROCINIO", ex);
-        } finally {
-            try {
-                ps.close();
-                connection.close();
-            } catch (SQLException ex) {
-                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
-            }
-        }
-
-    }
-
-    /**
-     * Rimnuovi il tirocinio sostenuto dallo studente presso l'azienda
-     *
      * @param tirocinio
      * @return 
      * @throws Framework.data.DataLayerException
      */
     @Override
     public int setNuovoTirocinio(Tirocinio tirocinio) throws DataLayerException {
-        Connection connection = null;
-        PreparedStatement ps = null;
-        int result = 0;
-        try {
-            connection = DB.getConnection();
-            ps = connection.prepareStatement(SET_NUOVO_TIROCINIO);
-            ps.setLong(1, tirocinio.getAnnuncio().getId());
-            ps.setLong(2, tirocinio.getStudente().getId());
-            ps.setDate(3, java.sql.Date.valueOf(tirocinio.getDataInizio()));
-            ps.setDate(4, java.sql.Date.valueOf(tirocinio.getDataFine()));
+        int result = -1;
+        
+        try (Connection connection = DB.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(SET_NUOVO_TIROCINIO)) {
+                ps.setLong(1, tirocinio.getAnnuncio().getId());
+                ps.setLong(2, tirocinio.getStudente().getId());
+                ps.setDate(3, java.sql.Date.valueOf(tirocinio.getDataInizio()));
+                ps.setDate(4, java.sql.Date.valueOf(tirocinio.getDataFine()));
 
-            result = ps.executeUpdate();
+                result = ps.executeUpdate();
 
-            if (result != 0) {
-            } else {
-                throw new DataLayerException("ERRORE NUOVO TIROCINIO");
             }
-
         } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE QUERY NUOVO TIROCINIO", ex);
-        } finally {
-            try {
-                ps.close();
-                connection.close();
-            } catch (SQLException ex) {
-                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
+            if (ex.getErrorCode() == 1062) {
+                //duplicate primary key 
+                return 1062;
             }
+            throw new DataLayerException("ERRORE QUERY NUOVO TIROCINIO", ex);
         }
         return result;
     }

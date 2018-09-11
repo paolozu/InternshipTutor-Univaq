@@ -19,4 +19,6 @@ public interface RichiestaDAO {
     
     public int deleteRichiesta(Richiesta richiesta) throws DataLayerException;
     
+    public Richiesta getRichiestaStudente(Richiesta richiesta) throws DataLayerException;
+    
 }
