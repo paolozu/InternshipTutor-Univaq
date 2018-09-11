@@ -38,7 +38,7 @@ public class StudenteDAOImpl implements StudenteDAO {
        int result = 0;
         //Creazione Utente
         UtenteDAO u = new UtenteDAOImpl();
-        Utente nuovoUtente = u.nuovoUtente(new Utente(studente.getUsername(), studente.getPassword(), studente.getEmail(), "STU"));
+        Utente nuovoUtente = u.nuovoUtente(new Utente(studente.getUsername(), studente.getPassword(), studente.getEmail(), "ST"));
 
         if (nuovoUtente != null) {//NUOVO UTENTE - OK
 
