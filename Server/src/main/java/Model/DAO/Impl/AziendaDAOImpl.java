@@ -7,17 +7,13 @@ package Model.DAO.Impl;
 
 import Model.Bean.Annuncio;
 import Model.Bean.Azienda;
-import Model.Bean.Convenzione;
-import Model.Bean.Referente;
 import Model.Bean.Studente;
-import Model.Bean.Docente;
 import Model.Bean.Tirocinio;
 import Model.Bean.Utente;
 import Model.DAO.Interface.AziendaDAO;
 import Model.DAO.Interface.UtenteDAO;
 import Framework.data.DB;
 import Framework.data.DataLayerException;
-import Framework.result.FailureResult;
 import Model.Bean.Resoconto;
 import Model.Bean.Richiesta;
 import java.io.InputStream;
@@ -27,12 +23,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.naming.NamingException;
 import javax.servlet.http.Part;
 
 /**
@@ -134,10 +128,10 @@ public class AziendaDAOImpl implements AziendaDAO {
 
         try (Connection connection = DB.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(GET_RICHIESTE)) {
-                
+
                 ps.setLong(1, richiesta.getStudente().getId());
                 ps.setLong(2, richiesta.getAnnuncio().getId());
-                
+
                 try (ResultSet rset = ps.executeQuery()) {
 
                     if (rset.next()) {
@@ -165,67 +159,48 @@ public class AziendaDAOImpl implements AziendaDAO {
 
     @Override
     public List<Azienda> getAziende() throws DataLayerException {
-        
-        
-        
-        
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rset = null;
+
         List<Azienda> aziende = new ArrayList();
-        try {
-            connection = DB.getConnection();
-            ps = connection.prepareStatement(GET_AZIENDE);
-            rset = ps.executeQuery();
-            while (rset.next()) {
-                aziende.add(new Azienda(rset.getInt("idAzienda"), rset.getString("ragSociale")));
+
+        try (Connection connection = DB.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(GET_AZIENDE)) {
+                try (ResultSet rset = ps.executeQuery()) {
+                    while (rset.next()) {
+                        aziende.add(new Azienda(rset.getInt("idAzienda"), rset.getString("ragSociale")));
+                    }
+                }
             }
         } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE GET AZIENDE", ex);
-        } finally {
-            try {
-                rset.close();
-                ps.close();
-                connection.close();
-            } catch (SQLException ex) {
-                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
-            }
+            throw new DataLayerException("GET AZIENDE", ex);
         }
         return aziende;
     }
 
     @Override
     public List<Tirocinio> getTirocini(long id) throws DataLayerException {
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rset = null;
         List<Tirocinio> tirocini = new ArrayList();
-        try {
-            connection = DB.getConnection();
-            ps = connection.prepareStatement(GET_TIROCINANTI);
-            ps.setLong(1, id);
-            rset = ps.executeQuery();
-            while (rset.next()) {
 
-                Annuncio ann = new Annuncio(rset.getLong("Tirocinio.Annuncio_idAnnuncio"));
-                Studente stu = new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email"), rset.getString("codFiscale"), rset.getString("telefono"));
+        try (Connection connection = DB.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(GET_TIROCINANTI)) {
+                //Prepare statement
+                ps.setLong(1, id);
+                try (ResultSet rset = ps.executeQuery()) {
+                    while (rset.next()) {
 
-                tirocini.add(new Tirocinio(stu, ann));
+                        Annuncio ann = new Annuncio(rset.getLong("Tirocinio.Annuncio_idAnnuncio"));
+                        Studente stu = new Studente(rset.getLong("idStudente"), rset.getString("nome"), rset.getString("cognome"), rset.getString("email"), rset.getString("codFiscale"), rset.getString("telefono"));
 
-            }
-        } catch (SQLException ex) {
-            throw new DataLayerException("ERRORE GET TIROCINI", ex);
-        } finally {
-            try {
-                rset.close();
-                ps.close();
-                connection.close();
-            } catch (SQLException ex) {
-                throw new DataLayerException("ERRORE CHIUSURA CONNESSIONE", ex);
+                        tirocini.add(new Tirocinio(stu, ann));
+
+                    }
+                }
             }
         }
-        return tirocini;
+    catch (SQLException ex) {
+            throw new DataLayerException("GET TIROCINI", ex);
     }
+    return tirocini ;
+}
 
     @Override
     public Azienda getApprovazione(long id) throws DataLayerException {
