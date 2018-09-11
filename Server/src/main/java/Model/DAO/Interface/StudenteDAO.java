@@ -8,14 +8,14 @@ package Model.DAO.Interface;
 import Framework.data.DataLayerException;
 import Model.Bean.Studente;
 
-
 /**
  *
  * @author lorenzo
  */
 public interface StudenteDAO {
-    
+
     public int setRegistrazioneStudente(Studente studente) throws DataLayerException;
-     public Studente getStudente(long id) throws DataLayerException;
-    
+
+    public Studente getStudente(long id) throws DataLayerException;
+
 }

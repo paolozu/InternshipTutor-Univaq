@@ -60,10 +60,4 @@ public class RichiestaDAOImpl implements RichiestaDAO {
         }
         return result;
     }
-
-    @Override
-    public int updateRichiesta(Richiesta richiesta) throws DataLayerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }

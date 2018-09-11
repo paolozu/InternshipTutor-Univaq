@@ -165,6 +165,10 @@ public class AziendaDAOImpl implements AziendaDAO {
 
     @Override
     public List<Azienda> getAziende() throws DataLayerException {
+        
+        
+        
+        
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rset = null;

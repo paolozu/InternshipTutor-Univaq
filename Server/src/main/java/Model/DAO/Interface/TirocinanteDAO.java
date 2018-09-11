@@ -17,11 +17,13 @@ import java.util.List;
  * @author lorenzo
  */
 public interface TirocinanteDAO {
-    
-     public List<Tirocinio> getTirocini(long idTirocinante) throws DataLayerException;
-     public void setValutazione(int valutazione, long idResoconto) throws DataLayerException;
-     public Resoconto getPathResoconto(int idResoconto) throws DataLayerException;
-     public InputStream downloadResoconto(Resoconto resoconto) throws DataLayerException;
-     public int uploadResoconto(Resoconto resoconto) throws DataLayerException;
-     
+
+    public List<Tirocinio> getTirocini(long idTirocinante) throws DataLayerException;
+
+    public int setValutazione(int valutazione, long idResoconto) throws DataLayerException;
+
+    public InputStream downloadResoconto(Resoconto resoconto) throws DataLayerException;
+
+    public int uploadResoconto(Resoconto resoconto) throws DataLayerException;
+
 }

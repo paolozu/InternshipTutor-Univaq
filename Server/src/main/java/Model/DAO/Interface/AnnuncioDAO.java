@@ -15,9 +15,12 @@ import java.util.List;
  * @author lorenzo
  */
 public interface AnnuncioDAO {
-    
+
     public Annuncio getAnnuncioById(long id) throws DataLayerException;
+
     public List<Annuncio> getAnnunci(long idAzienda, int valuePage, String stato) throws DataLayerException;
-     public List<Annuncio> getAnnunci(int valuePage, String stato) throws DataLayerException;
+
+    public List<Annuncio> getAnnunci(int valuePage, String stato) throws DataLayerException;
+
     public int saveAnnuncio(Annuncio annuncio) throws DataLayerException;
 }

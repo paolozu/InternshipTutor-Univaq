@@ -19,5 +19,4 @@ public interface RichiestaDAO {
     
     public int deleteRichiesta(Richiesta richiesta) throws DataLayerException;
     
-    public int updateRichiesta(Richiesta richiesta) throws DataLayerException;
 }
