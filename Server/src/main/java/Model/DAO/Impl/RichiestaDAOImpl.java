@@ -17,13 +17,12 @@ import java.sql.SQLException;
  *
  * @author lorenzo
  */
-public class RichiestaDAOImpl implements RichiestaDAO{
+public class RichiestaDAOImpl implements RichiestaDAO {
 
-    private static final String SAVE_RICHIESTA="INSERT INTO Richiesta (Studente_idStudente, Annuncio_idAnnuncio) VALUES (?, ?);";
-    
-    private static final String DELETE_RICHIESTA="DELETE FROM Richiesta WHERE Studente_idStudente=? AND Annuncio_idAnnuncio=?;";
-    
-    
+    private static final String SAVE_RICHIESTA = "INSERT INTO Richiesta (Studente_idStudente, Annuncio_idAnnuncio) VALUES (?, ?);";
+
+    private static final String DELETE_RICHIESTA = "DELETE FROM Richiesta WHERE Studente_idStudente=? AND Annuncio_idAnnuncio=?;";
+
     @Override
     public int saveRichiesta(Richiesta richiesta) throws DataLayerException {
         int result = -1;
@@ -36,6 +35,10 @@ public class RichiestaDAOImpl implements RichiestaDAO{
                 result = ps.executeUpdate();
             }
         } catch (SQLException ex) {
+            if (ex.getErrorCode() == 1062) {
+                //duplicate primary key 
+                return 1062;
+            }
             throw new DataLayerException("SAVE RICHIESTA", ex);
         }
         return result;
@@ -62,6 +65,5 @@ public class RichiestaDAOImpl implements RichiestaDAO{
     public int updateRichiesta(Richiesta richiesta) throws DataLayerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
 }

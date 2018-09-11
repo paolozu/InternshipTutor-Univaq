@@ -99,11 +99,20 @@ public class HomeTirocini extends InternshipBaseController {
                 
                 int result = richiestaDAO.saveRichiesta(richiesta);
                 
-                if(result==1){
-                data.put("alert", "200");
-                }else{
-                    data.put("alert", "400");
+                switch(result){
+                    case -1:
+                        data.put("alert","-1");
+                        break;
+                     
+                    case 1:
+                        data.put("alert","1");
+                        break;
+                    
+                    case 1062:
+                        data.put("alert","1062");
+                        break;
                 }
+                
             }
                 action_default(data, request, response);
         } catch (SecurityLayerException | TemplateManagerException | DataLayerException ex) {
