@@ -43,42 +43,43 @@ public class HomeTirocini extends InternshipBaseController {
         }
     }
 
-    private void action_richiesta(Map data,Annuncio annuncio, Studente studente, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException, SecurityLayerException {
+    private void action_richiesta(Map data, Annuncio annuncio, Studente studente, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException, SecurityLayerException {
 
         if (request.getParameter("invia") != null) {
-                
-                String nomeDoc = SecurityLayer.issetString("Nome docente", request.getParameter("nome"));
-                String cognomeDoc = SecurityLayer.issetString("Cognome docente", request.getParameter("cognome"));
-                int crediti = SecurityLayer.issetInt("Crediti", request.getParameter("crediti"));
-                
-                Richiesta richiesta = new Richiesta(annuncio, studente,nomeDoc,cognomeDoc,crediti);
-                
-                RichiestaDAO richiestaDAO = new RichiestaDAOImpl();
 
-                //Query
-                int result = richiestaDAO.saveRichiesta(richiesta);
+            String nomeDoc = SecurityLayer.issetString("Nome docente", request.getParameter("nome"));
+            String cognomeDoc = SecurityLayer.issetString("Cognome docente", request.getParameter("cognome"));
+            int crediti = SecurityLayer.issetInt("Crediti", request.getParameter("crediti"));
 
-                //Notifica
-                switch (result) {
-                    case -1:
-                        data.put("alert", "-1");
-                        break;
+            Richiesta richiesta = new Richiesta(annuncio, studente, nomeDoc, cognomeDoc, crediti);
 
-                    case 1:
-                        data.put("alert", "1");
-                        break;
+            RichiestaDAO richiestaDAO = new RichiestaDAOImpl();
 
-                    case 1062:
-                        data.put("alert", "1062");
-                        break;
-                }}
+            //Query
+            int result = richiestaDAO.saveRichiesta(richiesta);
 
-AnnuncioDAO annuncioDAO = new AnnuncioDAOImpl();
-annuncio = annuncioDAO.getAnnuncio(annuncio);
-data.put("annuncio",annuncio);
+            //Notifica
+            switch (result) {
+                case -1:
+                    data.put("alert", "-1");
+                    break;
 
-TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-res.activate("AvvisoAzienda.ftl.html", data, response);
+                case 1:
+                    data.put("alert", "1");
+                    break;
+
+                case 1062:
+                    data.put("alert", "1062");
+                    break;
+            }
+        }
+
+        AnnuncioDAO annuncioDAO = new AnnuncioDAOImpl();
+        annuncio = annuncioDAO.getAnnuncio(annuncio);
+        data.put("annuncio", annuncio);
+
+        TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+        res.activate("AvvisoAzienda.ftl.html", data, response);
 
     }
 
@@ -124,45 +125,44 @@ res.activate("AvvisoAzienda.ftl.html", data, response);
                 long idAnnuncio = SecurityLayer.issetInt(request.getParameter("refA"));
                 Annuncio annuncio = new Annuncio(idAnnuncio);
                 Studente studente = new Studente((long) s.getAttribute("userid"));
-                action_richiesta(data, annuncio,studente, request, response);
+                action_richiesta(data, annuncio, studente, request, response);
             } else {
                 int page = SecurityLayer.checkPage(request.getParameter("page"));
                 String campo = request.getParameter("search");
-                
+
                 AnnuncioDAO annuncioDAO = new AnnuncioDAOImpl();
                 List<Annuncio> annunci;
                 int count;
-                
-                if (campo != null && !campo.isEmpty() ) {
+
+                if (campo != null && !campo.isEmpty()) {
                     //azione ricerca
-                     data.put("search", campo);
-                     count = annuncioDAO.countAnnunciSearch(campo)/4;
-                     annunci = annuncioDAO.getAnnunciSearch(page*4, campo);
-                    
+                    data.put("search", campo);
+                    count = annuncioDAO.countAnnunciSearch(campo) / 4;
+                    annunci = annuncioDAO.getAnnunciSearch(page * 4, campo);
+
                 } else {
                     //count annunci
-                    count = annuncioDAO.countAnnunci()/4;
-                    annunci = annuncioDAO.getAnnunci(page*4, "ATTIVO");
+                    count = annuncioDAO.countAnnunci() / 4;
+                    annunci = annuncioDAO.getAnnunci(page * 4, "ATTIVO");
                 }
-                
-                if(page<=0){
-                    data.put("removeLeft","hidden");
-                //remove left arrow
-                }else if(page >= count-1){
-                //remove right arrow
-                data.put("removeRight","hidden");
+
+                if (page <= 0) {
+                    data.put("removeLeft", "hidden");
+                    //remove left arrow
+                } else if (page >= count - 1) {
+                    //remove right arrow
+                    data.put("removeRight", "hidden");
                 }
-                
-                
+
                 data.put("page", page);
                 data.put("count", count);
                 data.put("annunci", annunci);
-                
-                action_default(data,request, response);
+
+                action_default(data, request, response);
             }
-        } catch (SecurityLayerException | DataLayerException |TemplateManagerException ex) {
+        } catch (SecurityLayerException | DataLayerException | TemplateManagerException ex) {
             request.setAttribute("exception", ex);
-        action_error(request, response);
+            action_error(request, response);
         }
     }
 }
