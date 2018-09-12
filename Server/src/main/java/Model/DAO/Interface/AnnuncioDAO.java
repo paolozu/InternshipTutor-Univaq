@@ -30,5 +30,7 @@ public interface AnnuncioDAO {
     
     public int countAnnunci() throws DataLayerException;
     
+    public int countAnnunciSearch(String campoRicerca) throws DataLayerException;
+    
     
 }

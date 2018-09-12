@@ -39,10 +39,32 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
 
     private static final String UPDATE_STATO = "UPDATE Annuncio SET Stato=? WHERE idAnnuncio=?";
     
-    private static final String GET_ANNUNCI_SEARCH = "SELECT *, MATCH(Corpo,Citta) AGAINST(?) AS Rate FROM Annuncio JOIN azienda ON annuncio.Azienda_idAzienda=azienda.idAzienda WHERE MATCH(Corpo) AGAINST(?)  AND Annuncio.Stato='ATTIVO' ORDER BY RATE DESC LIMIT ?,4";
+    private static final String GET_ANNUNCI_SEARCH = "SELECT *, MATCH(Corpo) AGAINST(?) AS Rate FROM Annuncio JOIN azienda ON annuncio.Azienda_idAzienda=azienda.idAzienda WHERE MATCH(Corpo) AGAINST(?)  AND Annuncio.Stato='ATTIVO' ORDER BY RATE DESC LIMIT ?,4";
     
     private static final String COUNT_ANNUNCI="SELECT COUNT(*) AS Number FROM Annuncio";
     
+    private static final String COUNT_ANNUNCI_SEARCH="SELECT COUNT(*) AS Number FROM Annuncio WHERE MATCH(Corpo) AGAINST(?)  AND Annuncio.Stato='ATTIVO'";
+    
+    
+    @Override
+    public int countAnnunciSearch(String campoRicerca) throws DataLayerException{
+    
+        int result = 0;
+        try (Connection connection = DB.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(COUNT_ANNUNCI_SEARCH)) {
+                ps.setString(1, campoRicerca);
+                try (ResultSet rset = ps.executeQuery()) {
+
+                    if (rset.next()) {
+                        result =  rset.getInt("Number");
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataLayerException("COUNT ANNUNCIO SEARCH", ex);
+        }
+        return result;
+    }
     
     @Override
     public int countAnnunci() throws DataLayerException{
@@ -60,7 +82,6 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
         } catch (SQLException ex) {
             throw new DataLayerException("COUNT ANNUNCIO", ex);
         }
-        
         return result;
     }
     

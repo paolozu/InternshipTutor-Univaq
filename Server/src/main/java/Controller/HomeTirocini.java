@@ -73,33 +73,11 @@ public class HomeTirocini extends InternshipBaseController {
 //                }}
     }
 
-    private void action_search(Map data, int page, String campo, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException {
-        TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-        AnnuncioDAO annuncioDAO = new AnnuncioDAOImpl();
-
-        List<Annuncio> annunci = annuncioDAO.getAnnunciSearch(page, campo);
-
-        data.put("annunci", annunci);
-
-        if (data.get("utente_tipo") != null) {
-            if (data.get("utente_tipo").equals("ST")) {
-
-                res.activate("homeTirociniStudente.ftl.html", data, response);
-            } else {
-                res.activate("homeTirocini.ftl.html", data, response);
-            }
-        } else {
-            res.activate("homeTirocini.ftl.html", data, response);
-        }
-
-    }
-
     private void action_default(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException {
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
 
         if (data.get("utente_tipo") != null) {
             if (data.get("utente_tipo").equals("ST")) {
-
                 res.activate("homeTirociniStudente.ftl.html", data, response);
             } else {
                 res.activate("homeTirocini.ftl.html", data, response);
@@ -139,24 +117,22 @@ public class HomeTirocini extends InternshipBaseController {
                 int page = SecurityLayer.checkPage(request.getParameter("page"));
                 String campo = request.getParameter("search");
                 
-                System.out.println("p"+page);
-                
                 AnnuncioDAO annuncioDAO = new AnnuncioDAOImpl();
                 List<Annuncio> annunci;
                 int count;
                 
-                if (campo != null) {
+                if (campo != null && !campo.isEmpty() ) {
                     //azione ricerca
-                     count = annuncioDAO.countAnnunci();//CHANGE
+                     data.put("search", campo);
+                     count = annuncioDAO.countAnnunciSearch(campo)/4;
                      annunci = annuncioDAO.getAnnunciSearch(page*4, campo);
+                    
                 } else {
-                    System.out.println("qui");
                     //count annunci
                     count = annuncioDAO.countAnnunci()/4;
                     annunci = annuncioDAO.getAnnunci(page*4, "ATTIVO");
                 }
                 
-                System.out.println("c"+count);
                 if(page<=0){
                     data.put("removeLeft","hidden");
                 //remove left arrow
@@ -167,8 +143,9 @@ public class HomeTirocini extends InternshipBaseController {
                 
                 
                 data.put("page", page);
-                data.put("count", count-1);
+                data.put("count", count);
                 data.put("annunci", annunci);
+                
                 action_default(data,request, response);
             }
         } catch (SecurityLayerException | DataLayerException |TemplateManagerException ex) {

@@ -4,63 +4,43 @@
             <li><a href="#">
                     <em class="fa fa-home"></em>
                 </a></li>
-            <li class="active">Tirocini</li>
+            <li class="active">Annunci</li>
         </ol>
     </div><!--/.row-->
-
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">Tirocini</h1>
-        </div>
-    </div><!--/.row-->
-
-    <#if alert??>
-    <div class="row mt-1" id='hideMe'>
-        <div class="col-lg-12">
-           
-    <#switch alert>
-        <#case "-1">
-     <div class="alert bg-danger" role="alert"><em class="fa fa-lg fa-angle-right">&nbsp;</em>Errore invio richiesta </div>
-    <#break>
-    <#case "1">
-     <div class="alert bg-success" role="alert"><em class="fa fa-lg fa-angle-right">&nbsp;</em>Richiesta inviata</div>
-    <#break>
-    <#case "1062">
-     <div class="alert bg-warning" role="alert"><em class="fa fa-lg fa-angle-right">&nbsp;</em>Richiesta precedentemente inoltrata</div>
-    <#break>
-    </#switch>
-      </div>
-    </div>
-    </#if>
-    
-    <div class="row mt-1">
-        <div class="col-md-12">
-            <div class="">
-                <div class="panel-body">
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-xs-12 col-md-6 col-md-offset-3 mt-3">
+    <form>
+        <div class="row mt-1">
+            <div class="col-md-12">
+                <div class="">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="row">
                                 <form>
-                                    <div class="input-group input-group-lg">
-                                        <input type="text" placeholder="Cerca" name="search" class="form-control">
-                                        <div class="input-group-btn">
-                                            <button type="submit" class="btn btn-default" tabindex="-1"><i class="fa fa-search"></i></button>
+
+                                    <div class="col-xs-12 col-md-6 col-md-offset-3 mt-3">
+                                        <div class="input-group input-group-lg">
+                                            <input type="text" placeholder="Cerca" value="${search!}" name="search" class="form-control">
+                                            <div class="input-group-btn">
+                                                <button type="submit" class="btn btn-default" tabindex="-1"><i class="fa fa-search"></i></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div><!--/.row-->
-    <div class="row mt-2">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <#list annunci as annuncio>
-                    <form>
+        </div><!--/.row-->
+
+        <div class="row mt-2">
+            <div class="col-md-12">
+
+                <#list annunci>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <#items as annuncio>
+
                         <div class="search-result-item col-md-12">
                             <div class="search-result-item-body col-sm-12 mt-1">
                                 <div class="row">
@@ -72,38 +52,53 @@
                                         <h4>Periodo</h4>
                                         <p>${annuncio.dataAvvio} al ${annuncio.dataTermine}</p>
                                     </div>
-                                    <div class="col-sm-3 text-center mt-5">
-                                        <input type="hidden" name="refA" value="${annuncio.id}">
-                                        <button type="submit" class="btn btn-primary btn-info btn-md" value="">Invia richiesta</button>
-                                    </div>
+                                    <form>
+                                        <div class="col-sm-3 text-center mt-5">
+                                            <input type="hidden" name="refA" value="${annuncio.id}">
+                                            <button type="submit" class="btn btn-primary btn-info btn-md" value="">Invia richiesta</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div><!--/.search-result-item-->
-                    </form>
-                    <#else>
-                    <div class="text-center">
-                        <p>Nessun annuncio</p>
+                        </#items>
                     </div>
-                    </#list>
                 </div>
-            </div>
-            <div class="text-center">
-                <div class="btn-group">
-                    <a type="button" class="${removeLeft} btn btn-default"  href="hometirocini?page=${page-1}"> <span class="fa fa-arrow-left"></span></a>
-                    <#list 0..count as i>
-                    <#if i == page>
-                    <a  class="active btn btn-default" href="hometirocini?page=${i}">${i+1}</a>
-                        <#else>
-                        <a  class="btn btn-default" href="hometirocini?page=${i}">${i+1}</a>
-                    </#if>
-                    
-                    </#list>
-                    <a type="button"  class=" ${removeRight} btn btn-default" href="hometirocini?page=${page+1}"> <span class="fa fa-arrow-right"></span></a>
+                <#if (count==0)>
+                <#else>
+
+                <form>
+                    <input type="hidden" placeholder="Cerca" value="${search!}" name="search" class="form-control">
+                    <div class="text-center">
+                        <div class="btn-group">
+                            <button class="${removeLeft!} btn btn-default" name="page" value="${page-1}"> <span class="fa fa-arrow-left"></span></button>
+                            <#list 0..count-1 as i>
+                            <#if i == page>
+                            <button  class="active btn btn-default" name="page" value="${i}">${i+1}</button>
+                            <#else>
+                            <button  class="btn btn-default" name="page" value="${i}">${i+1}</button>
+                            </#if>
+
+                            </#list>
+                            <button  class=" ${removeRight!} btn btn-default" name="page" value="${page+1}"> <span class="fa fa-arrow-right"></span></button>
+                        </div>
+                    </div>
+                </form>
+
+                </#if>
+                <#else>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="text-center">
+                            <p>Nessun annuncio</p>
+                        </div>
+                    </div>
                 </div>
+                </#list>
             </div>
-        </div>
-        <div class="col-sm-12 mt-3">
-            <p class="back-link">Internshiptutor <a href="http://www.univaq.it">UNIVAQ</a></p>
-        </div>
-    </div><!-- /.row -->
+            <div class="col-sm-12 mt-3">
+            </div>
+        </div><!-- /.row -->
+    </form>
+
 </div><!--/.main-->
