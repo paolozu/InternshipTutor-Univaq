@@ -12,10 +12,22 @@ package Model.Bean;
 public class Richiesta {
     private Annuncio annuncio;
     private Studente studente;
+    private String nome,cognome;
+    private int crediti;
+    
+    
 
     public Richiesta(Annuncio annuncio, Studente studente) {
         this.annuncio = annuncio;
         this.studente = studente;
+    }
+    
+    public Richiesta(Annuncio annuncio, Studente studente, String nome, String cognome, int crediti) {
+        this.annuncio = annuncio;
+        this.studente = studente;
+        this.nome=nome;
+        this.cognome=cognome;
+        this.crediti=crediti;
     }
 
     public Annuncio getAnnuncio() {
@@ -32,6 +44,30 @@ public class Richiesta {
 
     public void setStudente(Studente studente) {
         this.studente = studente;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCognome() {
+        return cognome;
+    }
+
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
+    }
+
+    public int getCrediti() {
+        return crediti;
+    }
+
+    public void setCrediti(int crediti) {
+        this.crediti = crediti;
     }
     
     

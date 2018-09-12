@@ -156,6 +156,22 @@ public class SecurityLayer {
             throw new SecurityLayerException("Richiesta non valida");
         }
     }
+    
+    public static int issetInt(String parameter, String s) throws SecurityLayerException {
+
+        //convertiamo la stringa in numero, ma assicuriamoci prima che sia valida
+        if (s != null) {
+            //se la conversione fallisce, viene generata un'eccezione
+            try {
+                return Integer.parseInt(s);
+            } catch (NumberFormatException ex) {
+                throw new SecurityLayerException("Formato dati non valido");
+            }
+        } else {
+            //Non specifica il campo di errore
+            throw new SecurityLayerException("Parametro obbligatorio: "+ parameter);
+        }
+    }
 
     public static String issetString(String s) throws SecurityLayerException {
         //convertiamo la stringa in numero, ma assicuriamoci prima che sia valida

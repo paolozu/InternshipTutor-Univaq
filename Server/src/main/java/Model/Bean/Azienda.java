@@ -91,6 +91,20 @@ public class Azienda extends Utente {
         this.provincia = pro;
     }
 
+    public Azienda(String ragSoc, String nomeResp, String cognResp, String emailResp, String telResp, String ind, String piva, String citta, String cap, String pro) {
+
+        this.ragioneSociale = ragSoc;
+        this.nomeResponsabile = nomeResp;
+        this.cognomeResponsabile = cognResp;
+        this.emailResponsabile = emailResp;
+        this.telResponsabile = telResp;
+        this.indirizzoSede = ind;
+        this.partitaIva = piva;
+        this.citta = citta;
+        this.cap = cap;
+        this.provincia = pro;
+    }
+
     public LocalDate getDataIscrione() {
         return dataIscrione;
     }

@@ -22,7 +22,7 @@ import java.sql.SQLException;
  */
 public class RichiestaDAOImpl implements RichiestaDAO {
 
-    private static final String SAVE_RICHIESTA = "INSERT INTO Richiesta (Studente_idStudente, Annuncio_idAnnuncio) VALUES (?, ?);";
+    private static final String SAVE_RICHIESTA = "INSERT INTO Richiesta (Studente_idStudente, Annuncio_idAnnuncio, nomeDocente, cognomeDocente, crediti) VALUES (?, ?, ?, ?, ?);";
 
     private static final String DELETE_RICHIESTA = "DELETE FROM Richiesta WHERE Studente_idStudente=? AND Annuncio_idAnnuncio=?;";
 
@@ -37,6 +37,9 @@ public class RichiestaDAOImpl implements RichiestaDAO {
 
                 ps.setLong(1, richiesta.getStudente().getId());
                 ps.setLong(2, richiesta.getAnnuncio().getId());
+                ps.setString(3, richiesta.getNome());
+                ps.setString(4, richiesta.getCognome());
+                ps.setInt(5, richiesta.getCrediti());
 
                 result = ps.executeUpdate();
             }

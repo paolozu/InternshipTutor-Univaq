@@ -43,34 +43,35 @@ public class HomeTirocini extends InternshipBaseController {
         }
     }
 
-    private void action_richiesta(Map data,Annuncio annuncio, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException, SecurityLayerException {
+    private void action_richiesta(Map data,Annuncio annuncio, Studente studente, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException, SecurityLayerException {
 
-//        if (request.getParameter("send") != null) {
-//                //Invio richiesta tirocinio
-//                long idAnnuncio = SecurityLayer.issetInt(request.getParameter("refA"));
-//                Annuncio annuncio = new Annuncio(idAnnuncio);
-//                Studente studente = new Studente((long) s.getAttribute("userid"));
-//
-//                Richiesta richiesta = new Richiesta(annuncio, studente);
-//                RichiestaDAO richiestaDAO = new RichiestaDAOImpl();
-//
-//                //Query
-//                int result = richiestaDAO.saveRichiesta(richiesta);
-//
-//                //Notifica
-//                switch (result) {
-//                    case -1:
-//                        data.put("alert", "-1");
-//                        break;
-//
-//                    case 1:
-//                        data.put("alert", "1");
-//                        break;
-//
-//                    case 1062:
-//                        data.put("alert", "1062");
-//                        break;
-//                }}
+        if (request.getParameter("invia") != null) {
+                
+                String nomeDoc = SecurityLayer.issetString("Nome docente", request.getParameter("nome"));
+                String cognomeDoc = SecurityLayer.issetString("Cognome docente", request.getParameter("cognome"));
+                int crediti = SecurityLayer.issetInt("Crediti", request.getParameter("crediti"));
+                
+                Richiesta richiesta = new Richiesta(annuncio, studente,nomeDoc,cognomeDoc,crediti);
+                
+                RichiestaDAO richiestaDAO = new RichiestaDAOImpl();
+
+                //Query
+                int result = richiestaDAO.saveRichiesta(richiesta);
+
+                //Notifica
+                switch (result) {
+                    case -1:
+                        data.put("alert", "-1");
+                        break;
+
+                    case 1:
+                        data.put("alert", "1");
+                        break;
+
+                    case 1062:
+                        data.put("alert", "1062");
+                        break;
+                }}
 
 AnnuncioDAO annuncioDAO = new AnnuncioDAOImpl();
 annuncio = annuncioDAO.getAnnuncio(annuncio);
@@ -122,8 +123,8 @@ res.activate("AvvisoAzienda.ftl.html", data, response);
             if (request.getParameter("refA") != null) {
                 long idAnnuncio = SecurityLayer.issetInt(request.getParameter("refA"));
                 Annuncio annuncio = new Annuncio(idAnnuncio);
-                
-                action_richiesta(data, annuncio, request, response);
+                Studente studente = new Studente((long) s.getAttribute("userid"));
+                action_richiesta(data, annuncio,studente, request, response);
             } else {
                 int page = SecurityLayer.checkPage(request.getParameter("page"));
                 String campo = request.getParameter("search");

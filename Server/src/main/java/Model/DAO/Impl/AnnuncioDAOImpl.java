@@ -98,7 +98,18 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
                     if (rset.next()) {
                         Referente referenteAnnuncio = new Referente(rset.getString("nomeReferente"), rset.getString("cognomeReferente"), rset.getString("telefonoReferente"));
                         Docente docenteAnnuncio = new Docente(rset.getString("nomeDocente"), rset.getString("cognomeDocente"), rset.getString("emailDocente"));
-                        Azienda aziendaAnnuncio = new Azienda(rset.getInt("idAzienda"));
+                        Azienda aziendaAnnuncio = new Azienda(
+                                rset.getString("ragSociale"),
+                                rset.getString("nomeResponsabile"),
+                                rset.getString("cognomeResponsabile"),
+                                rset.getString("emailResponsabile"),
+                                rset.getString("telResponsabile"),
+                                rset.getString("indirizzoSede"),
+                                rset.getString("pIVA"),
+                                rset.getString("citta"),
+                                rset.getString("cap"),
+                                rset.getString("provincia")
+                        );
                         annuncio = new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio").toLocalDate(), rset.getDate("dataTermine").toLocalDate(), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), aziendaAnnuncio, docenteAnnuncio, referenteAnnuncio);
                     }
                 }
@@ -109,7 +120,7 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
 
         return annuncio;
     }
-    
+   
     @Override
     public Annuncio getAnnuncio(Annuncio annuncio) throws DataLayerException {
 
@@ -121,7 +132,18 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
                     if (rset.next()) {
                         Referente referenteAnnuncio = new Referente(rset.getString("nomeReferente"), rset.getString("cognomeReferente"), rset.getString("telefonoReferente"));
                         Docente docenteAnnuncio = new Docente(rset.getString("nomeDocente"), rset.getString("cognomeDocente"), rset.getString("emailDocente"));
-                        Azienda aziendaAnnuncio = new Azienda(rset.getInt("idAzienda"));
+                        Azienda aziendaAnnuncio = new Azienda(
+                                rset.getString("ragSociale"),
+                                rset.getString("nomeResponsabile"),
+                                rset.getString("cognomeResponsabile"),
+                                rset.getString("emailResponsabile"),
+                                rset.getString("telResponsabile"),
+                                rset.getString("indirizzoSede"),
+                                rset.getString("pIVA"),
+                                rset.getString("citta"),
+                                rset.getString("cap"),
+                                rset.getString("provincia")
+                        );
                         annuncio = new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio").toLocalDate(), rset.getDate("dataTermine").toLocalDate(), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), aziendaAnnuncio, docenteAnnuncio, referenteAnnuncio);
                     }
                 }

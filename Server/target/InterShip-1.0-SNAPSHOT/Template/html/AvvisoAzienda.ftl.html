@@ -1,32 +1,81 @@
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-  <div class="row">
-    <ol class="breadcrumb">
-      <li><a href="#"> <em class="fa fa-home"></em> </a></li>
-      <li class="active">Annunci</li>
-    </ol>
-  </div>
-  <!--/.row-->
-  <div class="col-md-8 col-lg-offset-2">
-  <div class="panel panel-default">
-    <div class="panel-heading mt-1">${annuncio.titolo}</div>
-    <div class="panel-body">
-        <p>${annuncio}</p>
-        <hr>
-        <p>${annuncio.corpo}</p>
-        <hr>
-        
-        <p>Settore: ${annuncio.settore}</p>
-        <p>Modalit&agrave;: ${annuncio.settore}</p>
-        <p>Valido dal  ${annuncio.dataAvvio?date.iso("UTC")} al ${annuncio.dataTermine} </p>
-        <p>Docente: $(docente.nome) - Email: $(docente.mail)</p>
-	<p>Contatto aziendale: $(azienda.contatto) - Email:$(azienda.email)</p>
-        <p class="text-center mt-4">
-		  <a class="btn btn-lg btn-default" href="#azienda" role="button">INVIA RICHIESTA</a>
-	</p>
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="#"> <em class="fa fa-home"></em> </a></li>
+            <li class="active">Annunci</li>
+        </ol>
     </div>
-  </div>
-	</div>
-  <div class="row"> </div>
-  <!--/.row-->  <!--/.row-->  <!--/.row--> 
+    
+    <#if alert??>
+    <div class="row mt-1" id='hideMe'>
+        <div class="col-lg-12">
+           
+    <#switch alert>
+        <#case "-1">
+     <div class="alert bg-danger" role="alert"><em class="fa fa-lg fa-angle-right">&nbsp;</em>Errore invio richiesta </div>
+    <#break>
+    <#case "1">
+     <div class="alert bg-success" role="alert"><em class="fa fa-lg fa-angle-right">&nbsp;</em>Richiesta inviata</div>
+    <#break>
+    <#case "1062">
+     <div class="alert bg-warning" role="alert"><em class="fa fa-lg fa-angle-right">&nbsp;</em>Richiesta precedentemente inoltrata</div>
+    <#break>
+    </#switch>
+      </div>
+    </div>
+    </#if>
+    
+    <!--/.row-->
+    <div class="col-md-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading mt-1">${annuncio.azienda.ragioneSociale}</div>
+            <div class="panel-body">
+                <div class="col-lg-12 mt-1">
+                <p>${annuncio.corpo}</p>
+                <hr>
+                <p><b>Settore: </b>${annuncio.settore}</p>
+                <p><b>Modalit&agrave;</b>: ${annuncio.settore}</p>
+                <p><b>Periodo:</b> ${annuncio.dataAvvio?date.iso} al ${annuncio.dataTermine?date.iso} </p>
+                <p><b>Docente di riferimento:</b> ${annuncio.docente.cognome} ${annuncio.docente.nome} - Email: ${annuncio.docente.email}</p>
+                <p><b>Contatto aziendale:</b> ${annuncio.azienda.cognomeResponsabile} ${annuncio.azienda.nomeResponsabile} - Email: ${annuncio.azienda.emailResponsabile}</p>
+                <p><b>Indirizzo</b> ${annuncio.azienda.citta} ${annuncio.azienda.cap}, ${annuncio.azienda.indirizzoSede}</p>
+                <hr>
+                </div>
+                 
+                <form>
+                    <div class="mt-4">
+                        <div class="col-lg-6 mt-1">
+                            <div class="input-group-btn">
+                                <input type="text" placeholder="Nome docente" required name="nome" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mt-1">
+                            <div class="input-group-btn">
+                                <input type="text" placeholder="Cognome docente" required name="cognome" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-1">
+                        <div class="col-lg-6 mt-1">
+                            <div class="input-group-btn">
+                                <input type="text" placeholder="Numero CFU" required name="crediti" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-1">
+                        <div class="col-lg-12 mt-3">
+                            <div class="text-center">
+                                <input hidden="" value="${annuncio.id}" name="refA">
+                                <button value="Login" name="invia" class="btn btn-md btn-success" type="submit">Invia richiesta</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row"> </div>
+    <!--/.row-->  <!--/.row-->  <!--/.row--> 
 </div>
 <!--/.main--> 
