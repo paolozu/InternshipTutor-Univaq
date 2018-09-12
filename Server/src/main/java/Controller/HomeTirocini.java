@@ -43,7 +43,7 @@ public class HomeTirocini extends InternshipBaseController {
         }
     }
 
-    private void action_richiesta(Map data,Annuncio idAnnuncio, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException, SecurityLayerException {
+    private void action_richiesta(Map data,Annuncio annuncio, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException, SecurityLayerException {
 
 //        if (request.getParameter("send") != null) {
 //                //Invio richiesta tirocinio
@@ -71,8 +71,10 @@ public class HomeTirocini extends InternshipBaseController {
 //                        data.put("alert", "1062");
 //                        break;
 //                }}
+
 AnnuncioDAO annuncioDAO = new AnnuncioDAOImpl();
-annuncio = annuncioDAO.getAnnuncioById(annuncio);
+annuncio = annuncioDAO.getAnnuncio(annuncio);
+data.put("annuncio",annuncio);
 
 TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
 res.activate("AvvisoAzienda.ftl.html", data, response);

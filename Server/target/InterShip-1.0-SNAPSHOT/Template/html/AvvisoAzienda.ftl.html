@@ -2,15 +2,17 @@
   <div class="row">
     <ol class="breadcrumb">
       <li><a href="#"> <em class="fa fa-home"></em> </a></li>
-      <li class="active">#Titolo</li>
+      <li class="active">Annunci</li>
     </ol>
   </div>
   <!--/.row-->
   <div class="col-md-8 col-lg-offset-2">
   <div class="panel panel-default">
-    <div class="panel-heading mt-1">${titolo}</div>
+    <div class="panel-heading mt-1">${annuncio.titolo}</div>
     <div class="panel-body">
-        <p>${corpo}</p>
+        <p>${annuncio}</p>
+        <hr>
+        <p>${annuncio.corpo}</p>
         <hr>
         <p>Docente: $(docente.nome) - Email: $(docente.mail)</p>
 	      <p>Contatto aziendale: $(azienda.contatto) - Email:$(azienda.email)</p>
