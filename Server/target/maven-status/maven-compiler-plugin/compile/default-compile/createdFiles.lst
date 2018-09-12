@@ -1,2 +1,3 @@
 Model/DAO/Interface/TirocinioDAO.class
 Model/DAO/Impl/TirocinioDAOImpl.class
+Controller/Faq.class

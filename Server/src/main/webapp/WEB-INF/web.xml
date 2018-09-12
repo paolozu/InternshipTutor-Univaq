@@ -89,6 +89,10 @@
         <servlet-name>HomeTirocini</servlet-name>
         <servlet-class>Controller.HomeTirocini</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Faq</servlet-name>
+        <servlet-class>Controller.Faq</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -172,6 +176,10 @@
     <servlet-mapping>
         <servlet-name>HomeTirocini</servlet-name>
         <url-pattern>/hometirocini</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Faq</servlet-name>
+        <url-pattern>/Faq</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
