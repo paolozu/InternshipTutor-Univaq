@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,6 +43,58 @@ public class HomeTirocini extends InternshipBaseController {
         }
     }
 
+    private void action_richiesta(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException, SecurityLayerException {
+        
+//        if (request.getParameter("refA") != null) {
+//                //Invio richiesta tirocinio
+//                long idAnnuncio = SecurityLayer.issetInt(request.getParameter("refA"));
+//                Annuncio annuncio = new Annuncio(idAnnuncio);
+//                Studente studente = new Studente((long) s.getAttribute("userid"));
+//
+//                Richiesta richiesta = new Richiesta(annuncio, studente);
+//                RichiestaDAO richiestaDAO = new RichiestaDAOImpl();
+//
+//                //Query
+//                int result = richiestaDAO.saveRichiesta(richiesta);
+//
+//                //Notifica
+//                switch (result) {
+//                    case -1:
+//                        data.put("alert", "-1");
+//                        break;
+//
+//                    case 1:
+//                        data.put("alert", "1");
+//                        break;
+//
+//                    case 1062:
+//                        data.put("alert", "1062");
+//                        break;
+//                }}
+
+    }
+    
+    
+    private void action_search(Map data,int page, String campo, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException {
+        TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+        AnnuncioDAO annuncioDAO = new AnnuncioDAOImpl();
+        List<Annuncio> annunci = annuncioDAO.getAnnunciSearch(page, campo);
+
+        data.put("annunci", annunci);
+
+        if (data.get("utente_tipo") != null) {
+            if (data.get("utente_tipo").equals("ST")) {
+
+                res.activate("homeTirociniStudente.ftl.html", data, response);
+            } else {
+                res.activate("homeTirocini.ftl.html", data, response);
+            }
+        } else {
+            res.activate("homeTirocini.ftl.html", data, response);
+        }
+
+    }
+    
     private void action_default(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException {
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
         AnnuncioDAO annuncioDAO = new AnnuncioDAOImpl();
@@ -83,38 +137,27 @@ public class HomeTirocini extends InternshipBaseController {
             data.put("utente_tipo", s.getAttribute("tipo"));
         }
 
-        try {
-            if (request.getParameter("refA") != null) {
-                //Invio richiesta tirocinio
-                long idAnnuncio = SecurityLayer.issetInt(request.getParameter("refA"));
-                Annuncio annuncio = new Annuncio(idAnnuncio);
-                Studente studente = new Studente((long) s.getAttribute("userid"));
-
-                Richiesta richiesta = new Richiesta(annuncio, studente);
-                RichiestaDAO richiestaDAO = new RichiestaDAOImpl();
-
-                //Query
-                int result = richiestaDAO.saveRichiesta(richiesta);
-
-                //Notifica
-                switch (result) {
-                    case -1:
-                        data.put("alert", "-1");
-                        break;
-
-                    case 1:
-                        data.put("alert", "1");
-                        break;
-
-                    case 1062:
-                        data.put("alert", "1062");
-                        break;
-                }
-            }
+        try{
+        if(request.getParameter("search") != null){
+            //Check on page
+             int page = SecurityLayer.checkPage(request.getParameter("page"));
+             String campo = request.getParameter("search");
+             
+             //azione ricerca
+             action_search(data, page, campo, request, response);
             
-            action_default(data, request, response);
             
-        } catch (SecurityLayerException | TemplateManagerException | DataLayerException ex) {
+        }else if(request.getParameter("refA") != null){
+        
+        // invia richiesta
+        
+        
+        }else{
+         //azione base
+         action_default(data, request, response);
+        }
+        
+        } catch (SecurityLayerException |TemplateManagerException | DataLayerException ex) {
             request.setAttribute("exception", ex);
             action_error(request, response);
         }

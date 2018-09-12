@@ -206,6 +206,28 @@ public class SecurityLayer {
         }
     }
 
+    
+    //Effettua il check e ne decrementa il valore
+    public static int checkPage(String s) throws SecurityLayerException {
+        //convertiamo la stringa in numero, ma assicuriamoci prima che sia valida
+        //convert the string to a number, ensuring its validity
+        try {
+            if (s != null) {
+                int page = Integer.parseInt(s);
+
+                if (page <= 0) {
+                    return 0;
+                }
+
+                return page;
+            } else {
+                return 0;
+            }
+        } catch (NumberFormatException ex) {
+            throw new SecurityLayerException("Errore formato");
+        }
+    }
+    
     //Effettua il check e ne decrementa il valore
     public static int checkNumericPage(String s) throws NumberFormatException {
         //convertiamo la stringa in numero, ma assicuriamoci prima che sia valida

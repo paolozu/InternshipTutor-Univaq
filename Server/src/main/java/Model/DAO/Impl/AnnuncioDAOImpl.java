@@ -39,6 +39,8 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
 
     private static final String UPDATE_STATO = "UPDATE Annuncio SET Stato=? WHERE idAnnuncio=?";
     
+    private static final String GET_ANNUNCI_SEARCH = "SELECT *, MATCH(Corpo,Citta) AGAINST(?) AS Rate FROM Annuncio JOIN azienda ON annuncio.Azienda_idAzienda=azienda.idAzienda WHERE MATCH(Corpo) AGAINST(?)  AND Annuncio.Stato='ATTIVO' ORDER BY RATE DESC LIMIT ?,4";
+    
     @Override
     public Annuncio getAnnuncioById(long id) throws DataLayerException {
 
@@ -96,13 +98,6 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
         return annunci;
     }
 
-    /****
-     * 
-     *
-     * @param valuePage
-     * @param stato
-     * @return 
-     * @throws Framework.data.DataLayerException */
     @Override
     public List<Annuncio> getAnnunci(int valuePage, String stato) throws DataLayerException {
 
@@ -136,6 +131,39 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
     }
 
     @Override
+    public List<Annuncio> getAnnunciSearch(int valuePage, String campoRicerca) throws DataLayerException{
+    
+        List<Annuncio> annunci = new ArrayList();
+        try (Connection connection = DB.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(GET_ANNUNCI_SEARCH)) {
+
+                ps.setString(1, campoRicerca);
+                ps.setString(2, campoRicerca);
+                ps.setInt(3, valuePage);
+
+                try (ResultSet rset = ps.executeQuery()) {
+                    while (rset.next()) {
+                        annunci.add(new Annuncio(rset.getInt("idAnnuncio"),
+                                rset.getString("titolo"),
+                                rset.getString("corpo"),
+                                rset.getDate("dataAvvio").toLocalDate(),
+                                rset.getDate("dataTermine").toLocalDate(),
+                                rset.getString("modalita"),
+                                rset.getString("settore"),
+                                rset.getString("sussidio"),
+                                new Azienda(rset.getInt("idAzienda")))
+                        );
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataLayerException("GET ANNUNCI BY SEARCH", ex);
+        }
+
+        return annunci;
+    }
+    
+    @Override
     public int saveAnnuncio(Annuncio annuncio) throws DataLayerException {
         int result = -1;
         try (Connection connection = DB.getConnection()) {
@@ -165,6 +193,7 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
         return result;
     }
 
+    @Override
     public int updateStato(Annuncio annuncio) throws DataLayerException{
     
         int result = -1;
@@ -184,4 +213,6 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
         
         return result;
     }
+    
+    
 }
