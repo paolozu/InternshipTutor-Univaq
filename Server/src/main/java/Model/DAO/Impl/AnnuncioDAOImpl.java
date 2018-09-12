@@ -109,6 +109,29 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
 
         return annuncio;
     }
+    
+    @Override
+    public Annuncio getAnnuncio(Annuncio annuncio) throws DataLayerException {
+
+        try (Connection connection = DB.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(GET_ANNUNCIO_BY_ID)) {
+                ps.setLong(1, annuncio.getId());
+                try (ResultSet rset = ps.executeQuery()) {
+
+                    if (rset.next()) {
+                        Referente referenteAnnuncio = new Referente(rset.getString("nomeReferente"), rset.getString("cognomeReferente"), rset.getString("telefonoReferente"));
+                        Docente docenteAnnuncio = new Docente(rset.getString("nomeDocente"), rset.getString("cognomeDocente"), rset.getString("emailDocente"));
+                        Azienda aziendaAnnuncio = new Azienda(rset.getInt("idAzienda"));
+                        annuncio = new Annuncio(rset.getInt("idAnnuncio"), rset.getString("titolo"), rset.getString("corpo"), rset.getDate("dataAvvio").toLocalDate(), rset.getDate("dataTermine").toLocalDate(), rset.getString("modalita"), rset.getString("settore"), rset.getString("sussidio"), aziendaAnnuncio, docenteAnnuncio, referenteAnnuncio);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataLayerException("GET ANNUNCIO", ex);
+        }
+
+        return annuncio;
+    }
 
     @Override
     public List<Annuncio> getAnnunci(long idAzienda, int valuePage, String stato) throws DataLayerException {
