@@ -28,5 +28,7 @@ public interface AnnuncioDAO {
     
     public int updateStato(Annuncio annuncio) throws DataLayerException;
     
+    public int countAnnunci() throws DataLayerException;
+    
     
 }

@@ -44,7 +44,7 @@ public class HomeTirocini extends InternshipBaseController {
     }
 
     private void action_richiesta(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException, SecurityLayerException {
-        
+
 //        if (request.getParameter("refA") != null) {
 //                //Invio richiesta tirocinio
 //                long idAnnuncio = SecurityLayer.issetInt(request.getParameter("refA"));
@@ -71,13 +71,12 @@ public class HomeTirocini extends InternshipBaseController {
 //                        data.put("alert", "1062");
 //                        break;
 //                }}
-
     }
-    
-    
-    private void action_search(Map data,int page, String campo, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException {
+
+    private void action_search(Map data, int page, String campo, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException {
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
         AnnuncioDAO annuncioDAO = new AnnuncioDAOImpl();
+
         List<Annuncio> annunci = annuncioDAO.getAnnunciSearch(page, campo);
 
         data.put("annunci", annunci);
@@ -94,13 +93,9 @@ public class HomeTirocini extends InternshipBaseController {
         }
 
     }
-    
+
     private void action_default(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException {
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-        AnnuncioDAO annuncioDAO = new AnnuncioDAOImpl();
-        List<Annuncio> annunci = annuncioDAO.getAnnunci(0, "ATTIVO");
-
-        data.put("annunci", annunci);
 
         if (data.get("utente_tipo") != null) {
             if (data.get("utente_tipo").equals("ST")) {
@@ -129,7 +124,7 @@ public class HomeTirocini extends InternshipBaseController {
             throws ServletException, IOException {
         Map data = new HashMap();
         data.put("activeTirocini", "active");
-        
+
         //Check sessione
         HttpSession s = SecurityLayer.checkSession(request);
         if (s != null) {
@@ -137,30 +132,48 @@ public class HomeTirocini extends InternshipBaseController {
             data.put("utente_tipo", s.getAttribute("tipo"));
         }
 
-        try{
-        if(request.getParameter("search") != null){
-            //Check on page
-             int page = SecurityLayer.checkPage(request.getParameter("page"));
-             String campo = request.getParameter("search");
-             
-             //azione ricerca
-             action_search(data, page, campo, request, response);
-            
-            
-        }else if(request.getParameter("refA") != null){
-        
-        // invia richiesta
-        
-        
-        }else{
-         //azione base
-         action_default(data, request, response);
-        }
-        
-        } catch (SecurityLayerException |TemplateManagerException | DataLayerException ex) {
+        try {
+            if (request.getParameter("refA") != null) {
+                // invia richiesta
+            } else {
+                int page = SecurityLayer.checkPage(request.getParameter("page"));
+                String campo = request.getParameter("search");
+                
+                System.out.println("p"+page);
+                
+                AnnuncioDAO annuncioDAO = new AnnuncioDAOImpl();
+                List<Annuncio> annunci;
+                int count;
+                
+                if (campo != null) {
+                    //azione ricerca
+                     count = annuncioDAO.countAnnunci();//CHANGE
+                     annunci = annuncioDAO.getAnnunciSearch(page*4, campo);
+                } else {
+                    System.out.println("qui");
+                    //count annunci
+                    count = annuncioDAO.countAnnunci()/4;
+                    annunci = annuncioDAO.getAnnunci(page*4, "ATTIVO");
+                }
+                
+                System.out.println("c"+count);
+                if(page<=0){
+                    data.put("removeLeft","hidden");
+                //remove left arrow
+                }else if(page >= count-1){
+                //remove right arrow
+                data.put("removeRight","hidden");
+                }
+                
+                
+                data.put("page", page);
+                data.put("count", count-1);
+                data.put("annunci", annunci);
+                action_default(data,request, response);
+            }
+        } catch (SecurityLayerException | DataLayerException |TemplateManagerException ex) {
             request.setAttribute("exception", ex);
-            action_error(request, response);
+        action_error(request, response);
         }
     }
-
 }

@@ -5,7 +5,7 @@
             <li><a href="#">
                     <em class="fa fa-home"></em>
                 </a></li>
-            <li class="active">Tirocini</li>
+            <li class="active">Annunci</li>
         </ol>
     </div><!--/.row-->
 
@@ -38,38 +38,40 @@
                 <div class="panel-body">
                     <#list annunci as annuncio>
                     <form>
-                     <div class="search-result-item col-md-12">
-                        <div class="search-result-item-body col-sm-12 mt-1">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <h3 class="search-result-title"><a href="#">${annuncio.titolo}</a></h3>
-                                    <p class="text-muted">${annuncio.settore}</p>
-                                    <p>${annuncio.corpo}</p>
-                                    <br>
-                                    <h4>Periodo</h4>
-                                    <p>${annuncio.dataAvvio} al ${annuncio.dataTermine}</p>
+                        <div class="search-result-item col-md-12">
+                            <div class="search-result-item-body col-sm-12 mt-1">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h3 class="search-result-title"><a href="#">${annuncio.titolo}</a></h3>
+                                        <p class="text-muted">${annuncio.settore}</p>
+                                        <p>${annuncio.corpo}</p>
+                                        <br>
+                                        <h4>Periodo</h4>
+                                        <p>${annuncio.dataAvvio} al ${annuncio.dataTermine}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div><!--/.search-result-item-->
+                        </div><!--/.search-result-item-->
                     </form>
                     <#else>
                     <div class="text-center">
-                    <p>Nessun annuncio</p>
+                        <p>Nessun annuncio</p>
                     </div>
                     </#list>
                 </div>
             </div>
             <div class="text-center">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default"><span class="fa fa-arrow-left"></span></button>
-                    <button type="button" class="btn btn-default">1</button>
-                    <button type="button" class="btn btn-default">2</button>
-                    <button type="button" class="btn btn-default">3</button>
-                    <button type="button" class="btn btn-default">4</button>
-                    <button type="button" class="btn btn-default">5</button>
-                    <button type="button" class="btn btn-default">6</button>
-                    <button type="button" class="btn btn-default"><span class="fa fa-arrow-right"></span></button>
+                    <a type="button" class="${removeLeft} btn btn-default"  href="hometirocini?page=${page-1}"> <span class="fa fa-arrow-left"></span></a>
+                    <#list 0..count as i>
+                    <#if i == page>
+                    <a  class="active btn btn-default" href="hometirocini?page=${i}">${i+1}</a>
+                        <#else>
+                        <a  class="btn btn-default" href="hometirocini?page=${i}">${i+1}</a>
+                    </#if>
+                    
+                    </#list>
+                    <a type="button"  class=" ${removeRight} btn btn-default" href="hometirocini?page=${page+1}"> <span class="fa fa-arrow-right"></span></a>
                 </div>
             </div>
         </div>

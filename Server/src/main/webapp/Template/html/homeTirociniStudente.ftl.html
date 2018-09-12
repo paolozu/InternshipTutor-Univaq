@@ -35,25 +35,16 @@
     
     <div class="row mt-1">
         <div class="col-md-12">
-            <div class="panel panel-default">
+            <div class="">
                 <div class="panel-body">
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-xs-12 col-md-3 mt-2">
-                                <label>Data inizio: </label>
-                                <input type="date" class="form-control" placeholder="gg-mm-aa">
-                            </div>
-                            <div class="col-xs-12 col-md-3 mt-2">
-                                <label>Data fine: </label>
-                                <input type="date" class="form-control" placeholder="gg-mm-aa">
-                            </div>
-                            <div class="col-xs-12 col-md-6 mt-2">
-                                <label>Cerca tirocinio: </label>
+                            <div class="col-xs-12 col-md-6 col-md-offset-3 mt-3">
                                 <form>
                                     <div class="input-group input-group-lg">
-                                        <input type="text" placeholder="" class="form-control">
+                                        <input type="text" placeholder="Cerca" name="search" class="form-control">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default" tabindex="-1"><i class="fa fa-search"></i></button>
+                                            <button type="submit" class="btn btn-default" tabindex="-1"><i class="fa fa-search"></i></button>
                                         </div>
                                     </div>
                                 </form>
@@ -98,14 +89,16 @@
             </div>
             <div class="text-center">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default"><span class="fa fa-arrow-left"></span></button>
-                    <button type="button" class="btn btn-default">1</button>
-                    <button type="button" class="btn btn-default">2</button>
-                    <button type="button" class="btn btn-default">3</button>
-                    <button type="button" class="btn btn-default">4</button>
-                    <button type="button" class="btn btn-default">5</button>
-                    <button type="button" class="btn btn-default">6</button>
-                    <button type="button" class="btn btn-default"><span class="fa fa-arrow-right"></span></button>
+                    <a type="button" class="${removeLeft} btn btn-default"  href="hometirocini?page=${page-1}"> <span class="fa fa-arrow-left"></span></a>
+                    <#list 0..count as i>
+                    <#if i == page>
+                    <a  class="active btn btn-default" href="hometirocini?page=${i}">${i+1}</a>
+                        <#else>
+                        <a  class="btn btn-default" href="hometirocini?page=${i}">${i+1}</a>
+                    </#if>
+                    
+                    </#list>
+                    <a type="button"  class=" ${removeRight} btn btn-default" href="hometirocini?page=${page+1}"> <span class="fa fa-arrow-right"></span></a>
                 </div>
             </div>
         </div>
