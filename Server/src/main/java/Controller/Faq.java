@@ -60,7 +60,7 @@ public class Faq extends InternshipBaseController {
         }
 
         try {
-            res.activate("Faq.ftl.html", data, response);
+            res.activate("faq.ftl.html", data, response);
 
         } catch (TemplateManagerException ex) {
             request.setAttribute("exception", ex);

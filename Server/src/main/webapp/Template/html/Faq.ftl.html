@@ -1,125 +1,90 @@
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-    <div class="row">
-        <ol class="breadcrumb">
-            <li><a href="homepage"> <em class="fa fa-home"></em> </a></li>
-            <li class="active">Dashboard</li>
-        </ol>
-    </div>
-    <!--/.row-->
-    <div class="col-md-8 col-lg-offset-2">
-        <div class="panel panel-primary">
-            <div class="panel-heading mt-1">Benvenuto</div>
-            <div class="panel-body">
-                <p>Internship Tutor ha l'obiettivo di favorire il contatto fra l'universit&agrave;, gli studenti e le aziende interessate alla realizzazione di tirocini. Attraverso il servizio online dell'Ateneo potrai consultare l'elenco di tutte le strutture convenzionate, presso quale svolgere il tirocinio.</p>
-                <p class="text-center"><br>
-                    <a class="btn btn-lg btn-primary" href="login" role="button">Accedi</a>
-                </p>
-            </div>
-        </div>
-        <div class="panel panel-primary ">
-            <div class="panel-heading "> Sei uno Studente?</div>
-            <div class="panel-body timeline-container">
-                <ul class="timeline">
-                    <li>
-                        <div class="timeline-badge primary"><em class="fa fa-user"></em></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4 class="timeline-title"><strong>REGISTRATI</strong></h4>
-                            </div>
-                            <div class="timeline-body">
-                                <p>Compila i campi inserendo le proprie credenziali. Completa inserendo:</p>
-                                <ul>
-                                    <li>Crediti richiesti</li>
-                                    <li>Email e nome del tutore</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="timeline-badge"><em class="fa fa-handshake-o"></em></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4 class="timeline-title"><strong>CONTATTA L'AZIENDA</strong></h4>
-                            </div>
-                            <div class="timeline-body">
-                                <p>Scegli l'azienda adatta a te ed avvia il tirocinio</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="timeline-badge"><em class="fa fa-flag"></em></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4 class="timeline-title"><strong>STAMPA I DOCUMENTI</strong></h4>
-                            </div>
-                            <div class="timeline-body">
-                                <p>Al termine del tirocinio avrai a disposizione tutta la documentazione da consegnare in segreteria studenti</p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <div class="panel-body text-center"><a class="btn btn-lg btn-primary" name="registra" href="SignUp?registra=ST" role="button">Registrati come Studente</a></div>
-            </div>
-        </div>
-        <div class="panel panel-primary ">
-            <div class="panel-heading">Sei una Azienda?</div>
-            <div class="panel-body timeline-container">
-                <ul class="timeline">
-                    <li>
-                        <div class="timeline-badge primary"><em class="fa fa-user"></em></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4 class="timeline-title"><strong>REGISTRATI</strong></h4>
-                            </div>
-                            <div class="timeline-body">
-                                <p>Compila i campi inserendo i contatti di riferimento. Completa inserendo:</p>
-                                <ul>
-                                    <li>Ragione sociale</li>
-                                    <li>Indirizzo sede legale</li>
-                                    <li>Partita IVA</li>
-                                    <li>Sede giudiziaria di riferimento</li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="timeline-badge"><em class="fa fa-list-ul"></em></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4 class="timeline-title"><strong>PUBBLICA ANNUNCIO</strong></h4>
-                            </div>
-                            <div class="timeline-body">
-                                <p>Inserisci il periodo, le skill richieste e gli obiettivi da raggiungere</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="timeline-badge"><em class="fa fa-handshake-o"></em></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4 class="timeline-title"><strong>RICEVI PROPOSTE DI TIROCINIO</strong></h4>
-                            </div>
-                            <div class="timeline-body">
-                                <p>Gli studenti intenti a svolgere un tirocinio presso la tua sede ti contatteranno attraverso il recapito inserito in fase di registrazione</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="timeline-badge"><em class="fa fa-flag"></em></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4 class="timeline-title"><strong>GESTISCI TIROCINANTI</strong></h4>
-                            </div>
-                            <div class="timeline-body">
-                                <p>Potrai valutare le proposte di tirocinio, concludere il percorso degli studenti ed esprimere una valutazione in merito al lavoro svolto.</p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <div class="panel-body text-center"><a class="btn btn-lg btn-primary" href="SignUp" role="button">Registrati come Azienda</a></div>
-            </div>
+    <div class="panel panel-default chat mt-2">
+        <div class="panel-heading">
+            Studenti
+                <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
+        <div class="panel-body">
+            <ul>
+                <li class="left clearfix"><span class="chat-img pull-left">
+                        <img src="Template/images/profile-pic-2.jpg" width="60" alt="User Avatar" class="img-circle">
+                    </span>
+                    <div class="chat-body clearfix">
+                        <div class="header"><strong class="primary-font">Studente Univaq</strong> <small class="text-muted"></small></div>
+                        <p>Sono uno studente, come trovo un tirocinio?</p>
+                    </div>
+                </li>
+                <li class="right clearfix"><span class="chat-img pull-right">
+                        <img src="Template/images/profile-pic-1.jpg" width="60" alt="User Avatar" class="img-circle">
+                    </span>
+                    <div class="chat-body clearfix">
+                        <div class="header"><strong class="pull-left primary-font">Carlo - Internship Tutor Admin</strong> <small class="text-muted"></small></div>
+                        <p>Gli studenti che intendono fare un tirocinio o uno stage presso Enti o Aziende convenzionate con l'Universit&agrave; dell'Aquila possono sfogliare le offerte di tirocinio nella sezione "Tirocini" ed
+                            eventualmente, cercarne uno specifico tramite la funzione di ricerca.
+                        </p>
+                    </div>
+                </li>
+                <li class="left clearfix"><span class="chat-img pull-left">
+                        <img src="Template/images/profile-pic-2.jpg" width="60" alt="User Avatar" class="img-circle">
+                    </span>
+                    <div class="chat-body clearfix">
+                        <div class="header"><strong class="primary-font">Studente Univaq</strong> <small class="text-muted"></small></div>
+                        <p>Quando mi sarà consegnato l' attestato di completamento tirocinio?</p>
+                    </div>
+                </li>
+                <li class="right clearfix"><span class="chat-img pull-right">
+                        <img src="Template/images/profile-pic-1.jpg" width="60" alt="User Avatar" class="img-circle">
+                    </span>
+                    <div class="chat-body clearfix">
+                        <div class="header"><strong class="pull-left primary-font">Carlo - Internship Tutor Admin</strong> <small class="text-muted"></small></div>
+                        <p>Quando un tirocinio è terminato, l' azienda ha il compito di finalizzare il tutto. Nel momento della conferma, sarà generato il file.pdf di cui parli.
+                            Esso sarà visualizzabile nella tua homepage appena sarà disponibile./p>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
-    <div class="row"> </div>
+    <div class="panel panel-default chat">
+        <div class="panel-heading">
+            Aziende
+                <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
+        <div class="panel-body" style="display: block;">
+            <ul>
+                <li class="left clearfix"><span class="chat-img pull-left">
+                        <img src="Template/images/profile-pic-3.jpg" width="60" alt="User Avatar" class="img-circle">
+                    </span>
+                    <div class="chat-body clearfix">
+                        <div class="header"><strong class="primary-font">DevFactory S.p.a</strong> <small class="text-muted"></small></div>
+                        <p>Come posso partecipare con la mia Azienda?</p>
+                    </div>
+                </li>
+                <li class="right clearfix"><span class="chat-img pull-right">
+                        <img src="Template/images/profile-pic-1.jpg" width="60" alt="User Avatar" class="img-circle">
+                    </span>
+                    <div class="chat-body clearfix">
+                        <div class="header"><strong class="pull-left primary-font"> Carlo - Internship Tutor Admin</strong> <small class="text-muted"></small></div>
+                        <p>Le aziende che intengono pubblicare le proprie proposte di tirocinio devono registrarsi tramite l'apposità sezione fornendo tutti i dati. Una volta completata, bisogna aspettare l'accettazione da parte
+                            di un amministratore che verificherà l'idoneità dell' azienda e procederà a confermare e ufficializzare la convenzione.
+                        </p>
+                    </div>
+                </li>
+                <li class="left clearfix"><span class="chat-img pull-left">
+                        <img src="Template/images/profile-pic-3.jpg" width="60" alt="User Avatar" class="img-circle">
+                    </span>
+                    <div class="chat-body clearfix">
+                        <div class="header"><strong class="primary-font">GalileoDevelopers</strong></div>
+                        <p>Come cerco degli studenti per la mia azienda?</p>
+                    </div>
+                </li>
+                <li class="right clearfix"><span class="chat-img pull-right">
+                        <img src="Template/images/profile-pic-1.jpg" width="60" alt="User Avatar" class="img-circle">
+                    </span>
+                    <div class="chat-body clearfix">
+                        <div class="header"><strong class="pull-left primary-font">Carlo - Internship Tutor Admin</strong> <small class="text-muted"></small></div>
+                        <p>Al momento è possibile pubblicare Annunci che appariranno immediatamente nella lista tirocini. Questa funzionalità è attiva per le sole aziende approvate ufficialmente da un amministratore.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
+<!--/.main--> 
