@@ -14,10 +14,12 @@
         <hr>
         <p>${annuncio.corpo}</p>
         <hr>
+        
         <p>Settore: ${annuncio.settore}</p>
-        <p>Modalit ${annuncio.settore}</p>
+        <p>Modalit&agrave;: ${annuncio.settore}</p>
+        <p>Valido dal  ${annuncio.dataAvvio?date.iso("UTC")} al ${annuncio.dataTermine} </p>
         <p>Docente: $(docente.nome) - Email: $(docente.mail)</p>
-	      <p>Contatto aziendale: $(azienda.contatto) - Email:$(azienda.email)</p>
+	<p>Contatto aziendale: $(azienda.contatto) - Email:$(azienda.email)</p>
         <p class="text-center mt-4">
 		  <a class="btn btn-lg btn-default" href="#azienda" role="button">INVIA RICHIESTA</a>
 	</p>

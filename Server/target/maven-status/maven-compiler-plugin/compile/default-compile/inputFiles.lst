@@ -41,6 +41,7 @@
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Controller/AnnunciAzienda.java
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Model/DAO/Impl/AnnuncioDAOImpl.java
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Model/Bean/Convenzione.java
+/Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Controller/Faq.java
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Model/Bean/Amministratore.java
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Model/Bean/Referente.java
 /Users/lorenzo/Desktop/InternshipTutor-Univaq/Server/src/main/java/Model/DAO/Interface/StudenteDAO.java
