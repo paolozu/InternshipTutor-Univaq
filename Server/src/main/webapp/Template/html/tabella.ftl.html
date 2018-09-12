@@ -8,6 +8,34 @@
 
     <div class="row">
     </div><!--/.row-->
+    
+    <#if alertAttivato??>
+    <div class="row mt-1" id='hideMe'>
+        <div class="col-lg-12">
+            <#switch alertAttivato>
+            <#case "1">
+            <div class="alert bg-success" role="alert"><em class="fa fa-lg fa-angle-right">&nbsp;</em>Annuncio attivato</div>
+            <#break>
+            <#default>
+            <div class="alert bg-danger" role="alert"><em class="fa fa-lg fa-angle-right">&nbsp;</em>Errore</div>
+            </#switch>
+        </div>
+    </div>
+    </#if>
+    
+    <#if alertDisattivato??>
+    <div class="row mt-1" id='hideMe'>
+        <div class="col-lg-12">
+            <#switch alertDisattivato>
+            <#case "1">
+            <div class="alert bg-success" role="alert"><em class="fa fa-lg fa-angle-right">&nbsp;</em>Annuncio Disattivato</div>
+            <#break>
+            <#default>
+            <div class="alert bg-danger" role="alert"><em class="fa fa-lg fa-angle-right">&nbsp;</em>Errore</div>
+            </#switch>
+        </div>
+    </div>
+    </#if>
 
     <div class="row mt-1">
         <div class="col-md-12">

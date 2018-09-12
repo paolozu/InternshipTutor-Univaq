@@ -42,18 +42,28 @@ public class AnnunciAzienda extends AziendaSecurity {
         }
     }
 
-    private void action_annunci(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void action_annunci(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException {
         
         List<String> header = new ArrayList();
         header.add("");
         
         TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
-        try {
-            res.activate("tabella.ftl.html", data, response);
-        } catch (TemplateManagerException ex) {
-            (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
-        }
-
+       
+        res.activate("tabella.ftl.html", data, response);
+    }
+    
+     private void action_annunciAttivi(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException, DataLayerException {
+        AnnuncioDAO annuncioDAO = new AnnuncioDAOImpl();
+        data.put("disattiva_attiva", "hidden");
+        data.put("titolo","Annunci attivi");
+        data.put("annunci", annuncioDAO.getAnnunci((long) s.getAttribute("userid"), 0, "ATTIVO"));
+    }
+    
+     private void action_annunciDisattivati(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException, DataLayerException {
+        AnnuncioDAO annuncioDAO = new AnnuncioDAOImpl();
+        data.put("disattiva_disattiva", "hidden");
+        data.put("titolo","Annunci disattivati");
+        data.put("annunci", annuncioDAO.getAnnunci((long) s.getAttribute("userid"), 0, "DISATTIVATO"));
     }
 
     /**
@@ -67,32 +77,29 @@ public class AnnunciAzienda extends AziendaSecurity {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Map data = new HashMap();
         if (request.getParameter("page") != null) {
-            Map data = new HashMap();
             data.put("utente_username", s.getAttribute("username"));
             data.put("utente_tipo", s.getAttribute("tipo"));
-            
-            AnnuncioDAO queryAnn = new AnnuncioDAOImpl();
             try {
                 switch (request.getParameter("page")) {
                     case "annunciAttivi":
-                        data.put("disattiva_attiva", "hidden");
-                        data.put("titolo","Annunci attivi");
-                        data.put("annunci", queryAnn.getAnnunci((long) s.getAttribute("userid"), 0, "ATTIVO"));
+                        action_annunciAttivi(data, request, response);
                         break;
                     case "annunciDisattivati":
-                        data.put("disattiva_disattiva", "hidden");
-                        data.put("titolo","Annunci disattivati");
-                        data.put("annunci", queryAnn.getAnnunci((long) s.getAttribute("userid"), 0, "DISATTIVATO"));
-                        break;
+                        action_annunciDisattivati(data, request, response);
+                        break; 
                     default:
                         response.sendRedirect("homepage");
                 }
                 action_annunci(data, request, response);
-            } catch (DataLayerException ex) {
-                (new FailureResult(getServletContext())).activate((Exception) request.getAttribute("exception"), request, response);
+            } catch (TemplateManagerException | DataLayerException ex) {
+                action_error(request, response);
             }
-        } else if(request.getParameter("disattiva") != null) {
+        }
+        
+        
+        else if(request.getParameter("disattiva") != null) {
             Annuncio annuncio = new Annuncio();
             long id_annuncio = 0;
             try {
@@ -107,8 +114,15 @@ public class AnnunciAzienda extends AziendaSecurity {
                 annuncio.setStato("DISATTIVATO");
                 int res = new AnnuncioDAOImpl().updateStato(annuncio);
                 if (res == 1) {
-                    // notifica successo
-                }
+                       data.put("alertDisattivato", "1");
+                       request.setAttribute("refresh", "1");
+                   } else {
+                       data.put("alertDisattivato", "-1");
+                       request.setAttribute("refresh", "1");
+                   }
+
+                response.sendRedirect("AnnunciAzienda?page=annunciAttivi");
+
             } catch (DataLayerException ex) {
                 Logger.getLogger(AnnunciAzienda.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -126,12 +140,20 @@ public class AnnunciAzienda extends AziendaSecurity {
                     annuncio = new AnnuncioDAOImpl().getAnnuncioById(id_annuncio);
                     annuncio.setStato("ATTIVO");
                     int res = new AnnuncioDAOImpl().updateStato(annuncio);
+                    
                     if (res == 1) {
-                        
-                        response.sendRedirect("homepage");
+                        data.put("alertAttivato", "1");
+                        request.setAttribute("refresh", "1");
+                    } else {
+                        data.put("alertDisattivato", "-1");
+                        request.setAttribute("refresh", "1");
                     }
+                    
+                 response.sendRedirect("AnnunciAzienda?page=annunciAttivi");
+                    
                 } catch (DataLayerException ex) {
-                    Logger.getLogger(AnnunciAzienda.class.getName()).log(Level.SEVERE, null, ex);
+                    request.setAttribute("expection", ex);
+                    action_error(request, response);
                 }
                
         } else {
