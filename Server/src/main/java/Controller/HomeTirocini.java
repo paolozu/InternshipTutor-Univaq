@@ -43,9 +43,9 @@ public class HomeTirocini extends InternshipBaseController {
         }
     }
 
-    private void action_richiesta(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException, SecurityLayerException {
+    private void action_richiesta(Map data,Annuncio idAnnuncio, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException, SecurityLayerException {
 
-//        if (request.getParameter("refA") != null) {
+//        if (request.getParameter("send") != null) {
 //                //Invio richiesta tirocinio
 //                long idAnnuncio = SecurityLayer.issetInt(request.getParameter("refA"));
 //                Annuncio annuncio = new Annuncio(idAnnuncio);
@@ -71,6 +71,12 @@ public class HomeTirocini extends InternshipBaseController {
 //                        data.put("alert", "1062");
 //                        break;
 //                }}
+AnnuncioDAO annuncioDAO = new AnnuncioDAOImpl();
+annuncio = annuncioDAO.getAnnuncioById(annuncio);
+
+TemplateResult res = new TemplateResult(getServletContext());//inizializzazione
+res.activate("AvvisoAzienda.ftl.html", data, response);
+
     }
 
     private void action_default(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException {
@@ -112,7 +118,10 @@ public class HomeTirocini extends InternshipBaseController {
 
         try {
             if (request.getParameter("refA") != null) {
-                // invia richiesta
+                long idAnnuncio = SecurityLayer.issetInt(request.getParameter("refA"));
+                Annuncio annuncio = new Annuncio(idAnnuncio);
+                
+                action_richiesta(data, annuncio, request, response);
             } else {
                 int page = SecurityLayer.checkPage(request.getParameter("page"));
                 String campo = request.getParameter("search");
