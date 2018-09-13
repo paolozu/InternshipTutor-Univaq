@@ -65,6 +65,66 @@ public class AnnunciAzienda extends AziendaSecurity {
         data.put("titolo","Annunci disattivati");
         data.put("annunci", annuncioDAO.getAnnunci((long) s.getAttribute("userid"), 0, "DISATTIVATO"));
     }
+     
+    private void action_attiva_annuncio(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException, DataLayerException {
+        Annuncio annuncio = new Annuncio();
+            long id_annuncio = 0;
+            try {
+                id_annuncio = SecurityLayer.issetInt(request.getParameter("attiva"));
+                System.out.println(id_annuncio);
+            } catch (SecurityLayerException ex) {
+                action_error(request, response);
+            }
+
+            try {
+                annuncio = new AnnuncioDAOImpl().getAnnuncioById(id_annuncio);
+                annuncio.setStato("ATTIVO");
+                int res = new AnnuncioDAOImpl().updateStato(annuncio);
+
+                if (res == 1) {
+                    data.put("alertAttivato", "1");
+                    request.setAttribute("refresh", "1");
+                } else {
+                    data.put("alertDisattivato", "-1");
+                    request.setAttribute("refresh", "1");
+                }
+
+             response.sendRedirect("AnnunciAzienda?page=annunciAttivi");
+
+            } catch (DataLayerException ex) {
+                request.setAttribute("expection", ex);
+                action_error(request, response);
+            }
+}
+    
+    private void action_disattiva_annuncio(Map data, HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException, DataLayerException {
+            Annuncio annuncio = new Annuncio();
+            long id_annuncio = 0;
+            try {
+                id_annuncio = SecurityLayer.issetInt(request.getParameter("disattiva"));
+                System.out.println(id_annuncio);
+            } catch (SecurityLayerException ex) {
+                action_error(request, response);
+            }
+            
+            try {
+                annuncio = new AnnuncioDAOImpl().getAnnuncioById(id_annuncio);
+                annuncio.setStato("DISATTIVATO");
+                int res = new AnnuncioDAOImpl().updateStato(annuncio);
+                if (res == 1) {
+                       data.put("alertDisattivato", "1");
+                       request.setAttribute("refresh", "1");
+                   } else {
+                       data.put("alertDisattivato", "-1");
+                       request.setAttribute("refresh", "1");
+                   }
+
+                response.sendRedirect("AnnunciAzienda?page=annunciAttivi");
+
+            } catch (DataLayerException ex) {
+                action_error(request, response);
+            }
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -77,7 +137,9 @@ public class AnnunciAzienda extends AziendaSecurity {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         Map data = new HashMap();
+        
         if (request.getParameter("page") != null) {
             data.put("utente_username", s.getAttribute("username"));
             data.put("utente_tipo", s.getAttribute("tipo"));
@@ -96,66 +158,21 @@ public class AnnunciAzienda extends AziendaSecurity {
             } catch (TemplateManagerException | DataLayerException ex) {
                 action_error(request, response);
             }
-        }
+        } 
         
         
         else if(request.getParameter("disattiva") != null) {
-            Annuncio annuncio = new Annuncio();
-            long id_annuncio = 0;
             try {
-                id_annuncio = SecurityLayer.issetInt(request.getParameter("disattiva"));
-                System.out.println(id_annuncio);
-            } catch (SecurityLayerException ex) {
-                Logger.getLogger(AnnunciAzienda.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            try {
-                annuncio = new AnnuncioDAOImpl().getAnnuncioById(id_annuncio);
-                annuncio.setStato("DISATTIVATO");
-                int res = new AnnuncioDAOImpl().updateStato(annuncio);
-                if (res == 1) {
-                       data.put("alertDisattivato", "1");
-                       request.setAttribute("refresh", "1");
-                   } else {
-                       data.put("alertDisattivato", "-1");
-                       request.setAttribute("refresh", "1");
-                   }
-
-                response.sendRedirect("AnnunciAzienda?page=annunciAttivi");
-
-            } catch (DataLayerException ex) {
-                Logger.getLogger(AnnunciAzienda.class.getName()).log(Level.SEVERE, null, ex);
+                action_disattiva_annuncio(data, request, response);
+            } catch (TemplateManagerException | DataLayerException ex) {
+                action_error(request, response);
             }
         } else if(request.getParameter("attiva") != null){
-                Annuncio annuncio = new Annuncio();
-                long id_annuncio = 0;
-                try {
-                    id_annuncio = SecurityLayer.issetInt(request.getParameter("attiva"));
-                    System.out.println(id_annuncio);
-                } catch (SecurityLayerException ex) {
-                    Logger.getLogger(AnnunciAzienda.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                try {
-                    annuncio = new AnnuncioDAOImpl().getAnnuncioById(id_annuncio);
-                    annuncio.setStato("ATTIVO");
-                    int res = new AnnuncioDAOImpl().updateStato(annuncio);
-                    
-                    if (res == 1) {
-                        data.put("alertAttivato", "1");
-                        request.setAttribute("refresh", "1");
-                    } else {
-                        data.put("alertDisattivato", "-1");
-                        request.setAttribute("refresh", "1");
-                    }
-                    
-                 response.sendRedirect("AnnunciAzienda?page=annunciAttivi");
-                    
-                } catch (DataLayerException ex) {
-                    request.setAttribute("expection", ex);
+            try {            
+                action_attiva_annuncio(data, request, response);
+            } catch (TemplateManagerException | DataLayerException ex) {
                     action_error(request, response);
-                }
-               
+            }
         } else {
             response.sendRedirect("homepage");
         }
