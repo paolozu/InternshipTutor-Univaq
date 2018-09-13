@@ -59,6 +59,8 @@ public class UtenteDAOImpl implements UtenteDAO {
 
     @Override
     public Utente nuovoUtente(Utente utente) throws DataLayerException {
+        
+        System.out.println("ute"+utente);
 
         try (Connection connection = DB.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(SET_NUOVO_UTENTE, Statement.RETURN_GENERATED_KEYS)) {
@@ -68,8 +70,9 @@ public class UtenteDAOImpl implements UtenteDAO {
                 ps.setString(3, utente.getEmail());
                 ps.setString(4, utente.getTipo());
 
+                ps.executeUpdate();
+                
                 try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-
                     if (generatedKeys.next()) {
                         utente.setId(generatedKeys.getLong(1));
                     } else {
