@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Giuseppe Della Penna
+ * @author Lorenzo Andreoli
  */
 public class DataLayerException extends Exception {
 

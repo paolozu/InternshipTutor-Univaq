@@ -95,6 +95,9 @@ public class RichiestaDAOImpl implements RichiestaDAO {
 
                         Annuncio a = new Annuncio(rset.getLong("Richiesta.Annuncio_idAnnuncio"));
                         richiesta = new Richiesta(a, s);
+                        richiesta.setCrediti(rset.getInt("crediti"));
+                        richiesta.setNome(rset.getString("nomeDocente"));
+                        richiesta.setNome(rset.getString("cognomeDocente"));
                     }
                 }
             }

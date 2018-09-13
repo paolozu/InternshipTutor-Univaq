@@ -76,9 +76,9 @@ public class RichiesteAzienda extends AziendaSecurity {
                 //Check campi
                 LocalDate dataInizio = SecurityLayer.issetDate("DATA INIZIO",request.getParameter("dataInizio"));
                 LocalDate dataFine = SecurityLayer.issetDate("DATA FINE",request.getParameter("dataFine"));
-                
+                int crediti = richiestaDAO.getRichiestaStudente(richiestaStudente).getCrediti();
                 //Creazione nuovo tirocinio
-                Tirocinio nuovoTirocinio = new Tirocinio(new Studente(idStudente), new Annuncio(idAnnuncio), dataInizio, dataFine);
+                Tirocinio nuovoTirocinio = new Tirocinio(new Studente(idStudente), new Annuncio(idAnnuncio), dataInizio, dataFine,crediti);
 
                 //DAO per nuovo tirocinio
                 AziendaDAO aziendaDAO = new AziendaDAOImpl();

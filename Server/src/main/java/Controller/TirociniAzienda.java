@@ -13,39 +13,24 @@ import Framework.result.TemplateResult;
 import Framework.security.SecurityLayer;
 import Framework.security.SecurityLayerException;
 import Model.Bean.Annuncio;
-import Model.Bean.Azienda;
-import Model.Bean.Convenzione;
 import Model.Bean.Resoconto;
+import Model.Bean.Richiesta;
 import Model.Bean.Studente;
 import Model.Bean.Tirocinio;
-import Model.DAO.Impl.AnnuncioDAOImpl;
 import Model.DAO.Impl.AziendaDAOImpl;
+import Model.DAO.Impl.RichiestaDAOImpl;
 import Model.DAO.Impl.StudenteDAOImpl;
-import Model.DAO.Impl.TirocinioDAOImpl;
-import Model.DAO.Interface.AnnuncioDAO;
 import Model.DAO.Interface.AziendaDAO;
+import Model.DAO.Interface.RichiestaDAO;
 import Model.DAO.Interface.StudenteDAO;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.pdf.AcroFields;
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import Model.DAO.Interface.TirocinioDAO;
 
 /**
  *
@@ -59,43 +44,6 @@ public class TirociniAzienda extends AziendaSecurity {
         } else {
             (new FailureResult(getServletContext())).activate((String) request.getAttribute("message"), request, response);
         }
-    }
-
-    private int action_save_PDF(Resoconto resoconto) throws IOException, DataLayerException, DocumentException {
-
-        TirocinioDAO tirocinioDAO = new TirocinioDAOImpl();
-
-        // Carico modello base resoconto
-        InputStream is = tirocinioDAO.downloadResoconto(new Resoconto(0));
-        // We create a reader with the InputStream
-        PdfReader reader = new PdfReader(is, null);
-        // We create an OutputStream for the new PDF
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        // Now we create the PDF
-        PdfStamper stamper = new PdfStamper(reader, baos);
-        // We alter the fields of the existing PDF
-
-        AcroFields fields = stamper.getAcroFields();
-        fields.setGenerateAppearances(true);
-
-        Set<String> parameters = fields.getFields().keySet();
-
-        // Fill field
-//      fields.setField("azienda", azienda.getRagioneSociale());
-        //Flatt form
-        stamper.setFormFlattening(true);
-        stamper.close();
-        reader.close();
-
-        is = new ByteArrayInputStream(baos.toByteArray());
-        is.close();
-
-        resoconto.setNome("resoconto");
-        resoconto.setPeso(is.available());
-        resoconto.setEstensione("application/pdf");
-        resoconto.setFile(is);
-
-        return tirocinioDAO.uploadResoconto(resoconto);
     }
 
     private void action_gestioneTirocinio(Map data, long idStudente, long idAnnuncio, HttpServletRequest request, HttpServletResponse response) throws IOException, DataLayerException, TemplateManagerException, DocumentException, SecurityLayerException {
@@ -199,7 +147,6 @@ public class TirociniAzienda extends AziendaSecurity {
 
         
         try {
-
             if (request.getParameter("action") != null) {
 
                 long idStudente = SecurityLayer.issetInt(request.getParameter("idT"));

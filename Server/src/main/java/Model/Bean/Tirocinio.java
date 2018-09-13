@@ -15,7 +15,7 @@ public class Tirocinio {
     
     private Annuncio annuncio;
     private LocalDate dataInizio, dataFine;
-
+    private int crediti;
     private Studente studente;
     private Resoconto resoconto;
     
@@ -52,11 +52,25 @@ public class Tirocinio {
         this.studente=s;
         this.annuncio=an;
     }
+    
+    public Tirocinio(Studente s, Annuncio an, LocalDate dataInizio, LocalDate dataFine, int crediti) {
+        this.crediti = crediti;
+        this.dataInizio = dataInizio;
+        this.dataFine = dataFine;
+        this.studente=s;
+        this.annuncio=an;
+    }
 
     public Tirocinio() {
     }
 
-    
+    public int getCrediti() {
+        return crediti;
+    }
+
+    public void setCrediti(int crediti) {
+        this.crediti = crediti;
+    }
 
     public Annuncio getAnnuncio() {
         return annuncio;

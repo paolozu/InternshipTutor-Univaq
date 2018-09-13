@@ -84,8 +84,8 @@ public class AziendaDAOImpl implements AziendaDAO {
 
     private static final String DELETE_RICHIESTA = "DELETE FROM Richiesta WHERE Richiesta.Annuncio_idAnnuncio=? AND Richiesta.Studente_idStudente=?";
 
-    private static final String SET_NUOVO_TIROCINIO = "INSERT INTO Tirocinio (Annuncio_idAnnuncio, Studente_idStudente, dataInizio, dataFine)\n"
-            + "VALUES (?,?,?,?)";
+    private static final String SET_NUOVO_TIROCINIO = "INSERT INTO Tirocinio (Annuncio_idAnnuncio, Studente_idStudente, dataInizio, dataFine, crediti)\n"
+            + "VALUES (?,?,?,?,?)";
 
     private static final String GET_AZIENDE_CONVENZIONATE = "SELECT azienda.ragSociale FROM azienda WHERE Stato='CONVENZIONATA'";
 
@@ -456,7 +456,7 @@ public class AziendaDAOImpl implements AziendaDAO {
                 ps.setLong(2, tirocinio.getStudente().getId());
                 ps.setDate(3, java.sql.Date.valueOf(tirocinio.getDataInizio()));
                 ps.setDate(4, java.sql.Date.valueOf(tirocinio.getDataFine()));
-
+                ps.setInt(5, tirocinio.getCrediti());
                 result = ps.executeUpdate();
 
             }
