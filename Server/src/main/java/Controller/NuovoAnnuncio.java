@@ -127,7 +127,7 @@ public class NuovoAnnuncio extends AziendaSecurity {
                 try {
                     action_registra(request, response);
                 } catch (DataLayerException ex) {
-                    Logger.getLogger(NuovoAnnuncio.class.getName()).log(Level.SEVERE, null, ex);
+                    action_error(request, response);
                 }
             }
        
