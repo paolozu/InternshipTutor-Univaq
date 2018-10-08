@@ -8,4 +8,4 @@ The Internship tutor site represents a web system for the management of the comp
 
 ## Authors
 * **Andreoli Lorenzo**
-* **Paolo Tramontozzi**
+* **Tramontozzi Paolo**
